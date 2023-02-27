@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Tapping ANDROID</string>
+    <string name="navigation_drawer_open">a</string>
+    <string name="navigation_drawer_close">b</string>
 </resources>
