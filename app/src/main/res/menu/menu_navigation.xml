@@ -8,19 +8,19 @@
         <item
             android:id="@+id/btn_dades"
             android:icon="@drawable/usuario"
-            android:title="Les meves dades" />
+            android:title="@string/les_meves_dades" />
         <item
             android:id="@+id/btn_preferits"
             android:icon="@drawable/favorito"
-            android:title="Preferits" />
+            android:title="@string/preferits" />
         <item
             android:id="@+id/btn_descompte"
             android:icon="@drawable/etiqueta"
-            android:title="Descomptes" />
+            android:title="@string/descomptes" />
         <item
             android:id="@+id/btn_noticies"
             android:icon="@drawable/news"
-            android:title="Noticies" />
+            android:title="@string/noticies" />
     </group>
 
     <group
@@ -34,12 +34,12 @@
                 <item
                     android:id="@+id/btn_preguntes"
                     android:icon="@drawable/pregunta"
-                    android:title="Preguntes Freqüents" />
+                    android:title="@string/preguntes_freq_ents" />
 
                 <item
                     android:id="@+id/btn_contacte"
                     android:icon="@drawable/letra"
-                    android:title="Contacte Amb Nosaltres" />
+                    android:title="@string/contacte_amb_nosaltres" />
             </group>
         </menu>
     </item>
