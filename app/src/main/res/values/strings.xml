@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">Tapping ANDROID</string>
+    <string name="navigation_drawer_open">a</string>
+    <string name="navigation_drawer_close">b</string>
+    <string name="desripcio">Amb aquesta aplicació, pots buscar i trobar ràpidament llocs que serveixen tapes a la teva àrea. \n\nL\'aplicació inclou informació detallada sobre el tipus de tapes ofertes, preus, ubicació, horaris d\'obertura i tancament, i qualsevol altra informació rellevant. A més, podràs llegir comentaris i opinions d\'altres usuaris sobre la qualitat de les tapes i el servei a cada establiment.</string>
 </resources>
