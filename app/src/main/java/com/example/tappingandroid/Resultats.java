@@ -17,7 +17,7 @@ public class Resultats extends AppCompatActivity {
         String query = intent.getStringExtra("filtre");
 
         // Aquí puedes hacer lo que quieras con la consulta, por ejemplo mostrarla en un TextView
-        TextView textView = findViewById(R.id.tv_resultatProva);
-        textView.setText(query);
+        //TextView textView = findViewById(R.id.tv_resultatProva);
+        //textView.setText(query);
     }
 }
