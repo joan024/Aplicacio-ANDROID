@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">Tapping ANDROID</string>
+    <string name="btto_session">INICIAR SESSIÓ</string>
+    <string name="btto_dades">LES MEVES DADES</string>
+    <string name="btto_preferits">PREFERITS</string>
+    <string name="btto_descomptes">DESCOMPTES</string>
+    <string name="btto_noticies">NOTICIES</string>
+    <string name="btto_pregunta">PREGUNTES FREQÜENTS</string>
+    <string name="btto_contacte">CONTACTE AMB NOSALTRES</string>
 </resources>
