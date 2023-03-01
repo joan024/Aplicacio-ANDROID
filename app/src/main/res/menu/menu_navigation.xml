@@ -2,13 +2,46 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="navigation_view">
 
+
     <group android:checkableBehavior="single">
 
         <item
-            android:id="@+id/nav_camera"
-            android:icon="@drawable/ic_menu_camera"
-            android:title="Holaa" />
-
+            android:id="@+id/btn_dades"
+            android:icon="@drawable/usuario"
+            android:title="Les meves dades" />
+        <item
+            android:id="@+id/btn_preferits"
+            android:icon="@drawable/favorito"
+            android:title="Preferits" />
+        <item
+            android:id="@+id/btn_descompte"
+            android:icon="@drawable/etiqueta"
+            android:title="Descomptes" />
+        <item
+            android:id="@+id/btn_noticies"
+            android:icon="@drawable/news"
+            android:title="Noticies" />
     </group>
+
+    <group
+        android:id="@+id/group1"
+        android:checkableBehavior="single">
+    </group>
+
+    <item android:title="">
+        <menu>
+            <group android:checkableBehavior="single">
+                <item
+                    android:id="@+id/btn_preguntes"
+                    android:icon="@drawable/pregunta"
+                    android:title="Preguntes Freqüents" />
+
+                <item
+                    android:id="@+id/btn_contacte"
+                    android:icon="@drawable/letra"
+                    android:title="Contacte Amb Nosaltres" />
+            </group>
+        </menu>
+    </item>
 
 </menu>
