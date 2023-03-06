@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="GestioDeRegistres.Registre">
+
+    <LinearLayout
+        android:id="@+id/layout_registre"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="409dp"
+            android:layout_height="50dp"
+            android:text="@string/registreform"
+            android:background="#c3c3c3"
+            android:textSize="25sp"
+            android:textAlignment="center"
+            android:paddingTop="10dp"
+            android:layout_marginBottom="20dp"
+            android:textStyle="bold" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/et_nom"
+            android:layout_width="190dp"
+            android:layout_marginStart="10dp"
+            android:layout_height="wrap_content"
+            android:hint="@string/nom" />
+
+        <EditText
+            android:id="@+id/et_cognom"
+            android:layout_width="190dp"
+            android:layout_height="wrap_content"
+            android:hint="@string/cognom" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="20dp">
+        <EditText
+            android:id="@+id/et_telefon"
+            android:layout_width="190dp"
+            android:layout_marginStart="10dp"
+            android:layout_height="wrap_content"
+            android:hint="@string/tel_fon"
+            android:inputType="phone" />
+
+        <EditText
+            android:id="@+id/et_data_naixement"
+            android:layout_width="190dp"
+            android:layout_marginStart="10dp"
+            android:layout_height="wrap_content"
+            android:hint="@string/data_de_naixement"
+            android:inputType="none" />
+    </LinearLayout>
+
+        <EditText
+            android:id="@+id/et_correu"
+            android:layout_width="390dp"
+            android:layout_marginStart="10dp"
+            android:layout_height="wrap_content"
+            android:hint="@string/correu_electr_nic"
+            android:inputType="textEmailAddress"
+            android:layout_marginTop="20dp"/>
+
+        <EditText
+            android:id="@+id/et_contrasenya"
+            android:layout_width="390dp"
+            android:layout_marginStart="10dp"
+            android:layout_height="wrap_content"
+            android:hint="@string/pasword"
+            android:inputType="textPassword"
+            android:layout_marginTop="20dp"/>
+
+        <Button
+            android:id="@+id/btn_registre"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/esquines_rodones_orange"
+            android:text="@string/registre"
+            android:textSize="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_gravity="center_horizontal" />
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,19 +1,22 @@
 <resources>
     <string name="app_name">Tapping ANDROID</string>
-    <string name="btto_session">INICIAR SESSIÓ</string>
-    <string name="btto_dades">LES MEVES DADES</string>
-    <string name="btto_preferits">PREFERITS</string>
-    <string name="btto_descomptes">DESCOMPTES</string>
-    <string name="btto_noticies">NOTICIES</string>
-    <string name="btto_pregunta">PREGUNTES FREQÜENTS</string>
-    <string name="btto_contacte">CONTACTE AMB NOSALTRES</string>
     <string name="navigation_drawer_open">a</string>
     <string name="navigation_drawer_close">b</string>
     <string name="desripcio">Amb aquesta aplicació, pots buscar i trobar ràpidament llocs que serveixen tapes a la teva àrea. \n\nL\'aplicació inclou informació detallada sobre el tipus de tapes ofertes, preus, ubicació, horaris d\'obertura i tancament, i qualsevol altra informació rellevant. A més, podràs llegir comentaris i opinions d\'altres usuaris sobre la qualitat de les tapes i el servei a cada establiment.</string>
-    <string name="contacte_amb_nosaltres">Contacte Amb Nosaltres</string>
-    <string name="preguntes_freq_ents">Preguntes Freqüents</string>
+    <string name="contacte_amb_nosaltres">Contacta amb nosaltres</string>
+    <string name="preguntes_freq_ents">Preguntes freqüents</string>
     <string name="noticies">Noticies</string>
-    <string name="descomptes">Descomptes</string>
-    <string name="preferits">Preferits</string>
+    <string name="descomptes">Els meus descomptes</string>
+    <string name="preferits">Els meus favorits</string>
     <string name="les_meves_dades">Les meves dades</string>
+    <string name="usuari">Usuari</string>
+    <string name="pasword">Contrasenya</string>
+    <string name="iniciar_sesio">Iniciar sesió</string>
+    <string name="registre">Registrarme</string>
+    <string name="registreform">FORMULARI DE REGISTRE</string>
+    <string name="nom">Nom</string>
+    <string name="cognom">Cognom</string>
+    <string name="correu_electr_nic">Correu electrònic</string>
+    <string name="tel_fon">Telèfon</string>
+    <string name="data_de_naixement">Data de naixement</string>
 </resources>
