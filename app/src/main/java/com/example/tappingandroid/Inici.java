@@ -13,9 +13,9 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 public class Inici extends AppCompatActivity {
-
     private DrawerLayout drawerLayout;
     private ImageView logoImatge;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,6 +36,7 @@ public class Inici extends AppCompatActivity {
 
         //SEARCH VIEW
         SearchView searchView = findViewById(R.id.sv_busqueda);
+
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String filtre) {
@@ -44,6 +45,7 @@ public class Inici extends AppCompatActivity {
                 Intent intent = new Intent(Inici.this, Resultats.class);
                 intent.putExtra("filtre", filtre);
                 startActivity(intent);
+
                 return true;
             }
 

@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+
+
+        <!-- Imatge principal -->
+        <ImageView
+            android:id="@+id/iv_imatge_local"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+
+            android:scaleType="centerCrop"
+            android:src="@drawable/exemplelocal" />
+        <!-- Flecha per tornar -->
+        <ImageView
+            android:id="@+id/iv_tornar"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:padding="8dp"
+            android:src="@drawable/tornar"
+            app:tint="@color/mandarina" />
+
+        <!-- Cor de favorit -->
+        <ImageView
+            android:id="@+id/iv_favorits"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentTop="true"
+            android:padding="8dp"
+            android:src="@drawable/favorito"
+            app:tint="@color/mandarina" />
+
+        <!-- Nom del local -->
+        <TextView
+            android:id="@+id/tv_local_nom"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/iv_imatge_local"
+            android:padding="16dp"
+            android:textSize="25sp"
+            android:textStyle="bold"
+            android:text="Nom del local" />
+
+        <!-- Ubicació -->
+        <TextView
+            android:id="@+id/tv_ubicacio"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_local_nom"
+            android:padding="8dp"
+            android:textSize="20sp"
+            android:text="Ubicació" />
+
+        <!-- Telèfon -->
+        <TextView
+            android:id="@+id/tv_telefon"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_ubicacio"
+            android:padding="8dp"
+            android:textSize="20sp"
+            android:text="Telèfon" />
+
+        <!-- Horari -->
+        <TextView
+            android:id="@+id/tv_horari"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_telefon"
+            android:padding="8dp"
+            android:textSize="20sp"
+            android:text="Horari" />
+
+        <!-- Línia de separació -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@id/tv_horari"
+            android:background="@android:color/darker_gray" />
+
+        <!-- Puntuació -->
+        <TextView
+            android:id="@+id/tv_puntuacio"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_horari"
+            android:padding="16dp"
+            android:gravity="center"
+            android:layout_margin="10dp"
+            android:textSize="20sp"
+            android:text="Puntuació"
+            android:textStyle="bold"
+            android:background="@drawable/esquines_rodones_orange"
+            android:layout_centerHorizontal="true"/>
+
+        <!-- Línia de separació -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@id/tv_puntuacio"
+            android:background="@android:color/darker_gray" />
+
+        <TextView
+            android:id="@+id/tv_descripcio"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_puntuacio"
+            android:padding="16dp"
+            android:textSize="20sp"
+            android:text="Descripció" />
+
+        <!-- Línia de separació -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@id/tv_descripcio"
+            android:background="@android:color/darker_gray" />
+
+        <!-- Tapes i preus -->
+        <TextView
+            android:id="@+id/tapes"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_descripcio"
+            android:padding="10dp"
+            android:textSize="20sp"
+            android:text="@string/tapes" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerview_tapes"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tapes"
+            android:padding="16dp"/>
+
+        <LinearLayout
+            android:id="@+id/tapes_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tapes"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+        </LinearLayout>
+    </RelativeLayout>
+</ScrollView>

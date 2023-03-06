@@ -18,6 +18,7 @@ import java.util.List;
 
 import Adapter.LocalAdapter;
 import Dades.Local;
+import Dades.Tapa;
 
 public class Resultats extends AppCompatActivity {
 
@@ -43,6 +44,8 @@ public class Resultats extends AppCompatActivity {
         String query = intent.getStringExtra("filtre");
         //SEARCH VIEW
         SearchView searchView = findViewById(R.id.sv_busqueda);
+        // Establecer el texto de búsqueda guardado en la variable searchText
+        searchView.setQuery(query, false);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String filtre) {
@@ -61,9 +64,6 @@ public class Resultats extends AppCompatActivity {
             }
             });
 
-        //TextView textView = findViewById(R.id.tv_resultatProva);
-        //textView.setText(query);
-
         // Obtener referencia a la RecyclerView
         RecyclerView recyclerView = findViewById(R.id.rv_locals);
 
@@ -77,6 +77,20 @@ public class Resultats extends AppCompatActivity {
         LocalAdapter adaptador = new LocalAdapter((ArrayList<Local>) llistaLocals);
         recyclerView.setAdapter(adaptador);
 
+        adaptador.setOnItemClickListener(new LocalAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(int position) {
+                // Obtener el objeto Local en la posición seleccionada
+                Local localSeleccionado = llistaLocals.get(position);
+
+                // Crear un Intent para abrir la actividad LocalDetail y pasar la información del local seleccionado
+                Intent intent = new Intent(Resultats.this, DetallsLocal.class);
+                intent.putExtra("local", localSeleccionado);
+                startActivity(intent);
+            }
+        });
+
+
     }
     @Override
     public void onBackPressed() {
@@ -89,11 +103,22 @@ public class Resultats extends AppCompatActivity {
 
     public List<Local> obtenirLlistaLocals() {
         List<Local> locals = new ArrayList<>();
-        locals.add(new Local(R.drawable.logotiptapping, "El mos", "C/Pepito", "12:00-15:00", 8.4));
-        locals.add(new Local(R.drawable.logotiptapping, "Otro local", "C/Otra dirección", "14:00-20:00", 9.2));
-        locals.add(new Local(R.drawable.logotiptapping, "Tercer local", "C/Una calle", "18:00-22:00", 7.8));
+        List <Tapa> tapes = obternirTapes();
+        locals.add(new Local(R.drawable.logotiptapping, "Primer local", "C/pepito","12:00-15:00", 8.4, "616638823", "Local on oferim pastes i entrepans fets a casa.",tapes ));
+        locals.add(new Local(R.drawable.logotiptapping, "Segon local", "C/Un carrer", "14:00-20:00", 9.2,"696456789", "Local inovador.", tapes));
+        locals.add(new Local(R.drawable.logotiptapping, "Tercer local", "C/Un altre carrer", "18:00-22:00", 7.8, "659673959","El restaurant \"La Cuina del Mar\" és un lloc acollidor i elegant ubicat al centre de la ciutat. La decoració és d'estil marí, amb parets de rajoles blaves i blanques que recorden l'oceà i els detalls de fusta que evoquen l'ambient d'un vaixell.", tapes));
         // Agrega más objetos Local según sea necesario
         return locals;
+    }
+
+    private List<Tapa> obternirTapes() {
+        List <Tapa> tapes = new ArrayList<>();
+        tapes.add(new Tapa("Braves",4.5));
+        tapes.add(new Tapa("Chipirons", 6.7));
+        tapes.add(new Tapa("Croquetes", 3));
+        tapes.add(new Tapa("Patates fregides", 2.4));
+        tapes.add(new Tapa("Truita de patates", 5.8));
+        return tapes;
     }
 
 }

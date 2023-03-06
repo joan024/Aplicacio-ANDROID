@@ -19,4 +19,5 @@
     <string name="correu_electr_nic">Correu electrònic</string>
     <string name="tel_fon">Telèfon</string>
     <string name="data_de_naixement">Data de naixement</string>
+    <string name="tapes">Tapes</string>
 </resources>

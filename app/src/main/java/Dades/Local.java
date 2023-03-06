@@ -1,18 +1,23 @@
 package Dades;
 
-public class Local {
-    private int foto;
-    private String nom;
-    private String ubicacio;
-    private String horari;
-    private double puntuacio;
+import java.io.Serializable;
+import java.util.List;
 
-    public Local(int foto, String nom, String ubicacio, String horari, double puntuacio) {
+public class Local implements Serializable {
+    private int foto;
+    private String ubicacio, horari, nom, telefon, descripcio;
+    private double puntuacio;
+    private List<Tapa> tapes;
+
+    public Local(int foto, String nom, String ubicacio, String horari , double puntuacio, String telefon, String descripcio, List <Tapa> tapes) {
         this.foto = foto;
-        this.nom = nom;
         this.ubicacio = ubicacio;
         this.horari = horari;
+        this.nom = nom;
+        this.telefon = telefon;
+        this.descripcio = descripcio;
         this.puntuacio = puntuacio;
+        this.tapes=tapes;
     }
 
     public int getFoto() {
@@ -54,5 +59,17 @@ public class Local {
     public void setPuntuacio(double puntuacio) {
         this.puntuacio = puntuacio;
     }
+
+    public String getTelefon() {return telefon;}
+
+    public String getDescripcio() {return descripcio;}
+
+    public void setTelefon(String telefon) {this.telefon = telefon;}
+
+    public void setDescripcio(String descripcio) {this.descripcio = descripcio;}
+
+    public List<Tapa> getTapes() {return tapes;}
+
+    public void setTapes(List<Tapa> tapes) {this.tapes = tapes;}
 }
 
