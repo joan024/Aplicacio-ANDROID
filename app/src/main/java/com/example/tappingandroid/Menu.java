@@ -45,7 +45,6 @@ public class Menu extends AppCompatActivity implements NavigationView.OnNavigati
             default:
                 throw new IllegalArgumentException("menu option not implemented!!");
         }
-
     }
     private void showFragment(@StringRes int titleId) {
         Fragment fragment = Fragment.newInstance(titleId);
@@ -59,3 +58,7 @@ public class Menu extends AppCompatActivity implements NavigationView.OnNavigati
     }
 }
 
+
+    }
+
+}

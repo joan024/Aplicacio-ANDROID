@@ -1,5 +1,11 @@
 package com.example.tappingandroid;
 
+import android.content.Intent;
+import android.os.Bundle;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.SearchView;
+
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -9,11 +15,8 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import android.content.Intent;
 import android.icu.text.CaseMap;
 import android.os.Bundle;
-import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.SearchView;
-
-import com.google.android.material.navigation.NavigationView;
 
 public class Inici extends AppCompatActivity {
 
@@ -27,6 +30,9 @@ public class Inici extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(findViewById(R.id.toolbar));
         this.setTitle("");
+
+        Intent intent = getIntent();
+        String usuari = intent.getStringExtra("usuari");
 
         drawerLayout = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -53,7 +59,6 @@ public class Inici extends AppCompatActivity {
                 return false;
             }
         });
-
     }
 
     @Override
