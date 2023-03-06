@@ -9,8 +9,11 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import android.content.Intent;
 import android.icu.text.CaseMap;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.SearchView;
+
+import com.google.android.material.navigation.NavigationView;
 
 public class Inici extends AppCompatActivity {
 
@@ -50,6 +53,7 @@ public class Inici extends AppCompatActivity {
                 return false;
             }
         });
+
     }
 
     @Override

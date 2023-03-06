@@ -7,56 +7,55 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.StringRes;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 
-public class Menu extends AppCompatActivity {
+import com.google.android.material.navigation.NavigationView;
 
+public class Menu extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+
+    DrawerLayout drawerLayout;
 
     @Override
-    public void onCreateContextMenu(ContextMenu menu, View v,
-                                    ContextMenu.ContextMenuInfo menuInfo) {
-        super.onCreateContextMenu(menu, v, menuInfo);
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_navigation, menu);
+    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+        int titleId = getTitle(menuItem);
+        showFragment(titleId);
+
+        drawerLayout.closeDrawer(GravityCompat.START);
+        return true;
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle item selection
-        switch (item.getItemId()) {
+    private int getTitle(@NonNull MenuItem menuItem) {
+        switch (menuItem.getItemId()) {
             case R.id.btn_dades:
-                anarA("dades");
-                return true;
-
-                case R.id.btn_preferits:
-                    anarA("preferit");
-                    return true;
-                    case R.id.btn_descompte:
-                        anarA("descompte");
-                        return true;
+                return R.string.les_meves_dades;
+            case R.id.btn_preferits:
+                return R.string.preferits;
+            case R.id.btn_descompte:
+                return R.string.descomptes;
+            case R.id.btn_noticies:
+                return R.string.noticies;
+            case R.id.btn_preguntes:
+                return R.string.preguntes_freq_ents;
+            case R.id.btn_contacte:
+                return R.string.contacte_amb_nosaltres;
             default:
-                return super.onOptionsItemSelected(item);
+                throw new IllegalArgumentException("menu option not implemented!!");
         }
-    }
-
-    private void anarA(String valor) {
-
-        if (valor.contains("dades")){
-            Intent intent = new Intent(this, Inici.class);
-            intent.putExtra("dades", valor);
-        }
-
-        if (valor.contains("preferit")){
-            Intent intent = new Intent(this, Inici.class);
-            intent.putExtra("preferit", valor);
-        }
-
-        if (valor.contains("descompte")){
-            Intent intent = new Intent(this, Inici.class);
-            intent.putExtra("descompte", valor);
-        }
-
 
     }
+    private void showFragment(@StringRes int titleId) {
+        Fragment fragment = Fragment.newInstance(titleId);
+        getSupportFragmentManager()
+                .beginTransaction()
+                .setCustomAnimations(androidx.navigation.ui.R.anim.nav_default_enter_anim, androidx.navigation.ui.R.anim.nav_default_exit_anim)
+                .replace(R.id.home_content, fragment)
+                .commit();
 
+        setTitle(getString(titleId));
+    }
 }
+
