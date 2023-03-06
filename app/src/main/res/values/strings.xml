@@ -9,4 +9,14 @@
     <string name="descomptes">Els meus descomptes</string>
     <string name="preferits">Els meus favorits</string>
     <string name="les_meves_dades">Les meves dades</string>
+    <string name="usuari">Usuari</string>
+    <string name="pasword">Contrasenya</string>
+    <string name="iniciar_sesio">Iniciar sesió</string>
+    <string name="registre">Registrarme</string>
+    <string name="registreform">FORMULARI DE REGISTRE</string>
+    <string name="nom">Nom</string>
+    <string name="cognom">Cognom</string>
+    <string name="correu_electr_nic">Correu electrònic</string>
+    <string name="tel_fon">Telèfon</string>
+    <string name="data_de_naixement">Data de naixement</string>
 </resources>
