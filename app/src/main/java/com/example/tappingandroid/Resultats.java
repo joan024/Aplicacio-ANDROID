@@ -3,6 +3,8 @@ package com.example.tappingandroid;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.View;
 import android.widget.ImageView;
 
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -13,32 +15,67 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.appcompat.widget.SearchView;
+
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import com.example.tappingandroid.Adapter.LocalAdapter;
 import com.example.tappingandroid.Dades.Local;
+import com.example.tappingandroid.Dades.Opinio;
 import com.example.tappingandroid.Dades.Tapa;
+import com.google.android.material.navigation.NavigationView;
 
 public class Resultats extends AppCompatActivity {
 
     private DrawerLayout drawerLayout;
     private ImageView logoImatge;
+    private Toolbar toolbar;
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_resultats);
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(findViewById(R.id.toolbar));
-        this.setTitle("");
+        toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
 
+        // Aquí establecemos el icono de hamburguesa
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_menu);
         drawerLayout = findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawerLayout.addDrawerListener(toggle);
-        toggle.syncState();
+        // Obtenemos el botón de hamburguesa de la Toolbar
+        configurarDrawerToggle();
+
+        NavigationView navigationView = findViewById(R.id.navigation_view);
+        navigationView.setNavigationItemSelectedListener(item -> {
+            Intent intent = null;
+            switch (item.getItemId()) {
+                case R.id.btn_dades:
+                    intent = new Intent(getApplicationContext(), LesMevesDades.class);
+                    startActivity(intent);
+                    break;
+                case R.id.btn_preferits:
+                    intent = new Intent(getApplicationContext(), ElsMeusFavorits.class);
+                    break;
+                case R.id.btn_descompte:
+                    intent = new Intent(getApplicationContext(), ElsMeusDescomptes.class);
+                    break;
+                case R.id.btn_noticies:
+                    intent = new Intent(getApplicationContext(), ElsMeusFavorits.class);
+                    break;
+                case R.id.btn_preguntes:
+                    intent = new Intent(getApplicationContext(), ElsMeusFavorits.class);
+                    break;
+                case R.id.btn_contacte:
+                    intent = new Intent(getApplicationContext(), ElsMeusFavorits.class);
+                    break;
+            }
+            startActivity(intent);
+            return true;
+        }); // <-- cierra el paréntesis de la llamada al método
 
         Intent intent = getIntent();
         String query = intent.getStringExtra("filtre");
@@ -71,17 +108,23 @@ public class Resultats extends AppCompatActivity {
         recyclerView.setLayoutManager(layoutManager);
 
         // Crear una lista de objetos Local (asumiendo que tienes una lista con los datos)
-        List<Local> llistaLocals = obtenirLlistaLocals() ;
+        List<Local> llistaLocals = null;
+        try {
+            llistaLocals = obtenirLlistaLocals();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
 
         // Crear una instancia del adaptador y asignarlo a la RecyclerView
         LocalAdapter adaptador = new LocalAdapter((ArrayList<Local>) llistaLocals);
         recyclerView.setAdapter(adaptador);
 
+        List<Local> finalLlistaLocals = llistaLocals;
         adaptador.setOnItemClickListener(new LocalAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
                 // Obtener el objeto Local en la posición seleccionada
-                Local localSeleccionado = llistaLocals.get(position);
+                Local localSeleccionado = finalLlistaLocals.get(position);
 
                 // Crear un Intent para abrir la actividad LocalDetail y pasar la información del local seleccionado
                 Intent intent = new Intent(Resultats.this, DetallsLocal.class);
@@ -101,14 +144,34 @@ public class Resultats extends AppCompatActivity {
         }
     }
 
-    public List<Local> obtenirLlistaLocals() {
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_navigation, menu);
+        return true;
+    }
+
+    private void configurarDrawerToggle() {
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawerLayout.addDrawerListener(toggle);
+        toggle.syncState();
+    }
+    public List<Local> obtenirLlistaLocals() throws ParseException {
         List<Local> locals = new ArrayList<>();
         List <Tapa> tapes = obternirTapes();
-        locals.add(new Local(R.drawable.logotiptapping, "Primer local", "C/pepito","12:00-15:00", 8.4, "616638823", "Local on oferim pastes i entrepans fets a casa.",tapes ));
-        locals.add(new Local(R.drawable.logotiptapping, "Segon local", "C/Un carrer", "14:00-20:00", 9.2,"696456789", "Local inovador.", tapes));
-        locals.add(new Local(R.drawable.logotiptapping, "Tercer local", "C/Un altre carrer", "18:00-22:00", 7.8, "659673959","El restaurant \"La Cuina del Mar\" és un lloc acollidor i elegant ubicat al centre de la ciutat. La decoració és d'estil marí, amb parets de rajoles blaves i blanques que recorden l'oceà i els detalls de fusta que evoquen l'ambient d'un vaixell.", tapes));
+        List <Opinio> opinions = obternirOpinions();
+        locals.add(new Local(R.drawable.logotiptapping, "Primer local", "C/pepito","12:00-15:00", 8.4, "616638823", "Local on oferim pastes i entrepans fets a casa.",tapes, opinions ));
+        locals.add(new Local(R.drawable.logotiptapping, "Segon local", "C/Un carrer", "14:00-20:00", 9.2,"696456789", "Local inovador.", tapes, opinions));
+        locals.add(new Local(R.drawable.logotiptapping, "Tercer local", "C/Un altre carrer", "18:00-22:00", 7.8, "659673959","El restaurant \"La Cuina del Mar\" és un lloc acollidor i elegant ubicat al centre de la ciutat. La decoració és d'estil marí, amb parets de rajoles blaves i blanques que recorden l'oceà i els detalls de fusta que evoquen l'ambient d'un vaixell.", tapes, opinions));
         // Agrega más objetos Local según sea necesario
         return locals;
+    }
+
+    private List<Opinio> obternirOpinions() throws ParseException {
+        List <Opinio> opinions = new ArrayList<>();
+        opinions.add(new Opinio("Juan","12/02/2022","Aquest local es top.",7.8));
+        opinions.add(new Opinio("Maria","01/03/2022","Tornare a prendre unes braves segur.",9.2));
+        opinions.add(new Opinio("Lluc","03/02/2022","No crec que hi torni, personal desagradable.",4.5));
+        return opinions;
     }
 
     private List<Tapa> obternirTapes() {

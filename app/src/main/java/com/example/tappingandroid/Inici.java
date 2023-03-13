@@ -1,14 +1,15 @@
 package com.example.tappingandroid;
 
 import android.annotation.SuppressLint;
+import android.content.ClipData;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.SearchView;
 
-import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -16,21 +17,28 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import android.view.Menu;
 
-import com.example.tappingandroid.GestioDeRegistres.IniciSessio;
 import com.google.android.material.navigation.NavigationView;
 
 import java.util.Objects;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class Inici extends AppCompatActivity implements View.OnClickListener, SearchView.OnQueryTextListener {
     private DrawerLayout drawerLayout;
     private ImageView logoImatge;
     private SearchView searchView;
     private Toolbar toolbar;
+    private int usuari;
+    //btnDades, btnPreferits, btnDescompte, btnNoticies, btnLocals, btnTapes, btnComentaris, btnXat;
 
+
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_inici);
+
 
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -42,10 +50,30 @@ public class Inici extends AppCompatActivity implements View.OnClickListener, Se
         drawerLayout = findViewById(R.id.drawer_layout);
         // Obtenemos el botón de hamburguesa de la Toolbar
         configurarDrawerToggle();
+        usuari=2;
 
         NavigationView navigationView = findViewById(R.id.navigation_view);
         navigationView.setNavigationItemSelectedListener(item -> {
             Intent intent = null;
+
+            /*if (usuari==1){
+                btnDades.setVisibility(View.VISIBLE);
+                btnPreferits.setVisibility(View.VISIBLE);
+                btnDescompte.setVisibility(View.VISIBLE);
+                btnLocals.setVisibility(View.GONE);
+                btnTapes.setVisibility(View.GONE);
+                btnXat.setVisibility(View.GONE);
+                btnComentaris.setVisibility(View.GONE);
+            }else if(usuari == 2){
+                btnDades.setVisibility(View.GONE);
+                btnPreferits.setVisibility(View.GONE);
+                btnDescompte.setVisibility(View.GONE);
+                btnLocals.setVisibility(View.VISIBLE);
+                btnTapes.setVisibility(View.VISIBLE);
+                btnXat.setVisibility(View.VISIBLE);
+                btnComentaris.setVisibility(View.VISIBLE);
+            }*/
+
             switch (item.getItemId()) {
                 case R.id.btn_dades:
                     intent = new Intent(getApplicationContext(), LesMevesDades.class);
@@ -66,11 +94,22 @@ public class Inici extends AppCompatActivity implements View.OnClickListener, Se
                 case R.id.btn_contacte:
                     intent = new Intent(getApplicationContext(), ElsMeusFavorits.class);
                     break;
+                case R.id.btn_locals:
+                    intent = new Intent(getApplicationContext(), ElsMeusLocals.class);
+                    break;
+                case R.id.btn_tapes:
+                    intent = new Intent(getApplicationContext(), ElsMeusLocals.class);
+                    break;
+                case R.id.btn_comentaris:
+                    intent = new Intent(getApplicationContext(), Comentaris.class);
+                    break;
+                case R.id.btn_xat:
+                    intent = new Intent(getApplicationContext(), Chat.class);
+                    break;
             }
             startActivity(intent);
             return true;
-        }); // <-- cierra el paréntesis de la llamada al método
-
+        });
 
         Intent intent = getIntent();
         String usuari = intent.getStringExtra("usuari");
@@ -84,7 +123,7 @@ public class Inici extends AppCompatActivity implements View.OnClickListener, Se
     public boolean onQueryTextSubmit(String filtre) {
         // Aquí se ejecuta la búsqueda cuando se pulsa Enter
         // Enviamos los resultados a la siguiente actividad
-        Intent intent = new Intent(Inici.this, ElsMeusFavorits.class);
+        Intent intent = new Intent(Inici.this, Resultats.class);
         intent.putExtra("filtre", filtre);
         startActivity(intent);
 

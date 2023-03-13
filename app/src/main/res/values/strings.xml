@@ -25,4 +25,10 @@
     <string name="editar">Editar</string>
     <string name="telefon">Telèfon</string>
     <string name="Guardar">GUARDAR</string>
+    <string name="comentaris">Comentaris</string>
+    <string name="afegir_com">Afegir comentari</string>
+    <string name="els_meus_locals">Els meus locals</string>
+    <string name="les_meves_tapes">Les meves tapes</string>
+    <string name="xat">Xat</string>
+    <string name="enviar">Enviar</string>
 </resources>

@@ -153,5 +153,31 @@
             android:padding="16dp">
 
         </LinearLayout>
+
+        <TextView
+            android:id="@+id/opinions"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/recyclerview_tapes"
+            android:padding="10dp"
+            android:textSize="20sp"
+            android:text="@string/comentaris" />
+
+        <Button
+            android:id="@+id/btn_afegir_comentari"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/afegir_com"
+            android:layout_marginStart="20dp"
+            android:layout_below="@id/opinions"
+            android:background="@drawable/esquines_rodones_orange"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_opinions"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/btn_afegir_comentari"
+            android:padding="16dp"/>
+
     </RelativeLayout>
 </ScrollView>

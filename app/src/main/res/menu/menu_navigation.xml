@@ -19,6 +19,22 @@
             android:icon="@drawable/etiqueta"
             android:title="@string/descomptes" />
         <item
+            android:id="@+id/btn_locals"
+            android:icon="@drawable/ic_local"
+            android:title="@string/els_meus_locals"
+            android:visible="false"/>
+        <item
+            android:id="@+id/btn_tapes"
+            android:icon="@drawable/ic_tapes"
+            android:title="@string/les_meves_tapes"
+            android:visible="false"/>
+        <item
+            android:id="@+id/btn_comentaris"
+            android:icon="@drawable/ic_comentaris"
+            android:title="@string/comentaris"
+            android:visible="false"/>
+
+        <item
             android:id="@+id/btn_noticies"
             android:icon="@drawable/news"
             android:title="@string/noticies" />
@@ -36,6 +52,11 @@
                     android:id="@+id/btn_preguntes"
                     android:icon="@drawable/pregunta"
                     android:title="@string/preguntes_freq_ents" />
+                <item
+                    android:id="@+id/btn_xat"
+                    android:icon="@drawable/ic_xat"
+                    android:title="@string/xat"/>
+                    <!--android:visible="false"-->
 
                 <item
                     android:id="@+id/btn_contacte"

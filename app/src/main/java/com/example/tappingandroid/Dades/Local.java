@@ -8,8 +8,9 @@ public class Local implements Serializable {
     private String ubicacio, horari, nom, telefon, descripcio;
     private double puntuacio;
     private List<Tapa> tapes;
+    private List<Opinio> opinions;
 
-    public Local(int foto, String nom, String ubicacio, String horari , double puntuacio, String telefon, String descripcio, List <Tapa> tapes) {
+    public Local(int foto, String nom, String ubicacio, String horari , double puntuacio, String telefon, String descripcio, List <Tapa> tapes, List <Opinio> opinions) {
         this.foto = foto;
         this.ubicacio = ubicacio;
         this.horari = horari;
@@ -18,6 +19,7 @@ public class Local implements Serializable {
         this.descripcio = descripcio;
         this.puntuacio = puntuacio;
         this.tapes=tapes;
+        this.opinions=opinions;
     }
 
     public int getFoto() {
@@ -72,6 +74,10 @@ public class Local implements Serializable {
 
     public void setTapes(List<Tapa> tapes) {this.tapes = tapes;}
 
+    public void setOpinions(List<Opinio> opinions) { this.opinions = opinions;}
+
+    public List<Opinio> getOpinions() { return opinions; }
+
     @Override
     public String toString() {
         return "Local{" +
@@ -84,6 +90,11 @@ public class Local implements Serializable {
                 ", puntuacio=" + puntuacio +
                 ", tapes=" + tapes +
                 '}';
+    }
+
+
+    public void afegirOpinio(Opinio opinio) {
+        opinions.add(opinio);
     }
 }
 

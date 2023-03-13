@@ -6,20 +6,19 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.ImageView;
 
 import com.example.tappingandroid.Adapter.LocalAdapter;
 import com.example.tappingandroid.Dades.Local;
 import com.example.tappingandroid.Dades.Opinio;
 import com.example.tappingandroid.Dades.Tapa;
-import com.example.tappingandroid.R;
 
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ElsMeusFavorits extends AppCompatActivity {
+public class ElsMeusLocals extends AppCompatActivity {
+
     private RecyclerView recyclerView;
     private LocalAdapter adaptador;
     private List<Local> locals;
@@ -38,7 +37,7 @@ public class ElsMeusFavorits extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         try {
-            locals = getLocalsFavorits(); // función que obtiene los locales favoritos de la persona
+            locals = getLocals(); // función que obtiene los locales favoritos de la persona
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -50,7 +49,7 @@ public class ElsMeusFavorits extends AppCompatActivity {
             Local localSeleccionado = locals.get(position);
 
             // Crear un Intent para abrir la actividad LocalDetail y pasar la información del local seleccionado
-            Intent intent = new Intent(ElsMeusFavorits.this, DetallsLocal.class);
+            Intent intent = new Intent(ElsMeusLocals.this, DetallsLocal.class);
             intent.putExtra("local", localSeleccionado);
             startActivity(intent);
         });
@@ -59,7 +58,7 @@ public class ElsMeusFavorits extends AppCompatActivity {
 
     }
 
-    private List<Local> getLocalsFavorits() throws ParseException {
+    private List<Local> getLocals() throws ParseException {
         locals = new ArrayList<>();
         List <Tapa> tapes = obternirTapes();
         List <Opinio> opinions = obternirOpinions();

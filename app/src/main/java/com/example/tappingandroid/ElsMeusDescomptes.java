@@ -27,12 +27,7 @@ public class ElsMeusDescomptes extends AppCompatActivity {
         setContentView(R.layout.activity_els_meus_descomptes);
 
         iv_tornar = findViewById(R.id.iv_tornar);
-        iv_tornar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
+        iv_tornar.setOnClickListener(v -> onBackPressed());
 
         // Inicializar la lista de descomptes
         descomptes = new ArrayList<>();
