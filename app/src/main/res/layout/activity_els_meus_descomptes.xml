@@ -1,0 +1,44 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <!-- Aquí se define la sección del título -->
+
+        <ImageView
+            android:id="@+id/iv_tornar"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:padding="8dp"
+            android:src="@drawable/tornar"
+            app:tint="@color/mandarina" />
+
+        <TextView
+            android:id="@+id/tv_titol"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/iv_tornar"
+            android:layout_marginStart="10dp"
+            android:text="@string/descomptes"
+            android:textSize="30sp" />
+
+        <!-- Aquí se define la sección del RecyclerView -->
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_descuentos"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_titol"
+            android:padding="8dp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:listitem="@layout/descompte_item" />
+
+    </RelativeLayout>
+</ScrollView>

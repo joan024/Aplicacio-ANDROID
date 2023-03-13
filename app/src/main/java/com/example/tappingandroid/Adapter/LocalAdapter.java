@@ -1,4 +1,4 @@
-package Adapter;
+package com.example.tappingandroid.Adapter;
 
 import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
@@ -14,14 +14,26 @@ import com.example.tappingandroid.R;
 
 import java.util.ArrayList;
 
-import Dades.Local;
+import com.example.tappingandroid.Dades.Local;
 
 public class LocalAdapter extends RecyclerView.Adapter<LocalAdapter.ViewHolder> {
 
+    // Definición de la interfaz OnItemClickListener
+    public interface OnItemClickListener {
+        void onItemClick(int position);
+    }
     private ArrayList<Local> locales;
-
+    private OnItemClickListener onItemClickListener;
     public LocalAdapter(ArrayList<Local> locales) {
         this.locales = locales;
+    }
+
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        this.onItemClickListener = listener;
+    }
+
+    public OnItemClickListener getOnItemClickListener() {
+        return onItemClickListener;
     }
 
     @NonNull
@@ -41,6 +53,15 @@ public class LocalAdapter extends RecyclerView.Adapter<LocalAdapter.ViewHolder> 
         holder.tvUbicacio.setText(local.getUbicacio());
         holder.tvHorari.setText(local.getHorari());
         holder.tvPuntuacio.setText(String.format("%.1f", local.getPuntuacio()));
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (onItemClickListener != null) {
+                    onItemClickListener.onItemClick(position);
+                }
+            }
+        });
     }
 
     @Override
