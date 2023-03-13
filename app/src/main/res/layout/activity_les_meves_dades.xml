@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/iv_tornar"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:padding="8dp"
+            android:src="@drawable/tornar"
+            app:tint="@color/mandarina" />
+
+        <Button
+            android:id="@+id/btn_guardar"
+            android:layout_width="wrap_content"
+            android:layout_height="45dp"
+            android:layout_marginTop="32dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentTop="true"
+            android:padding="8dp"
+            android:layout_margin="10dp"
+            android:textSize="20sp"
+            android:text="@string/Guardar"
+            android:background="@drawable/esquines_rodones_orange" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/les_meves_dades"
+            android:textSize="30sp"
+            android:layout_below="@+id/iv_tornar"
+            android:id="@+id/tv_titol"
+            android:layout_marginStart="10dp"/>
+
+        <TextView
+            android:id="@+id/tv_nom_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/nom"
+            android:layout_below="@+id/tv_titol"
+            android:textColor="@color/black"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="10dp"
+            android:textSize="20sp" />
+
+        <EditText
+            android:id="@+id/et_nom"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_nom_label"
+            android:text="John"
+            android:layout_marginStart="10dp"
+            android:textSize="18sp" />
+        <TextView
+            android:id="@+id/tv_cognom_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/cognom"
+            android:layout_below="@+id/et_nom"
+            android:textColor="@color/black"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="10dp"
+            android:textSize="20sp" />
+
+        <EditText
+            android:id="@+id/et_cognom"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_cognom_label"
+            android:text="Doe Fernandez"
+            android:layout_marginStart="10dp"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/tv_email_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/correu_electr_nic"
+            android:layout_below="@+id/et_cognom"
+            android:textColor="@color/black"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="10dp"
+            android:textSize="20sp" />
+
+        <EditText
+            android:id="@+id/et_email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_email_label"
+            android:text="johndoe@gmail.com"
+            android:layout_marginStart="10dp"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/tv_data_naixament_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/data_de_naixement"
+            android:layout_below="@+id/et_email"
+            android:textColor="@color/black"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="10dp"
+            android:textSize="20sp"
+            />
+
+        <EditText
+            android:id="@+id/et_data_naixement"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_data_naixament_label"
+            android:text="12/12/2000"
+            android:layout_marginStart="10dp"
+            android:textSize="18sp"
+            android:inputType="none"
+            android:focusable="false"
+            android:onClick="mostrarDatePicker"/>
+
+        <TextView
+            android:id="@+id/tv_telefon_label"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/telefon"
+            android:layout_below="@+id/et_data_naixement"
+            android:textColor="@color/black"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="10dp"
+            android:textSize="20sp" />
+
+        <EditText
+            android:id="@+id/et_telefon"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_telefon_label"
+            android:text="616631155"
+            android:layout_marginStart="10dp"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/tv_password_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/pasword"
+            android:layout_below="@+id/et_telefon"
+            android:textColor="@color/black"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="10dp"
+            android:textSize="20sp" />
+
+        <EditText
+            android:id="@+id/et_password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_password_label"
+            android:text="oooooooooo"
+            android:layout_marginStart="10dp"
+            android:textSize="18sp" />
+    </RelativeLayout>
+</ScrollView>

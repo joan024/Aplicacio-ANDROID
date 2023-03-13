@@ -1,14 +1,15 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation_view"
     tools:showIn="navigation_view">
-
 
     <group android:checkableBehavior="single">
 
         <item
             android:id="@+id/btn_dades"
             android:icon="@drawable/usuario"
-            android:title="@string/les_meves_dades" />
+            android:title="@string/les_meves_dades"
+            />
         <item
             android:id="@+id/btn_preferits"
             android:icon="@drawable/favorito"
@@ -43,5 +44,6 @@
             </group>
         </menu>
     </item>
+
 
 </menu>

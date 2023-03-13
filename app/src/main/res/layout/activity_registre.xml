@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="GestioDeRegistres.Registre">
+    tools:context=".GestioDeRegistres.Registre">
 
     <LinearLayout
         android:id="@+id/layout_registre"
@@ -61,7 +61,10 @@
             android:layout_marginStart="10dp"
             android:layout_height="wrap_content"
             android:hint="@string/data_de_naixement"
-            android:inputType="none" />
+            android:inputType="none"
+            android:focusable="false"
+            android:onClick="mostrarDatePicker" />
+
     </LinearLayout>
 
         <EditText
