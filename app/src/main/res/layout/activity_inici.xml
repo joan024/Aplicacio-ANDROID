@@ -71,5 +71,13 @@
         app:menu="@menu/menu_navigation"
         tools:ignore="MissingConstraints" />
 
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/nav_host_fragment"
+        android:name="androidx.navigation.fragment.NavHostFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:defaultNavHost="true"
+        />
+
 
 </androidx.drawerlayout.widget.DrawerLayout>

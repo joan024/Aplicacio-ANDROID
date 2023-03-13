@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Patterns;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -21,10 +22,13 @@ public class IniciSessio extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_inici_sessio);
 
+
         EditText usuari = findViewById(R.id.et_usuari);
         EditText password = findViewById(R.id.et_password);
         Button login = findViewById(R.id.btn_login);
         Button registre = findViewById(R.id.btn_registre);
+
+        Intent intent = getIntent();
 
         login.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -58,6 +62,10 @@ public class IniciSessio extends AppCompatActivity {
         });
 
 
+    }
+
+    public void onClick(View v) {
+        finish();
     }
 
 

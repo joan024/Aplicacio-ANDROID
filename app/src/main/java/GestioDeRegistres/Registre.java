@@ -1,6 +1,7 @@
 package GestioDeRegistres;
 import android.app.DatePickerDialog;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
 
@@ -20,6 +21,7 @@ public class Registre extends AppCompatActivity implements DatePickerDialog.OnDa
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registre);
 
+        Bundle bundle = this.getIntent().getExtras();
         editTextDataNaixement = findViewById(R.id.et_data_naixement);
         editTextDataNaixement.setOnClickListener(v -> {
             Calendar calendari = Calendar.getInstance();
@@ -40,5 +42,8 @@ public class Registre extends AppCompatActivity implements DatePickerDialog.OnDa
     public void onDateSet(@NonNull DatePicker view, int any, int mes, int dia) {
         String dataSeleccionada = dia + "/" + (mes + 1) + "/" + any;
         editTextDataNaixement.setText(dataSeleccionada);
+    }
+    public void onClick(View v) {
+        finish();
     }
 }

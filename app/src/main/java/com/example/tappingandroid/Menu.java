@@ -1,29 +1,30 @@
 package com.example.tappingandroid;
 
+
 import android.content.Intent;
-import android.view.ContextMenu;
+import android.os.Bundle;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.AdapterView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.StringRes;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
 
 import com.google.android.material.navigation.NavigationView;
 
-public class Menu extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+import GestioDeRegistres.IniciSessio;
+import GestioDeRegistres.Registre;
+
+public class Menu extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
     DrawerLayout drawerLayout;
-
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         int titleId = getTitle(menuItem);
         showFragment(titleId);
-
         drawerLayout.closeDrawer(GravityCompat.START);
         return true;
     }
@@ -36,8 +37,6 @@ public class Menu extends AppCompatActivity implements NavigationView.OnNavigati
                 return R.string.preferits;
             case R.id.btn_descompte:
                 return R.string.descomptes;
-            case R.id.btn_noticies:
-                return R.string.noticies;
             case R.id.btn_preguntes:
                 return R.string.preguntes_freq_ents;
             case R.id.btn_contacte:
@@ -46,8 +45,8 @@ public class Menu extends AppCompatActivity implements NavigationView.OnNavigati
                 throw new IllegalArgumentException("menu option not implemented!!");
         }
     }
-    private void showFragment(@StringRes int titleId) {
-        Fragment fragment = Fragment.newInstance(titleId);
+    private void showFragment ( @StringRes int titleId){
+        Fragment fragment = HomeFragment.newInstance(titleId);
         getSupportFragmentManager()
                 .beginTransaction()
                 .setCustomAnimations(androidx.navigation.ui.R.anim.nav_default_enter_anim, androidx.navigation.ui.R.anim.nav_default_exit_anim)
@@ -59,6 +58,7 @@ public class Menu extends AppCompatActivity implements NavigationView.OnNavigati
 }
 
 
-    }
 
-}
+
+
+

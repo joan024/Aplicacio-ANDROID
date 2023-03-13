@@ -11,14 +11,14 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".Registre"
+            android:name="GestioDeRegistres.Registre"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".IniciSessio"
+            android:name="GestioDeRegistres.IniciSessio"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"

@@ -1,5 +1,6 @@
 package com.example.tappingandroid;
 
+import androidx.fragment.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,11 +10,12 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 
-public class Fragment extends androidx.fragment.app.Fragment {
+public class HomeFragment extends Fragment {
+
     private static final String TEXT_ID = "text_id";
 
-    public static Fragment newInstance(@StringRes int textId) {
-        Fragment frag = new Fragment();
+    public static HomeFragment newInstance(@StringRes int textId) {
+        HomeFragment frag = new HomeFragment();
 
         Bundle args = new Bundle();
         args.putInt(TEXT_ID, textId);
@@ -25,7 +27,7 @@ public class Fragment extends androidx.fragment.app.Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable
             Bundle savedInstanceState) {
-        View layout = inflater.inflate(R.layout.fragment, container, false);
+        View layout = inflater.inflate(R.layout.home_fragment, container, false);
 
         if (getArguments() != null) {
             String text = getString(getArguments().getInt(TEXT_ID));
