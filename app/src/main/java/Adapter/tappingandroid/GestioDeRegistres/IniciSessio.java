@@ -1,4 +1,4 @@
-package com.example.tappingandroid.GestioDeRegistres;
+package Adapter.tappingandroid.GestioDeRegistres;
 
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
@@ -10,7 +10,7 @@ import android.widget.EditText;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import com.example.tappingandroid.Inici;
+import Adapter.tappingandroid.Inici;
 import com.example.tappingandroid.R;
 
 public class IniciSessio extends AppCompatActivity {

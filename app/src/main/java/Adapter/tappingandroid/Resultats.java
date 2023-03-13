@@ -1,4 +1,4 @@
-package com.example.tappingandroid;
+package Adapter.tappingandroid;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -16,9 +16,11 @@ import androidx.appcompat.widget.SearchView;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.example.tappingandroid.Adapter.LocalAdapter;
-import com.example.tappingandroid.Dades.Local;
-import com.example.tappingandroid.Dades.Tapa;
+import Adapter.tappingandroid.Adapter.LocalAdapter;
+import Adapter.tappingandroid.Dades.Local;
+import Adapter.tappingandroid.Dades.Tapa;
+
+import com.example.tappingandroid.R;
 
 public class Resultats extends AppCompatActivity {
 

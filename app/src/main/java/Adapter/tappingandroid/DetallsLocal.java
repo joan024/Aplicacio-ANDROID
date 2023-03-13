@@ -1,4 +1,4 @@
-package com.example.tappingandroid;
+package Adapter.tappingandroid;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -11,9 +11,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.tappingandroid.Adapter.TapasAdapter;
-import com.example.tappingandroid.Dades.Local;
+import Adapter.tappingandroid.Adapter.TapasAdapter;
+import Adapter.tappingandroid.Dades.Local;
 
+import com.example.tappingandroid.R;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import Adapter.tappingandroid.Dades.Tapa;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -66,4 +72,5 @@ public class DetallsLocal extends AppCompatActivity {
     public void onBackPressed() {
         super.onBackPressed();
     }
+
 }

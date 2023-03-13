@@ -1,4 +1,4 @@
-package com.example.tappingandroid;
+package Adapter.tappingandroid;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -6,12 +6,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.ImageView;
 
-import com.example.tappingandroid.Adapter.LocalAdapter;
-import com.example.tappingandroid.Dades.Local;
-import com.example.tappingandroid.Dades.Tapa;
+import Adapter.tappingandroid.Adapter.LocalAdapter;
+import Adapter.tappingandroid.Dades.Local;
+import Adapter.tappingandroid.Dades.Tapa;
 import com.example.tappingandroid.R;
 
 import java.util.ArrayList;

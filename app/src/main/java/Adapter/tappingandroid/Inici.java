@@ -1,14 +1,11 @@
-package com.example.tappingandroid;
+package Adapter.tappingandroid;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.SearchView;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -16,7 +13,7 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import android.view.Menu;
 
-import com.example.tappingandroid.GestioDeRegistres.IniciSessio;
+import com.example.tappingandroid.R;
 import com.google.android.material.navigation.NavigationView;
 
 import java.util.Objects;
@@ -58,10 +55,10 @@ public class Inici extends AppCompatActivity implements View.OnClickListener, Se
                     intent = new Intent(getApplicationContext(), ElsMeusDescomptes.class);
                     break;
                 case R.id.btn_noticies:
-                    intent = new Intent(getApplicationContext(), ElsMeusFavorits.class);
+                    intent = new Intent(getApplicationContext(), Noticies.class);
                     break;
                 case R.id.btn_preguntes:
-                    intent = new Intent(getApplicationContext(), ElsMeusFavorits.class);
+                    intent = new Intent(getApplicationContext(), PreguntesFrequents.class);
                     break;
                 case R.id.btn_contacte:
                     intent = new Intent(getApplicationContext(), ElsMeusFavorits.class);
@@ -84,7 +81,7 @@ public class Inici extends AppCompatActivity implements View.OnClickListener, Se
     public boolean onQueryTextSubmit(String filtre) {
         // Aquí se ejecuta la búsqueda cuando se pulsa Enter
         // Enviamos los resultados a la siguiente actividad
-        Intent intent = new Intent(Inici.this, ElsMeusFavorits.class);
+        Intent intent = new Intent(Inici.this, Resultats.class);
         intent.putExtra("filtre", filtre);
         startActivity(intent);
 

@@ -1,4 +1,4 @@
-package com.example.tappingandroid.GestioDeRegistres;
+package Adapter.tappingandroid.GestioDeRegistres;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
@@ -9,7 +9,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.tappingandroid.Inici;
+import Adapter.tappingandroid.Inici;
 import com.example.tappingandroid.R;
 
 import java.util.Calendar;

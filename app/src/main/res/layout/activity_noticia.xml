@@ -1,62 +1,101 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-    >
-
-    <androidx.cardview.widget.CardView
-        xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:cardElevation="10dp"
-        android:layout_margin="10dp"
-        app:cardBackgroundColor="@color/white"
-        app:cardMaxElevation="12dp"
-        app:cardPreventCornerOverlap="true"
-        app:cardUseCompatPadding="true"
-        android:foregroundGravity="center_vertical"
+        android:layout_height="match_parent">
 
+        <!-- Imatge principal -->
+        <ImageView
+            android:id="@+id/iv_noticia_foto"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/news" />
 
-        tools:ignore="MissingConstraints">
+        <!-- Flecha per tornar -->
+        <ImageView
+            android:id="@+id/iv_tornar"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:padding="8dp"
+            android:src="@drawable/tornar"
+            app:tint="@color/mandarina"
+            android:clickable="true"/>
 
-
-        <LinearLayout android:orientation="vertical"
-            android:layout_width="wrap_content"
+        <TextView
+            android:id="@+id/tv_titol_noticia"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            >
-            <ImageView
-                android:id="@+id/imgNoticia"
-                android:textAlignment="center"
-                android:layout_width="200dp"
-                android:layout_height="100dp"
-                android:minHeight="100dp"
-                android:minWidth="200dp"
-                android:layout_gravity="center"
-                ></ImageView>
-            <TextView
-                android:id="@+id/noticiaNom"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textStyle="italic"
-                android:text=" NOTICIA"
-                android:minHeight="10dp"
-                android:layout_gravity="center"
-                ></TextView>
-            <TextView
-                android:id="@+id/Descripcio"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textStyle="bold"
-                android:minHeight="10dp"
-                android:text="Descripcio"
-                android:layout_gravity="center"
-                ></TextView>
+            android:padding="16dp"
+            android:textSize="25sp"
+            android:textStyle="bold"
+            android:text="Noticia" />
+
+        <TextView
+            android:id="@+id/tv_descripcio"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_titol_noticia"
+            android:padding="8dp"
+            android:textSize="20sp"
+            android:text="Descripcio" />
+
+        <TextView
+            android:id="@+id/tv_data_publicacio"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_descripcio"
+            android:padding="8dp"
+            android:textSize="20sp"
+            android:text="Telèfon" />
+
+        <TextView
+            android:id="@+id/tv_data_inici"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_data_publicacio"
+            android:padding="8dp"
+            android:textSize="20sp"
+            android:text="Horari" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@id/tv_data_publicacio"
+            android:background="@android:color/darker_gray" />
+
+
+        <TextView
+            android:id="@+id/tv_data_fi"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_data_publicacio"
+            android:padding="16dp"
+            android:textSize="20sp"
+            android:text="Descripció" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerview_noticia"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_below="@id/tv_data_publicacio"
+            android:padding="16dp"/>
+
+        <LinearLayout
+            android:id="@+id/noticia_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_data_publicacio"
+            android:orientation="vertical"
+            android:padding="16dp">
+
         </LinearLayout>
-    </androidx.cardview.widget.CardView>
-
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </RelativeLayout>
+</ScrollView>
