@@ -16,9 +16,9 @@ import androidx.appcompat.widget.SearchView;
 import java.util.ArrayList;
 import java.util.List;
 
-import Adapter.LocalAdapter;
-import Dades.Local;
-import Dades.Tapa;
+import com.example.tappingandroid.Adapter.LocalAdapter;
+import com.example.tappingandroid.Dades.Local;
+import com.example.tappingandroid.Dades.Tapa;
 
 public class Resultats extends AppCompatActivity {
 

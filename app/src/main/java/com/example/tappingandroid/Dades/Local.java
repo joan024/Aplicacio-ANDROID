@@ -1,4 +1,4 @@
-package Dades;
+package com.example.tappingandroid.Dades;
 
 import java.io.Serializable;
 import java.util.List;
@@ -71,5 +71,19 @@ public class Local implements Serializable {
     public List<Tapa> getTapes() {return tapes;}
 
     public void setTapes(List<Tapa> tapes) {this.tapes = tapes;}
+
+    @Override
+    public String toString() {
+        return "Local{" +
+                "foto=" + foto +
+                ", ubicacio='" + ubicacio + '\'' +
+                ", horari='" + horari + '\'' +
+                ", nom='" + nom + '\'' +
+                ", telefon='" + telefon + '\'' +
+                ", descripcio='" + descripcio + '\'' +
+                ", puntuacio=" + puntuacio +
+                ", tapes=" + tapes +
+                '}';
+    }
 }
 

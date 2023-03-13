@@ -2,7 +2,7 @@
     <string name="app_name">Tapping ANDROID</string>
     <string name="navigation_drawer_open">a</string>
     <string name="navigation_drawer_close">b</string>
-    <string name="desripcio">Amb aquesta aplicació, pots buscar i trobar ràpidament llocs que serveixen tapes a la teva àrea. \n\nL\'aplicació inclou informació detallada sobre el tipus de tapes ofertes, preus, ubicació, horaris d\'obertura i tancament, i qualsevol altra informació rellevant. A més, podràs llegir comentaris i opinions d\'altres usuaris sobre la qualitat de les tapes i el servei a cada establiment.</string>
+    <string name="desripcio">Amb la nostra aplicació, tindràs accés a una àmplia gamma d\'informació sobre cada establiment, incloent les tapes que ofereixen, els preus, la ubicació, els horaris, i qualsevol altra informació important.\n\nA més, en aquesta aplicació podràs llegir comentaris i opinions d\'altres usuaris que han visitat algun establiment.\n\nEn resum, aquesta aplicació és una eina imprescindible per a qualsevol amant de les tapes. \n\nComença avui amb la recerca dels millors llocs per tapejar!\n</string>
     <string name="contacte_amb_nosaltres">Contacta amb nosaltres</string>
     <string name="preguntes_freq_ents">Preguntes freqüents</string>
     <string name="noticies">Noticies</string>
@@ -20,4 +20,9 @@
     <string name="tel_fon">Telèfon</string>
     <string name="data_de_naixement">Data de naixement</string>
     <string name="tapes">Tapes</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="editar">Editar</string>
+    <string name="telefon">Telèfon</string>
+    <string name="Guardar">GUARDAR</string>
 </resources>

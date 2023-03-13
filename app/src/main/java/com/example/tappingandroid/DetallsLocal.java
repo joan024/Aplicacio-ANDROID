@@ -1,68 +1,69 @@
 package com.example.tappingandroid;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import Adapter.TapasAdapter;
-import Dades.Local;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.tappingandroid.Adapter.TapasAdapter;
+import com.example.tappingandroid.Dades.Local;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
+@SuppressLint("NonConstantResourceId")
 public class DetallsLocal extends AppCompatActivity {
+
+    @BindView(R.id.iv_tornar) ImageView ivTornar;
+    @BindView(R.id.iv_imatge_local) ImageView ivImatge;
+    @BindView(R.id.tv_local_nom) TextView tvNomLocal;
+    @BindView(R.id.tv_ubicacio) TextView tvUbicacio;
+    @BindView(R.id.tv_telefon) TextView tvTelefon;
+    @BindView(R.id.tv_horari) TextView tvHorari;
+    @BindView(R.id.tv_puntuacio) TextView tvPuntuacio;
+    @BindView(R.id.tv_descripcio) TextView tvDescripcio;
+    @BindView(R.id.recyclerview_tapes) RecyclerView recyclerViewTapes;
 
     @Override
     @SuppressLint({"MissingInflatedId", "SetTextI18n"})
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detalls_local);
+        ButterKnife.bind(this);
 
-        ImageView iv_tornar = findViewById(R.id.iv_tornar);
-
-        iv_tornar.setOnClickListener(new View.OnClickListener() {
+        ivTornar.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
                 onBackPressed();
             }
         });
 
-        ImageView iv_imatge = findViewById(R.id.iv_imatge_local);
-        TextView tv_nom_local = findViewById(R.id.tv_local_nom);
-        TextView tv_ubicacio = findViewById(R.id.tv_ubicacio);
-        TextView tv_telefon = findViewById(R.id.tv_telefon);
-        TextView tv_horari = findViewById(R.id.tv_horari);
-        TextView tv_puntuacio = findViewById(R.id.tv_puntuacio);
-        TextView tv_descripcio = findViewById(R.id.tv_descripcio);
-
         //Rebem les dades del local
         Intent intent = getIntent();
         Local local = (Local) intent.getSerializableExtra("local");
 
-        tv_nom_local.setText(local.getNom());
-        iv_imatge.setImageResource(local.getFoto());
-        tv_ubicacio.setText(local.getUbicacio());
-        tv_telefon.setText(local.getTelefon());
-        tv_horari.setText(local.getHorari());
-        tv_puntuacio.setText(local.getPuntuacio() + "");
-        tv_descripcio.setText(local.getDescripcio());
-
-        // Obtener una instancia del RecyclerView
-        RecyclerView recyclerViewTapes = findViewById(R.id.recyclerview_tapes);
+        tvNomLocal.setText(local.getNom());
+        ivImatge.setImageResource(local.getFoto());
+        tvUbicacio.setText(local.getUbicacio());
+        tvTelefon.setText(local.getTelefon());
+        tvHorari.setText(local.getHorari());
+        tvPuntuacio.setText(local.getPuntuacio() + "");
+        tvDescripcio.setText(local.getDescripcio());
 
         // Establecer el diseño del RecyclerView
         recyclerViewTapes.setLayoutManager(new LinearLayoutManager(this));
 
-        // Crear un adaptador para el RecyclerView
-        TapasAdapter tapesAdapter = new TapasAdapter(local.getTapes());
-
         // Establecer el adaptador del RecyclerView
-        recyclerViewTapes.setAdapter(tapesAdapter);
+        recyclerViewTapes.setAdapter(new TapasAdapter(local.getTapes()));
+    }
 
+    public void onBackPressed() {
+        super.onBackPressed();
     }
 }

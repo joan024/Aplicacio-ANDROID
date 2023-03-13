@@ -1,4 +1,4 @@
-package Adapter;
+package com.example.tappingandroid.Adapter;
 
 import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
@@ -13,7 +13,7 @@ import com.example.tappingandroid.R;
 
 import java.util.List;
 
-import Dades.Tapa;
+import com.example.tappingandroid.Dades.Tapa;
 
 public class TapasAdapter extends RecyclerView.Adapter<TapasAdapter.ViewHolder> {
 
@@ -55,7 +55,7 @@ public class TapasAdapter extends RecyclerView.Adapter<TapasAdapter.ViewHolder> 
         @SuppressLint("SetTextI18n")
         public void bind(Tapa tapa) {
             nomView.setText(tapa.getNom());
-            preuView.setText(tapa.getPreu()+"");
+            preuView.setText(tapa.getPreu()+"€");
         }
     }
 }
