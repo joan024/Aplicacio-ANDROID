@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:id="@+id/ll_top"
+        tools:ignore="MissingConstraints">
+        <!-- Aquí se define la sección del título -->
+
+        <ImageView
+            android:id="@+id/iv_tornar"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:padding="8dp"
+            android:src="@drawable/tornar"
+            app:tint="@color/mandarina" />
+
+        <TextView
+            android:id="@+id/tv_titol"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:text="@string/contacte_amb_nosaltres"
+            android:textSize="30sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="407dp"
+        android:layout_height="272dp"
+        android:layout_marginTop="128dp"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.198"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/correo"
+                android:layout_width="87dp"
+                android:layout_height="48dp"
+                app:srcCompat="@drawable/letra" />
+
+
+            <TextView
+                android:id="@+id/et_cognom"
+                android:layout_width="213dp"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="@string/gmail" />
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/telefon_contacte"
+                android:layout_width="87dp"
+                android:layout_height="48dp"
+                app:srcCompat="@android:drawable/stat_sys_phone_call_forward" />
+
+
+            <TextView
+                android:id="@+id/contacte_te"
+                android:layout_width="213dp"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="@string/telefon_tapping" />
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/insta"
+                android:layout_width="87dp"
+                android:layout_height="47dp"
+                app:srcCompat="@drawable/insta" />
+
+
+            <TextView
+                android:id="@+id/contacte_insta"
+                android:layout_width="213dp"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="@string/instagram" />
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/tiktok"
+                android:layout_width="87dp"
+                android:layout_height="48dp"
+                app:srcCompat="@drawable/tiktok" />
+
+
+            <TextView
+                android:id="@+id/contacte_tiktok"
+                android:layout_width="213dp"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="@string/tiktok" />
+        </LinearLayout>
+
+
+
+
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btn_mensaje"
+        android:layout_width="194dp"
+        android:layout_height="47dp"
+        android:layout_marginTop="104dp"
+        android:text="@string/enviar_missatge"
+        android:background="@drawable/esquines_rodones_orange"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
