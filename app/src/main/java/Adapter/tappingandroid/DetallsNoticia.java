@@ -47,28 +47,18 @@ public class DetallsNoticia extends AppCompatActivity {
         });
 
         Intent intent = getIntent();
-        Noticia noticia = (Noticia) intent.getSerializableExtra("Noticia");
+        Bundle extra = intent.getExtras();
+        String miValor = extra.getString("noticia");
 
-        tvTitol.setText(noticia.getTitol());
-        ivImatge.setImageResource(noticia.getImagen());
-        tvDescripcio.setText(noticia.getDescripcio());
-        tvDataIni.setText(noticia.getData_inici());
-        tvDataFi.setText(noticia.getData_fi());
-        tvDataPublicacio.setText(noticia.getData_publicacio());
 
         recyclerViewNoticia.setLayoutManager(new LinearLayoutManager(this));
 
 
-        recyclerViewNoticia.setAdapter(new NoticiaAdapter((ArrayList<Noticia>) noticia.getNoticies()));
+        //recyclerViewNoticia.setAdapter(new NoticiaAdapter((ArrayList<Noticia>) noticia.getNoticies()));
     }
 
     public void onBackPressed() {
         super.onBackPressed();
     }
 
-    public void crearNoticia(){
-
-
-
-    }
 }

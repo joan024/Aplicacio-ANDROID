@@ -31,7 +31,7 @@ public class Noticies extends AppCompatActivity {
         setContentView(R.layout.item_noticia);
 
         Intent intent = new Intent(this, DetallsNoticia.class);
-
+        intent.putExtra("valor","noticia");
         startActivity(intent);
 
     }

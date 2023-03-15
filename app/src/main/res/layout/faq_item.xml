@@ -11,6 +11,7 @@
     android:layout_marginHorizontal="10dp">
 
     <TextView
+        android:id="@+id/pregunta"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/esquines_redones_gris"
@@ -18,6 +19,7 @@
         android:textColor="@color/black"
         />
     <TextView
+        android:id="@+id/resposta"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/esquines_rodones_orange"
@@ -26,12 +28,35 @@
         android:layout_marginTop="50dp"
         android:textColor="@color/black"
         />
+    <TextView
+        android:id="@+id/pregunta2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/esquines_redones_gris"
+        android:layout_below="@+id/resposta"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="15dp"
+        android:text="Para que sirve la App?"
+        android:textColor="@color/black"/>
+    <TextView
+        android:id="@+id/resposta2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/esquines_rodones_orange"
+        android:text="Puedes Buscar diferentes bar de tapas"
+        android:layout_below="@+id/pregunta2"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="15dp"
+        android:textColor="@color/black"
+        />
+
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/preguntes_frequents"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:padding="16dp"/>
+        android:padding="16dp" />
 
 
 </RelativeLayout>

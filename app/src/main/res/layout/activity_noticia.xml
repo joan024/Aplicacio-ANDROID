@@ -32,6 +32,7 @@
             android:id="@+id/tv_titol_noticia"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@id/iv_noticia_foto"
             android:padding="16dp"
             android:textSize="25sp"
             android:textStyle="bold"
@@ -44,7 +45,7 @@
             android:layout_below="@id/tv_titol_noticia"
             android:padding="8dp"
             android:textSize="20sp"
-            android:text="Descripcio" />
+            android:text="Donde ira la Descripcion de la Noticia" />
 
         <TextView
             android:id="@+id/tv_data_publicacio"
@@ -53,7 +54,7 @@
             android:layout_below="@id/tv_descripcio"
             android:padding="8dp"
             android:textSize="20sp"
-            android:text="Telèfon" />
+            android:text="Data Publicació"/>
 
         <TextView
             android:id="@+id/tv_data_inici"
@@ -62,7 +63,7 @@
             android:layout_below="@id/tv_data_publicacio"
             android:padding="8dp"
             android:textSize="20sp"
-            android:text="Horari" />
+            android:text="Data Inici" />
 
         <View
             android:layout_width="match_parent"
@@ -75,10 +76,10 @@
             android:id="@+id/tv_data_fi"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/tv_data_publicacio"
+            android:layout_below="@id/tv_data_inici"
             android:padding="16dp"
             android:textSize="20sp"
-            android:text="Descripció" />
+            android:text="Data Fi" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerview_noticia"
@@ -92,7 +93,7 @@
             android:id="@+id/noticia_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/tv_data_publicacio"
+            android:layout_below="@id/tv_data_fi"
             android:orientation="vertical"
             android:padding="16dp">
 

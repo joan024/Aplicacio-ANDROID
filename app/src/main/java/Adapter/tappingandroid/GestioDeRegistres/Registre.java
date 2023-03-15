@@ -4,6 +4,7 @@ import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -26,7 +27,7 @@ public class Registre extends AppCompatActivity  {
     EditText etDataNaixement;
 
     @BindView(R.id.btn_registre)
-    EditText btnRegistre;
+    Button btnRegistre;
 
     private Calendar calendari;
 

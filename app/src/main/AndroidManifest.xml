@@ -46,6 +46,20 @@
                 android:value="" />
         </activity>
         <activity
+            android:name="Adapter.tappingandroid.GestioDeRegistres.Mensaje"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name="Adapter.tappingandroid.Contacta"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name="Adapter.tappingandroid.PreguntesFrequents"
             android:exported="false">
             <meta-data

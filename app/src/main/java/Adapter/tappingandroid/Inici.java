@@ -61,7 +61,7 @@ public class Inici extends AppCompatActivity implements View.OnClickListener, Se
                     intent = new Intent(getApplicationContext(), PreguntesFrequents.class);
                     break;
                 case R.id.btn_contacte:
-                    intent = new Intent(getApplicationContext(), ElsMeusFavorits.class);
+                    intent = new Intent(getApplicationContext(), Contacta.class);
                     break;
             }
             startActivity(intent);

@@ -1,20 +1,17 @@
-package Adapter.tappingandroid;
+package Adapter.tappingandroid.GestioDeRegistres;
 
 import android.os.Bundle;
-import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.tappingandroid.R;
 
-public class PreguntesFrequents extends AppCompatActivity {
+public class Mensaje extends AppCompatActivity {
 
-    private TextView pregunta;
-    private TextView resposta;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.faq_item);
+        setContentView(R.layout.activity_contacte);
 
 
     }
