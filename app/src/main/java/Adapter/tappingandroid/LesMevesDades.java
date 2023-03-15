@@ -1,4 +1,4 @@
-package com.example.tappingandroid;
+package Adapter.tappingandroid;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -10,7 +10,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 
-import com.example.tappingandroid.GestioDeRegistres.Registre;
+import com.example.tappingandroid.R;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

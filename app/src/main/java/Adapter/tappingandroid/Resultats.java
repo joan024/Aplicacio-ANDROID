@@ -28,6 +28,11 @@ import com.example.tappingandroid.Dades.Opinio;
 import com.example.tappingandroid.Dades.Tapa;
 import com.example.tappingandroid.GestioDeRegistres.IniciSessio;
 import com.google.android.material.navigation.NavigationView;
+import Adapter.tappingandroid.Adapter.LocalAdapter;
+import Adapter.tappingandroid.Dades.Local;
+import Adapter.tappingandroid.Dades.Tapa;
+
+import com.example.tappingandroid.R;
 
 public class Resultats extends AppCompatActivity {
 
@@ -216,4 +221,5 @@ public class Resultats extends AppCompatActivity {
         tapes.add(new Tapa("Truita de patates", 5.8));
         return tapes;
     }
+
 }

@@ -1,4 +1,4 @@
-package com.example.tappingandroid.Adapter;
+package Adapter.tappingandroid.Adapter;
 
 import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
@@ -14,7 +14,7 @@ import com.example.tappingandroid.R;
 
 import java.util.ArrayList;
 
-import com.example.tappingandroid.Dades.Local;
+import Adapter.tappingandroid.Dades.Local;
 
 public class LocalAdapter extends RecyclerView.Adapter<LocalAdapter.ViewHolder> {
 

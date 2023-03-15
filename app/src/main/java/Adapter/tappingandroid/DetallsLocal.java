@@ -16,6 +16,10 @@ import com.example.tappingandroid.Adapter.OpinioAdapter;
 import com.example.tappingandroid.Adapter.TapasAdapter;
 import com.example.tappingandroid.Dades.Local;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import Adapter.tappingandroid.Dades.Tapa;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 

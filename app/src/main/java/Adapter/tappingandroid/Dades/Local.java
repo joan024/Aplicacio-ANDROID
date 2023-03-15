@@ -1,4 +1,4 @@
-package com.example.tappingandroid.Dades;
+package Adapter.tappingandroid.Dades;
 
 import java.io.Serializable;
 import java.util.List;
