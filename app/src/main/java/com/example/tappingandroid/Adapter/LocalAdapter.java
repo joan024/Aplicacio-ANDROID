@@ -47,7 +47,7 @@ public class LocalAdapter extends RecyclerView.Adapter<LocalAdapter.ViewHolder> 
     //Assigna els valors de les dades del local als elements de la vista al ViewHolder
     @SuppressLint("DefaultLocale")
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, @SuppressLint("RecyclerView") int position) {
         Local local = locales.get(position);
         holder.ivFoto.setImageResource(local.getFoto());
         holder.tvNom.setText(local.getNom());

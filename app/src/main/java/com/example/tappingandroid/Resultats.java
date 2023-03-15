@@ -78,13 +78,13 @@ public class Resultats extends AppCompatActivity {
                     intent = new Intent(getApplicationContext(), ElsMeusDescomptes.class);
                     break;
                 case R.id.btn_noticies:
-                    intent = new Intent(getApplicationContext(), ElsMeusFavorits.class);
+                    intent = new Intent(getApplicationContext(), Noticies.class);
                     break;
                 case R.id.btn_preguntes:
-                    intent = new Intent(getApplicationContext(), ElsMeusFavorits.class);
+                    intent = new Intent(getApplicationContext(), PreguntesFrequents.class);
                     break;
                 case R.id.btn_contacte:
-                    intent = new Intent(getApplicationContext(), ElsMeusFavorits.class);
+                    intent = new Intent(getApplicationContext(), Contacte.class);
                     break;
                 case R.id.btn_locals:
                     intent = new Intent(getApplicationContext(), ElsMeusLocals.class);

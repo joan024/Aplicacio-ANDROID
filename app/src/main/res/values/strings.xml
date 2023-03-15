@@ -34,4 +34,11 @@
     <string name="tapping">TAPPING</string>
     <string name="escriu_el_teu_misatge_aqui">Escriu el teu misatge aqui</string>
     <string name="tencar_sesio">Tencar sessió</string>
+    <string name="gmail">tappinges@gmail.com</string>
+    <string name="telefon_tapping">913765432</string>
+    <string name="instagram">\@tapping_es</string>
+    <string name="tiktok">\@tapping_es</string>
+    <string name="enviar_missatge">ENVIAR MISSATGE</string>
+    <string name="missatge">Missatge</string>
+    <string name="asumpte">Asumpte</string>
 </resources>
