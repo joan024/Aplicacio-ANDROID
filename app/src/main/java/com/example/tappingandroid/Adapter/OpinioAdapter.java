@@ -25,22 +25,26 @@ public class OpinioAdapter extends RecyclerView.Adapter<OpinioAdapter.OpinioView
     @NonNull
     @Override
     public OpinioViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        // Inflem la vista de cada ítem de la llista
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.opinio_item, parent, false);
+        // Tornem una instància del ViewHolder amb la vista inflada
         return new OpinioViewHolder(view);
     }
 
     @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull OpinioViewHolder holder, int position) {
+        // Obtenim l'opinió a la posició indicada
         Opinio opinio = opinions.get(position);
-        holder.nomUsuari.setText(opinio.getNomUsuari());
-        // Creamos un objeto SimpleDateFormat con el formato deseado
+
+        // Creem un objecte SimpleDateFormat amb el format desitjat
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 
-        // Convertimos el objeto Date a un String con el formato deseado
+        // Convertim l'objecte Date a un String amb el format desitjat
         String data = dateFormat.format(opinio.getData());
 
-        // Asignamos el String al TextView
+        // Assignem els valors de l'opinió als elements de la vista corresponent
+        holder.nomUsuari.setText(opinio.getNomUsuari());
         holder.data.setText(data);
         holder.comentari.setText(opinio.getComentari());
         holder.puntuacio.setText(opinio.getPuntuacio()+"");

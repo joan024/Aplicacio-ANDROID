@@ -31,4 +31,7 @@
     <string name="les_meves_tapes">Les meves tapes</string>
     <string name="xat">Xat</string>
     <string name="enviar">Enviar</string>
+    <string name="tapping">TAPPING</string>
+    <string name="escriu_el_teu_misatge_aqui">Escriu el teu misatge aqui</string>
+    <string name="tencar_sesio">Tencar sessió</string>
 </resources>

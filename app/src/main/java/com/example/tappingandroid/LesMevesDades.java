@@ -43,7 +43,7 @@ public class LesMevesDades extends AppCompatActivity {
     }
     public void mostrarDatePicker(View view) {
         final Calendar calendari = Calendar.getInstance();
-        // Obtener la fecha del EditText etNaix y establecerla en el objeto Calendar
+        // Obtenir la data de l'EditText etNaix i establir-la a l'objecte Calendar
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
         try {
             Date data = dateFormat.parse(etNaix.getText().toString());

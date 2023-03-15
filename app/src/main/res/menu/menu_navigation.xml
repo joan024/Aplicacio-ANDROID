@@ -21,18 +21,18 @@
         <item
             android:id="@+id/btn_locals"
             android:icon="@drawable/ic_local"
-            android:title="@string/els_meus_locals"
-            android:visible="false"/>
+            android:title="@string/els_meus_locals" />
+        <!--android:visible="false"-->
         <item
             android:id="@+id/btn_tapes"
             android:icon="@drawable/ic_tapes"
-            android:title="@string/les_meves_tapes"
-            android:visible="false"/>
+            android:title="@string/les_meves_tapes" />
+        <!--android:visible="false"-->
         <item
             android:id="@+id/btn_comentaris"
             android:icon="@drawable/ic_comentaris"
-            android:title="@string/comentaris"
-            android:visible="false"/>
+            android:title="@string/comentaris" />
+        <!--android:visible="false"-->
 
         <item
             android:id="@+id/btn_noticies"
@@ -40,31 +40,38 @@
             android:title="@string/noticies" />
     </group>
 
-    <group
-        android:id="@+id/group1"
-        android:checkableBehavior="single">
+    <group android:id="@+id/group_second"
+        android:checkableBehavior="none">
+        <item
+            android:id="@+id/btn_preguntes"
+            android:icon="@drawable/pregunta"
+            android:title="@string/preguntes_freq_ents" />
+        <item
+            android:id="@+id/btn_xat"
+            android:icon="@drawable/ic_xat"
+            android:title="@string/xat"/>
+        <!--android:visible="false"-->
+        <item
+            android:id="@+id/btn_contacte"
+            android:icon="@drawable/letra"
+            android:title="@string/contacte_amb_nosaltres" />
     </group>
 
-    <item android:title="">
-        <menu>
-            <group android:checkableBehavior="single">
-                <item
-                    android:id="@+id/btn_preguntes"
-                    android:icon="@drawable/pregunta"
-                    android:title="@string/preguntes_freq_ents" />
-                <item
-                    android:id="@+id/btn_xat"
-                    android:icon="@drawable/ic_xat"
-                    android:title="@string/xat"/>
-                    <!--android:visible="false"-->
 
-                <item
-                    android:id="@+id/btn_contacte"
-                    android:icon="@drawable/letra"
-                    android:title="@string/contacte_amb_nosaltres" />
-            </group>
-        </menu>
-    </item>
+    <!-- Grupo para botón de inicio de sesión -->
+    <group android:id="@+id/group_login"
+        android:checkableBehavior="none">
+
+        <item
+            android:id="@+id/btn_login"
+            android:icon="@drawable/usuario"
+            android:title="@string/iniciar_sesio" />
+
+        <item
+            android:id="@+id/btn_close"
+            android:icon="@drawable/ic_tencarsesio"
+            android:title="@string/tencar_sesio" />
+    </group>
 
 
 </menu>

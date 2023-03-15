@@ -34,6 +34,7 @@ public class Comentaris extends AppCompatActivity {
         //List<Local> locals = new ArrayList<Local>();
         ivTornar.setOnClickListener(v -> onBackPressed());
 
+        // Crear objectes de dades per al local i les seves opinions
         Local local = null;
         List<Tapa> tapes = new ArrayList<Tapa>();
         tapes.add(new Tapa("Braves",6.4));

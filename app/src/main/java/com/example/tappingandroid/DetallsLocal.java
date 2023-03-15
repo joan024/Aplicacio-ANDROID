@@ -22,6 +22,7 @@ import butterknife.ButterKnife;
 @SuppressLint("NonConstantResourceId")
 public class DetallsLocal extends AppCompatActivity {
 
+    //Definim les vistes que farem servir en aquesta classe
     @BindView(R.id.iv_tornar) ImageView ivTornar;
     @BindView(R.id.iv_imatge_local) ImageView ivImatge;
     @BindView(R.id.tv_local_nom) TextView tvNomLocal;
@@ -41,17 +42,14 @@ public class DetallsLocal extends AppCompatActivity {
         setContentView(R.layout.activity_detalls_local);
         ButterKnife.bind(this);
 
-        ivTornar.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
+        //Acció en fer clic al botó "tornar"
+        ivTornar.setOnClickListener(v -> onBackPressed());
 
         //Rebem les dades del local
         Intent intent = getIntent();
         Local local = (Local) intent.getSerializableExtra("local");
 
+        //Assignem les dades del local a les vistes corresponents
         tvNomLocal.setText(local.getNom());
         ivImatge.setImageResource(local.getFoto());
         tvUbicacio.setText(local.getUbicacio());
@@ -60,25 +58,23 @@ public class DetallsLocal extends AppCompatActivity {
         tvPuntuacio.setText(local.getPuntuacio() + "");
         tvDescripcio.setText(local.getDescripcio());
 
-        // Establecer el diseño del RecyclerView
+        //Establim el disseny del RecyclerView per a les tapes i les opinions
         recyclerViewTapes.setLayoutManager(new LinearLayoutManager(this));
         recyclerViewOpinions.setLayoutManager(new LinearLayoutManager(this));
 
-        // Establecer el adaptador del RecyclerView
+        //Establim l'adaptador per als RecyclerView de tapes i opinions
         recyclerViewTapes.setAdapter(new TapasAdapter(local.getTapes()));
         recyclerViewOpinions.setAdapter((new OpinioAdapter(local.getOpinions())));
 
-        btn_comentari.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(DetallsLocal.this,AfegirOpinio.class);
-                intent.putExtra("local", local);
-                startActivity(intent);
-            }
+        //Acció en fer clic al botó "afegir comentari"
+        btn_comentari.setOnClickListener(v -> {
+            Intent intent1 = new Intent(DetallsLocal.this,AfegirOpinio.class);
+            intent1.putExtra("local", local);
+            startActivity(intent1);
         });
     }
 
+    //Mètode per tornar enrere
     public void onBackPressed() {
         super.onBackPressed();
     }

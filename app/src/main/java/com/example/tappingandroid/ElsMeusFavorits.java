@@ -38,18 +38,18 @@ public class ElsMeusFavorits extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         try {
-            locals = getLocalsFavorits(); // función que obtiene los locales favoritos de la persona
+            locals = getLocalsFavorits(); // funció que obté els locals favorits de la persona
         } catch (ParseException e) {
             e.printStackTrace();
         }
 
-        adaptador = new LocalAdapter((ArrayList<Local>) locals); // adaptador para mostrar los locales favoritos
+        adaptador = new LocalAdapter((ArrayList<Local>) locals); // adaptador per mostrar els locals favorits
 
         adaptador.setOnItemClickListener(position -> {
-            // Obtener el objeto Local en la posición seleccionada
+            // Obtenir l'objecte local a la posició seleccionada
             Local localSeleccionado = locals.get(position);
 
-            // Crear un Intent para abrir la actividad LocalDetail y pasar la información del local seleccionado
+            // Crear un Intent per obrir l'activitat LocalDetail i passar la informació del local seleccionat
             Intent intent = new Intent(ElsMeusFavorits.this, DetallsLocal.class);
             intent.putExtra("local", localSeleccionado);
             startActivity(intent);

@@ -15,6 +15,7 @@ import java.util.Date;
 
 public class AfegirOpinio extends AppCompatActivity {
 
+    // Declarem els elements de la vista
     private EditText etNomUsuari, etPuntuacio, etComentari;
     private Button btnEnviar;
 
@@ -25,6 +26,7 @@ public class AfegirOpinio extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_afegir_opinio);
 
+        // Assignem els elements de la vista a les variables corresponents
         etNomUsuari = findViewById(R.id.et_nom_usuari);
         etPuntuacio = findViewById(R.id.et_puntuacio);
         etComentari = findViewById(R.id.et_comentari);
@@ -34,27 +36,24 @@ public class AfegirOpinio extends AppCompatActivity {
         // Intent intent = getIntent();
         //local = (Local) intent.getSerializableExtra("local");
 
-        btnEnviar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Obtener los datos introducidos por el usuario
-                String nomUsuari = etNomUsuari.getText().toString();
-                Double puntuacio = Double.valueOf(etPuntuacio.getText().toString());
-                String comentari = etComentari.getText().toString();
+        btnEnviar.setOnClickListener(v -> {
+            // Obtenir les dades introduïdes per l'usuari
+            String nomUsuari = etNomUsuari.getText().toString();
+            Double puntuacio = Double.valueOf(etPuntuacio.getText().toString());
+            String comentari = etComentari.getText().toString();
 
-                // Crear un objeto de opinión con los datos introducidos por el usuario
-                Opinio opinion = new Opinio(nomUsuari, new Date(), comentari, puntuacio);
+            // Crear un objecte d'opinió amb les dades introduïdes per l'usuari
+            Opinio opinion = new Opinio(nomUsuari, new Date(), comentari, puntuacio);
 
-                // Añadir la opinión al local correspondiente
-                local.afegirOpinio(opinion);
-                // Devolver el local modificado a la actividad anterior
-                Intent intent = new Intent();
-                intent.putExtra("local", local);
-                setResult(RESULT_OK, intent);
+            // Afegir l'opinió al local corresponent
+            local.afegirOpinio(opinion);
+            // Tornar el local modificat a l'activitat anterior
+            Intent intent = new Intent();
+            intent.putExtra("local", local);
+            setResult(RESULT_OK, intent);
 
-                // Finalizar la actividad actual
-                finish();
-            }
+            // Finalitzar l'activitat actual
+            finish();
         });
     }
 }

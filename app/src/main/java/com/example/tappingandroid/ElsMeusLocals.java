@@ -27,7 +27,7 @@ public class ElsMeusLocals extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_els_meus_favorits);
+        setContentView(R.layout.activity_els_meus_locals);
 
         iv_tornar = findViewById(R.id.iv_tornar);
 
@@ -37,18 +37,18 @@ public class ElsMeusLocals extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         try {
-            locals = getLocals(); // función que obtiene los locales favoritos de la persona
+            locals = getLocals(); // funció que obte els locals d'un restaurant
         } catch (ParseException e) {
             e.printStackTrace();
         }
 
-        adaptador = new LocalAdapter((ArrayList<Local>) locals); // adaptador para mostrar los locales favoritos
+        adaptador = new LocalAdapter((ArrayList<Local>) locals); // adaptador para mostrar els locals d'un restaurant
 
         adaptador.setOnItemClickListener(position -> {
-            // Obtener el objeto Local en la posición seleccionada
+            // Obtenir l'objecte local a la posició seleccionada
             Local localSeleccionado = locals.get(position);
 
-            // Crear un Intent para abrir la actividad LocalDetail y pasar la información del local seleccionado
+            // Crear un Intent per obrir l'activitat LocalDetail i passar la informació del local seleccionat
             Intent intent = new Intent(ElsMeusLocals.this, DetallsLocal.class);
             intent.putExtra("local", localSeleccionado);
             startActivity(intent);
@@ -63,7 +63,6 @@ public class ElsMeusLocals extends AppCompatActivity {
         List <Tapa> tapes = obternirTapes();
         List <Opinio> opinions = obternirOpinions();
         locals.add(new Local(R.drawable.logotiptapping, "Primer local", "C/pepito","12:00-15:00", 8.4, "616638823", "Local on oferim pastes i entrepans fets a casa.",tapes, opinions));
-        locals.add(new Local(R.drawable.logotiptapping, "Tercer local", "C/Un altre carrer", "18:00-22:00", 7.8, "659673959","El restaurant \"La Cuina del Mar\" és un lloc acollidor i elegant ubicat al centre de la ciutat. La decoració és d'estil marí, amb parets de rajoles blaves i blanques que recorden l'oceà i els detalls de fusta que evoquen l'ambient d'un vaixell.", tapes, opinions));
 
         return locals;
     }

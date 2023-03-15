@@ -18,7 +18,7 @@ import com.example.tappingandroid.Dades.Local;
 
 public class LocalAdapter extends RecyclerView.Adapter<LocalAdapter.ViewHolder> {
 
-    // Definición de la interfaz OnItemClickListener
+    // Definició de la interfície OnItemClickListener
     public interface OnItemClickListener {
         void onItemClick(int position);
     }
@@ -44,6 +44,7 @@ public class LocalAdapter extends RecyclerView.Adapter<LocalAdapter.ViewHolder> 
         return new ViewHolder(view);
     }
 
+    //Assigna els valors de les dades del local als elements de la vista al ViewHolder
     @SuppressLint("DefaultLocale")
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
@@ -64,17 +65,20 @@ public class LocalAdapter extends RecyclerView.Adapter<LocalAdapter.ViewHolder> 
         });
     }
 
+    //Obté el nombre d'elements a la llista de locals
     @Override
     public int getItemCount() {
         return locales.size();
     }
 
+    // Classe estàtica ViewHolder que representa cada ítem a la llista de RecyclerView
     public static class ViewHolder extends RecyclerView.ViewHolder {
         ImageView ivFoto;
         TextView tvNom;
         TextView tvUbicacio;
         TextView tvHorari;
         TextView tvPuntuacio;
+
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);

@@ -15,6 +15,7 @@ import com.example.tappingandroid.R;
 
 public class IniciSessio extends AppCompatActivity {
 
+    // Declarem els objectes que utilitzarem per als elements visuals del layout
     @BindView(R.id.et_usuari)
     EditText usuari;
 
@@ -32,25 +33,20 @@ public class IniciSessio extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_inici_sessio);
+
+        // Bind views de ButterKnife per enllaçar les variables declarades anteriorment amb els elements del layout
         ButterKnife.bind(this);
 
-        login.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (validarFormulari()) {
-                    startIniciActivity();
-                }
+        login.setOnClickListener(v -> {
+            if (validarFormulari()) {
+                startIniciActivity();
             }
         });
 
-        registre.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startRegistreActivity();
-            }
-        });
+        registre.setOnClickListener(v -> startRegistreActivity());
     }
 
+    // Funció que s'encarrega de validar els camps del formulari
     private boolean validarFormulari() {
         String sUsuari = usuari.getText().toString();
         String sPassword = password.getText().toString();
@@ -68,12 +64,15 @@ public class IniciSessio extends AppCompatActivity {
         return true;
     }
 
+    // Funció que s'encarrega d'iniciar l'activitat Inici
     private void startIniciActivity() {
         Intent intent = new Intent(IniciSessio.this, Inici.class);
+        // Afegim el nom d'usuari com a extra a l'intent
         intent.putExtra("usuari", usuari.getText().toString());
         startActivity(intent);
     }
 
+    // Funció que s'encarrega d'iniciar l'activitat de registre
     private void startRegistreActivity() {
         Intent intent = new Intent(IniciSessio.this, Registre.class);
         startActivity(intent);
