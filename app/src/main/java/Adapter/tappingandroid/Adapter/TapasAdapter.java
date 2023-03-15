@@ -1,4 +1,4 @@
-package com.example.tappingandroid.Adapter;
+package Adapter.tappingandroid.Adapter;
 
 import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
@@ -13,7 +13,7 @@ import com.example.tappingandroid.R;
 
 import java.util.List;
 
-import com.example.tappingandroid.Dades.Tapa;
+import Adapter.tappingandroid.Dades.Tapa;
 
 public class TapasAdapter extends RecyclerView.Adapter<TapasAdapter.ViewHolder> {
 

@@ -1,4 +1,4 @@
-package com.example.tappingandroid.Dades;
+package Adapter.tappingandroid.Dades;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

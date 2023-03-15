@@ -1,4 +1,4 @@
-package com.example.tappingandroid;
+package Adapter.tappingandroid;
 
 import android.os.Bundle;
 import android.view.View;
@@ -9,8 +9,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.tappingandroid.Adapter.DescomptesAdapter;
-import com.example.tappingandroid.Dades.Descompte;
+import Adapter.tappingandroid.Adapter.DescomptesAdapter;
+import Adapter.tappingandroid.Dades.Descompte;
+
+import com.example.tappingandroid.R;
 
 import java.text.ParseException;
 import java.util.ArrayList;

@@ -1,15 +1,16 @@
-package com.example.tappingandroid.GestioDeRegistres;
+package Adapter.tappingandroid.GestioDeRegistres;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.tappingandroid.Inici;
+import Adapter.tappingandroid.Inici;
 import com.example.tappingandroid.R;
 
 import java.util.Calendar;
@@ -26,7 +27,7 @@ public class Registre extends AppCompatActivity  {
     EditText etDataNaixement;
 
     @BindView(R.id.btn_registre)
-    EditText btnRegistre;
+    Button btnRegistre;
 
     private Calendar calendari;
 

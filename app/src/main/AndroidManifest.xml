@@ -11,56 +11,91 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".ElsMeusFavorits"
+            android:name="Adapter.tappingandroid.ElsMeusFavorits"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".ElsMeusDescomptes"
+            android:name="Adapter.tappingandroid.ElsMeusDescomptes"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".LesMevesDades"
+            android:name="Adapter.tappingandroid.Noticies"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".DetallsLocal"
+            android:name="Adapter.tappingandroid.DetallsNoticia"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".GestioDeRegistres.Registre"
+            android:name="Adapter.tappingandroid.LesMevesDades"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".GestioDeRegistres.IniciSessio"
+            android:name="Adapter.tappingandroid.GestioDeRegistres.Mensaje"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".Resultats"
+            android:name="Adapter.tappingandroid.Contacta"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".Inici"
+            android:name="Adapter.tappingandroid.PreguntesFrequents"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name="Adapter.tappingandroid.DetallsLocal"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name="Adapter.tappingandroid.GestioDeRegistres.Registre"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name="Adapter.tappingandroid.GestioDeRegistres.IniciSessio"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name="Adapter.tappingandroid.Resultats"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name="Adapter.tappingandroid.Inici"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
