@@ -8,6 +8,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.tappingandroid.R;
+
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link FragmentInicial#newInstance} factory method to

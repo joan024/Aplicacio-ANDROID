@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/iv_noticia_foto"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/news" />
+
+
+        <TextView
+            android:id="@+id/tv_titol_noticia"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/iv_noticia_foto"
+            android:padding="16dp"
+            android:textSize="25sp"
+            android:textStyle="bold"
+            android:text="Noticia" />
+
+
+        <TextView
+            android:id="@+id/tv_descripcio_noticia"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_titol_noticia"
+            android:padding="8dp"
+            android:textSize="20sp"
+            android:text="Donde ira la Descripcion de la Noticia" />
+
+        <TextView
+            android:id="@+id/tv_data_publicacio"
+            android:layout_width="227dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_descripcio_noticia"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="237dp"
+            android:layout_marginTop="-100dp"
+            android:layout_marginEnd="-53dp"
+            android:padding="8dp"
+            android:text="Data Publicació"
+            android:textSize="20sp" />
+
+    </RelativeLayout>
+</ScrollView>
+

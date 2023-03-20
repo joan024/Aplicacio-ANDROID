@@ -6,11 +6,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import androidx.appcompat.view.menu.MenuView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.tappingandroid.Dades.Descompte;
-import com.example.tappingandroid.Dades.Local;
+
 import com.example.tappingandroid.R;
 
 import java.text.SimpleDateFormat;
@@ -26,6 +25,7 @@ public abstract class DescomptesAdapter extends RecyclerView.Adapter<DescomptesA
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        // Inflar la vista d'item
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.descompte_item, parent, false);
         return new ViewHolder(view);
     }
@@ -33,31 +33,35 @@ public abstract class DescomptesAdapter extends RecyclerView.Adapter<DescomptesA
     @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
+        // Obtenir l'objecte descompte de la llista segons la posició
         Descompte descompte = descomptes.get(position);
-        holder.tvCodi.setText(descompte.getCodi());
-        holder.tvDescripcio.setText(descompte.getDescripcio());
 
-        // Creamos un objeto SimpleDateFormat con el formato deseado
+        // Creem un objecte SimpleDateFormat amb el format desitjat
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 
-        // Convertimos el objeto Date a un String con el formato deseado
+        // Convertim l'objecte Date a un String amb el format desitjat
         String dataInici = dateFormat.format(descompte.getDataInici());
         String dataCaducitat = dateFormat.format(descompte.getDataCaducitat());
 
-        // Asignamos el String al TextView
+        // Establir els valors dels TextView de l'ítem segons els valors de l'objecte descompte
+        holder.tvCodi.setText(descompte.getCodi());
+        holder.tvDescripcio.setText(descompte.getDescripcio());
         holder.tvDataInici.setText(dataInici);
         holder.tvDataCaducitat.setText(dataCaducitat);
 
         holder.tvLocal.setText(descompte.getLocal()+"");
     }
 
+    // Tornar la quantitat d'ítems a la llista
     @Override
     public int getItemCount() {
         return descomptes.size();
     }
 
+    // Definir un método abstracto para manejar el clic en un objeto descompte
     public abstract void onDescompteClick(Descompte descompte);
 
+    // Definir una classe ViewHolder per al RecyclerView
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
         private TextView tvCodi;
@@ -68,6 +72,8 @@ public abstract class DescomptesAdapter extends RecyclerView.Adapter<DescomptesA
 
         public ViewHolder(View itemView) {
             super(itemView);
+
+            // Obtenir les referències dels TextView de l'item
             tvCodi = itemView.findViewById(R.id.tv_codi);
             tvDescripcio = itemView.findViewById(R.id.tv_descripcio);
             tvDataCaducitat = itemView.findViewById(R.id.tv_data_caducitat);

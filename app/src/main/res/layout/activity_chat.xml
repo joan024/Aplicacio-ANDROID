@@ -1,0 +1,90 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:id="@+id/ll_top"
+        android:background="@color/mandarina_light">
+
+    <!-- Flecha per tornar -->
+        <ImageView
+            android:id="@+id/iv_tornar"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:padding="8dp"
+            android:src="@drawable/tornar"
+            android:clickable="true"/>
+
+        <ImageView
+            android:id="@+id/iv_foto_perfil"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:padding="8dp"
+            android:background="@drawable/cercle"
+            android:src="@drawable/fotoperfiltapping" />
+
+        <TextView
+            android:id="@+id/tv_nom_xat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:text="@string/tapping"
+            android:fontFamily="sans-serif-smallcaps"
+            android:textColor="@color/black"
+            android:textSize="25sp" />
+
+    </LinearLayout>
+
+    <!-- Vista de lista para mostrar los mensajes de chat -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <!-- Vista de lista para mostrar los mensajes de chat -->
+        <ListView
+            android:id="@+id/xatListView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:divider="@null"
+            android:dividerHeight="0dp" />
+
+        <!-- Diseño para ingresar mensajes y enviarlos -->
+        <LinearLayout
+            android:id="@+id/ll_missatge"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/white"
+            android:orientation="horizontal"
+            android:padding="16dp">
+
+            <!-- Cuadro de texto para ingresar mensajes -->
+            <EditText
+                android:id="@+id/et_missatge"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="@string/escriu_el_teu_misatge_aqui"
+                android:inputType="text" />
+
+            <!-- Botón para enviar mensajes -->
+            <Button
+                android:id="@+id/btn_enviar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/enviar"
+                android:background="@drawable/esquines_rodones_orange"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+</LinearLayout>
