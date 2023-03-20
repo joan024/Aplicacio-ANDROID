@@ -28,11 +28,11 @@
             android:orientation="horizontal">
 
             <EditText
-                android:id="@+id/contacte_nom"
+                android:id="@+id/contacte_correo"
                 android:layout_width="match_parent"
                 android:layout_marginStart="10dp"
                 android:layout_height="wrap_content"
-                android:hint="Asumpte" />
+                android:hint="Correo" />
 
         </LinearLayout>
 
@@ -42,22 +42,11 @@
             android:orientation="horizontal"
             android:layout_marginTop="20dp">
             <EditText
-                android:id="@+id/contacta_nom"
-                android:layout_width="190dp"
+                android:id="@+id/contacta_assumpte"
+                android:layout_width="match_parent"
                 android:layout_marginStart="10dp"
                 android:layout_height="wrap_content"
-                android:hint="Nom"
-                android:inputType="phone" />
-
-            <EditText
-                android:id="@+id/contacte_correo"
-                android:layout_width="190dp"
-                android:layout_marginStart="10dp"
-                android:layout_height="wrap_content"
-                android:hint="Correo"
-                android:inputType="none"
-                android:focusable="false"
-                android:onClick="mostrarDatePicker" />
+                android:hint="Assumpte"/>
 
         </LinearLayout>
 
@@ -72,7 +61,7 @@
 
 
         <Button
-            android:id="@+id/btn_registre"
+            android:id="@+id/btn_enviar"
             android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:background="@drawable/esquines_rodones_orange"

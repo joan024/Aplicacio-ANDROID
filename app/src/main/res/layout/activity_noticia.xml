@@ -4,11 +4,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <!-- Imatge principal -->
         <ImageView
             android:id="@+id/iv_noticia_foto"
             android:layout_width="match_parent"
@@ -16,17 +15,6 @@
             android:scaleType="centerCrop"
             android:src="@drawable/news" />
 
-        <!-- Flecha per tornar -->
-        <ImageView
-            android:id="@+id/iv_tornar"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:padding="8dp"
-            android:src="@drawable/tornar"
-            app:tint="@color/mandarina"
-            android:clickable="true"/>
 
         <TextView
             android:id="@+id/tv_titol_noticia"
@@ -38,8 +26,9 @@
             android:textStyle="bold"
             android:text="Noticia" />
 
+
         <TextView
-            android:id="@+id/tv_descripcio"
+            android:id="@+id/tv_descripcio_noticia"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/tv_titol_noticia"
@@ -49,54 +38,18 @@
 
         <TextView
             android:id="@+id/tv_data_publicacio"
-            android:layout_width="match_parent"
+            android:layout_width="227dp"
             android:layout_height="wrap_content"
-            android:layout_below="@id/tv_descripcio"
+            android:layout_below="@id/tv_descripcio_noticia"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="237dp"
+            android:layout_marginTop="-100dp"
+            android:layout_marginEnd="-53dp"
             android:padding="8dp"
-            android:textSize="20sp"
-            android:text="Data Publicació"/>
+            android:text="Data Publicació"
+            android:textSize="20sp" />
 
-        <TextView
-            android:id="@+id/tv_data_inici"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/tv_data_publicacio"
-            android:padding="8dp"
-            android:textSize="20sp"
-            android:text="Data Inici" />
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_below="@id/tv_data_publicacio"
-            android:background="@android:color/darker_gray" />
-
-
-        <TextView
-            android:id="@+id/tv_data_fi"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/tv_data_inici"
-            android:padding="16dp"
-            android:textSize="20sp"
-            android:text="Data Fi" />
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerview_noticia"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_below="@id/tv_data_publicacio"
-            android:padding="16dp"/>
-
-        <LinearLayout
-            android:id="@+id/noticia_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/tv_data_fi"
-            android:orientation="vertical"
-            android:padding="16dp">
-
-        </LinearLayout>
     </RelativeLayout>
 </ScrollView>
+
