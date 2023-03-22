@@ -30,6 +30,7 @@ android {
 
 dependencies {
 
+    implementation files('libs/mysql-connector-java-8.0.32.jar')
     implementation 'com.google.android.play:review:2.0.1'
     implementation 'com.jakewharton:butterknife:10.2.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:10.2.1'

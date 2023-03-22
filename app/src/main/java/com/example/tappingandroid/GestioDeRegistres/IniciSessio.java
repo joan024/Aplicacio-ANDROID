@@ -10,8 +10,15 @@ import android.widget.EditText;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+
+import com.example.tappingandroid.Conexio.ConexioBD;
 import com.example.tappingandroid.Inici;
 import com.example.tappingandroid.R;
+
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 public class IniciSessio extends AppCompatActivity {
 
@@ -27,6 +34,9 @@ public class IniciSessio extends AppCompatActivity {
 
     @BindView(R.id.btn_registre)
     Button registre;
+
+    Connection conexio;
+    int id;
 
 
     @Override
@@ -51,6 +61,10 @@ public class IniciSessio extends AppCompatActivity {
         String sUsuari = usuari.getText().toString();
         String sPassword = password.getText().toString();
 
+        conexio = ConexioBD.conectar();
+
+        String sql = "SELECT * FROM usuarios WHERE correu=\""+ sUsuari +"\" AND contrasenya=\""+sPassword+"\"";
+
         if (TextUtils.isEmpty(sUsuari)) {
             usuari.setError("Ha d'introduir un usuari");
             return false;
@@ -59,6 +73,25 @@ public class IniciSessio extends AppCompatActivity {
         if (TextUtils.isEmpty(sPassword)) {
             password.setError("Ha d'introduir una contrasenya");
             return false;
+        }
+
+        Statement stmt = null;
+        ResultSet rs = null;
+        try {
+            stmt = conexio.createStatement();
+            rs = stmt.executeQuery(sql);
+
+            while (rs.next()) {
+                id = rs.getInt("id");
+                String email = rs.getString("correu");
+                String contrasenya = rs.getString("contrasenya");
+
+                if(!(email.equals(sUsuari) && contrasenya.equals(sPassword))){
+                    return false;
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
 
         return true;
