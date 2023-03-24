@@ -1,11 +1,18 @@
 package com.example.tappingandroid;
 
 import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
 import android.content.ClipData;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.SearchView;
@@ -17,13 +24,19 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import android.view.Menu;
+import android.widget.TextView;
 
+import com.example.tappingandroid.Conexio.ConexioBD;
 import com.example.tappingandroid.Dades.Local;
 import com.example.tappingandroid.Dades.Opinio;
 import com.example.tappingandroid.Dades.Tapa;
 import com.example.tappingandroid.GestioDeRegistres.IniciSessio;
 import com.google.android.material.navigation.NavigationView;
 
+import java.lang.reflect.Field;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
@@ -41,14 +54,25 @@ public class Inici extends AppCompatActivity implements View.OnClickListener, Se
     private SearchView searchView;
     private Toolbar toolbar;
     private int usuari;
-    //btnDades, btnPreferits, btnDescompte, btnNoticies, btnLocals, btnTapes, btnComentaris, btnXat;
+    Button btnDades, btnPreferits, btnDescompte, btnNoticies, btnLocals, btnTapes, btnComentaris, btnXat, btnClose, btnInici;
 
 
-    @SuppressLint({"MissingInflatedId", "NonConstantResourceId"})
+    @SuppressLint({"MissingInflatedId", "NonConstantResourceId", "SetTextI18n"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        String a="";
         setContentView(R.layout.activity_inici);
+
+       // new LaMevaTascaAsincrona(this).execute();
+
+        // Recibe el intent
+        Intent intentUsuari = getIntent();
+
+        // Obtiene el valor del String con la clave "usuari"
+        String correu = intentUsuari.getStringExtra("usuari");
+        String nom = intentUsuari.getStringExtra("nom");
+
 
         // S'obtenen les referències als elements del layout
         toolbar = findViewById(R.id.toolbar);
@@ -67,6 +91,14 @@ public class Inici extends AppCompatActivity implements View.OnClickListener, Se
 
         // S'obté la referència al NavigationView i es configura el Listener
         NavigationView navigationView = findViewById(R.id.navigation_view);
+        View headerView = navigationView.getHeaderView(0);
+
+        TextView textHeader = headerView.findViewById(R.id.header_title);
+        if(nom != null){
+            textHeader.setText("Hola, "+nom);
+            //btnClose.setVisibility(View.VISIBLE);
+            //btnInici.setVisibility(View.GONE);
+        }
         navigationView.setNavigationItemSelectedListener(item -> {
             Intent intent = null;
 
@@ -100,7 +132,12 @@ public class Inici extends AppCompatActivity implements View.OnClickListener, Se
             // S'executa una acció segons el botó premut del menú Drawer
             switch (item.getItemId()) {
                 case R.id.btn_dades:
-                    intent = new Intent(getApplicationContext(), LesMevesDades.class);
+                    if(nom!=null){
+                        intent = new Intent(getApplicationContext(), LesMevesDades.class);
+                        intent.putExtra("usuari", correu);
+                    }else{
+                        intent = new Intent(getApplicationContext(), IniciSessio.class);
+                    }
                     break;
                 case R.id.btn_preferits:
                     intent = new Intent(getApplicationContext(), ElsMeusFavorits.class);
@@ -145,10 +182,6 @@ public class Inici extends AppCompatActivity implements View.OnClickListener, Se
             return true;
         });
 
-        Intent intent = getIntent();
-        String usuari = intent.getStringExtra("usuari");
-
-
         searchView = findViewById(R.id.sv_busqueda);
         searchView.setOnQueryTextListener(this);
     }
@@ -182,6 +215,8 @@ public class Inici extends AppCompatActivity implements View.OnClickListener, Se
 
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_navigation, menu);
+        btnClose = (Button) menu.findItem(R.id.btn_close).getActionView();
+        btnInici = (Button) menu.findItem(R.id.btn_login).getActionView();
         return true;
     }
 

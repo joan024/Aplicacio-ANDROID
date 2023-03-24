@@ -17,7 +17,7 @@
         android:layout_marginTop="20dp"
         android:drawablePadding="12dp"
         android:gravity="center_vertical"
-        android:text="HOLA!! "
+        android:text="No hi ha cap sesió iniciada"
         android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium.Inverse"
         app:drawableStartCompat="@mipmap/ic_launcher"
         app:layout_constraintTop_toTopOf="parent" />

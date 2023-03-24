@@ -23,6 +23,8 @@ import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -72,20 +74,17 @@ public class Registre extends AppCompatActivity {
         calendari = Calendar.getInstance();
 
         // Configurem el botó de registre
-        btnRegistre.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                boolean correcte = validarDades();
-                if (correcte) {
-                    contrasenya= passwordHash(contrasenya);
-                    //Toast.makeText(Registre.this, String.valueOf(contrasenya), Toast.LENGTH_SHORT).show();
-                    correcte= inserirDades();
-                    if(correcte){
-                        Toast.makeText(getApplicationContext(), "T'has registrat correctament.", Toast.LENGTH_SHORT).show();
-                        startMainActivity(correu);
-                    }else{
-                        Toast.makeText(getApplicationContext(), "Hi ha hagut un error al registre, torna a intentar-ho.", Toast.LENGTH_SHORT).show();
-                    }
+        btnRegistre.setOnClickListener(v -> {
+            boolean correcte = validarDades();
+            if (correcte) {
+                contrasenya= passwordHash(contrasenya);
+                //Toast.makeText(Registre.this, String.valueOf(contrasenya), Toast.LENGTH_SHORT).show();
+                correcte= inserirDades();
+                if(correcte){
+                    Toast.makeText(getApplicationContext(), "T'has registrat correctament.", Toast.LENGTH_SHORT).show();
+                    startMainActivity(correu);
+                }else{
+                    Toast.makeText(getApplicationContext(), "Hi ha hagut un error al registre, torna a intentar-ho.", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -93,37 +92,41 @@ public class Registre extends AppCompatActivity {
     }
 
     private boolean inserirDades() {
-        ConexioBD conexio = new ConexioBD();
         Connection cn = null;
         boolean insercioCorrecte = false;
         try{
-            cn = conexio.conectar();
+            DateFormat dfNou = new SimpleDateFormat("yyyy-MM-dd");
+            cn = ConexioBD.CONN();
             // Insertamos un nuevo registro en la tabla "usuari"
             String sql = "INSERT INTO tapping.usuari (nom, correu, contrasenya, data_registre) " +
                     "VALUES (?, ?, ?, ?)";
 
+            // Obtener la fecha actual del sistema
+            java.util.Calendar calendari2 = java.util.Calendar.getInstance();
+            java.sql.Date dataActual = new java.sql.Date(calendari2.getTimeInMillis());
             PreparedStatement pstmt = cn.prepareStatement(sql);
             pstmt.setString(1, nom);
             pstmt.setString(2, correu);
             pstmt.setString(3, contrasenya);
-            pstmt.setDate(4, new java.sql.Date(calendari.getTimeInMillis()));
+            pstmt.setDate(4, dataActual);
             pstmt.executeUpdate();
 
             // Insertamos un nuevo registro en la tabla "consumidor"
             sql = "INSERT INTO tapping.consumidor (id_usuari, cognom, telefon, data_naixament) " +
                     "VALUES (LAST_INSERT_ID(), ?, ?, ?)";
-            pstmt = cn.prepareStatement(sql);
-            pstmt.setString(1, cognom);
-            pstmt.setString(2, telefon);
-            pstmt.setDate(3, java.sql.Date.valueOf(dataNaix));
-            pstmt.executeUpdate();
+            PreparedStatement pstmt2 = cn.prepareStatement(sql);
+            pstmt2.setString(1, cognom);
+            pstmt2.setString(2, telefon);
+            pstmt2.setDate(3, new java.sql.Date(calendari.getTimeInMillis()));
+            pstmt2.executeUpdate();
 
             insercioCorrecte = true;
 
         } catch (SQLException e) {
             Log.e("SQL", "Error al insertar dades", e);
+            insercioCorrecte = false;
         }
-        ConexioBD.tencarConexio();
+        //ConexioBD.tencarConexio();
         return insercioCorrecte;
     }
 
@@ -229,7 +232,8 @@ public class Registre extends AppCompatActivity {
     // Iniciem l'activitat de registre
     private void startMainActivity(String usuari) {
         Intent intent = new Intent(Registre.this, Inici.class);
-        intent.putExtra("usuari", etCorreu.getText().toString());
+        intent.putExtra("usuari", usuari);
+        intent.putExtra("nom",nom);
         startActivity(intent);
     }
 }
