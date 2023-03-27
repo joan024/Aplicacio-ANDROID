@@ -49,7 +49,7 @@ public abstract class DescomptesAdapter extends RecyclerView.Adapter<DescomptesA
         holder.tvDataInici.setText(dataInici);
         holder.tvDataCaducitat.setText(dataCaducitat);
 
-        holder.tvLocal.setText(descompte.getLocal()+"");
+        holder.tvLocal.setText(descompte.getLocal());
     }
 
     // Tornar la quantitat d'ítems a la llista

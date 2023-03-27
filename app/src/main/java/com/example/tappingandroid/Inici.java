@@ -143,11 +143,19 @@ public class Inici extends AppCompatActivity implements View.OnClickListener, Se
                     }
                     break;
                 case R.id.btn_preferits:
-                    intent = new Intent(getApplicationContext(), ElsMeusFavorits.class);
-                    break;
+                    if(nom!=null){
+                        intent = new Intent(getApplicationContext(), ElsMeusFavorits.class);
+                        intent.putExtra("usuari", correu);
+                    }else{
+                        intent = new Intent(getApplicationContext(), IniciSessio.class);
+                    }                    break;
                 case R.id.btn_descompte:
-                    intent = new Intent(getApplicationContext(), ElsMeusDescomptes.class);
-                    break;
+                    if(nom!=null){
+                        intent = new Intent(getApplicationContext(), ElsMeusDescomptes.class);
+                        intent.putExtra("usuari", correu);
+                    }else{
+                        intent = new Intent(getApplicationContext(), IniciSessio.class);
+                    }   break;
                 case R.id.btn_noticies:
                     intent = new Intent(getApplicationContext(), Noticies.class);
                     break;
@@ -177,6 +185,7 @@ public class Inici extends AppCompatActivity implements View.OnClickListener, Se
                 case R.id.btn_close:
                     SharedPreferences.Editor editor = getSharedPreferences("MyPrefs", MODE_PRIVATE).edit();
                     editor.putBoolean("session_active", false);
+                    editor.remove("id");
                     editor.apply();
                     intent = new Intent(getApplicationContext(), Inici.class);
                     break;

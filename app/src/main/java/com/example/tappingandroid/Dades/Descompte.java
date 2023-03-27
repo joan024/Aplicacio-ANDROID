@@ -7,25 +7,24 @@ import java.util.Locale;
 
 public class Descompte {
 
-    private String codi, descripcio;
+    private String codi, descripcio, local;
     private Date dataCaducitat, dataInici;
-    private int localId;
     SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
 
-    public Descompte(String codi, String descripcio, Date dataCaducitat, Date dataInici, int local) {
+    public Descompte(String codi, String descripcio, Date dataCaducitat, Date dataInici, String local) {
         this.codi = codi;
         this.descripcio = descripcio;
         this.dataCaducitat = dataCaducitat;
         this.dataInici = dataInici;
-        this.localId = local;
+        this.local = local;
     }
 
-    public Descompte(String codi, String descripcio, String dataCaducitat, String dataInici, int local) throws ParseException {
+    public Descompte(String codi, String descripcio, String dataCaducitat, String dataInici, String local) throws ParseException {
         this.codi = codi;
         this.descripcio = descripcio;
         this.dataCaducitat = format.parse(dataCaducitat);
         this.dataInici = format.parse(dataInici);
-        this.localId = local;
+        this.local = local;
     }
 
     public String getCodi() {
@@ -52,9 +51,9 @@ public class Descompte {
         this.dataCaducitat = dataCaducitat;
     }
 
-    public int getLocal() { return localId; }
+    public String getLocal() { return local; }
 
-    public void setLocal(int local){ this.localId = local; }
+    public void setLocal(String local){ this.local = local; }
 
     public Date getDataInici() { return dataInici; }
 
