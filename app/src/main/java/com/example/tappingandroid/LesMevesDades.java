@@ -70,6 +70,7 @@ public class LesMevesDades extends AppCompatActivity {
     private void actualitzarDades() {
         conexio2 = ConexioBD.CONN();
         // Obtenim una instància del calendari
+        //S'HA DE CANVIAR LA DATA NAIX, ARA GUARDA L'ACTUAL
         calendari = Calendar.getInstance();
         String sql = "UPDATE usuari SET nom=\""+etNom.getText()+"\", correu = \""+etEmail.getText()+"\" WHERE id="+id;
         String sql2 = "UPDATE consumidor SET cognom=\""+etCognom.getText()+"\", telefon = \""+etTelefon.getText()+"\", data_naixament=\""+new java.sql.Date(calendari.getTimeInMillis())+"\" WHERE id_usuari="+id;

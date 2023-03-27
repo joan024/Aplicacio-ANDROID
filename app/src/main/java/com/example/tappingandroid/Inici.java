@@ -96,6 +96,9 @@ public class Inici extends AppCompatActivity implements View.OnClickListener, Se
         TextView textHeader = headerView.findViewById(R.id.header_title);
         if(nom != null){
             textHeader.setText("Hola, "+nom);
+            SharedPreferences.Editor editor = getSharedPreferences("MyPrefs", MODE_PRIVATE).edit();
+            editor.putBoolean("session_active", true);
+            editor.apply();
             //btnClose.setVisibility(View.VISIBLE);
             //btnInici.setVisibility(View.GONE);
         }
