@@ -19,6 +19,8 @@
     <string name="correu_electr_nic">Correu electrònic</string>
     <string name="tel_fon">Telèfon</string>
     <string name="data_de_naixement">Data de naixement</string>
+    <string name="instagram"><a href="https://instagram.com/tapping_es?igshidd=YmMyMTA2M2Y">@tapping_es</a></string>
+    <string name="tiktok"><a href="https://www.tiktok.com/@tappinges">@tappinges</a></string>
     <string name="tapes">Tapes</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
