@@ -13,18 +13,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.Properties;
 
-import javax.mail.Authenticator;
-import javax.mail.Message;
-import javax.mail.MessagingException;
-import javax.mail.PasswordAuthentication;
-import javax.mail.Session;
-import javax.mail.Transport;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
-
 public class Correu extends AppCompatActivity {
     Button btnMensaje;
-    Session session;
+    //Session session;
     String email,contra;
     EditText correo, asunto, mensaje;
     @Override
@@ -61,7 +52,7 @@ public class Correu extends AppCompatActivity {
                 properties.put("mail.smtp.auth", "true");
                 properties.put("mail.smtp.port", "587");
 
-                try {
+                /*try {
                     session = Session.getDefaultInstance(properties, new Authenticator() {
                         @Override
                         protected PasswordAuthentication getPasswordAuthentication() {
@@ -76,7 +67,7 @@ public class Correu extends AppCompatActivity {
                         Transport.send(message);
                     } catch(Exception e){
                         Toast.makeText(getApplicationContext(), "Error", Toast.LENGTH_SHORT).show();
-                    }
+                    }*/
 
                 volver();
                 Toast.makeText(getApplicationContext(),"Missatge Enviat", Toast.LENGTH_SHORT).show();
@@ -89,7 +80,7 @@ public class Correu extends AppCompatActivity {
         intent.putExtra("usuari", btnMensaje.getText().toString());
         startActivity(intent);
     }
-    private void enviarConGMail(String destinatario, String asunto, String cuerpo) {
+  /*  private void enviarConGMail(String destinatario, String asunto, String cuerpo) {
 
         //La dirección de correo de envío
         String remitente = "m.avila@insjoanbrudieu.cat";
@@ -126,6 +117,6 @@ public class Correu extends AppCompatActivity {
                 }
             }
         }).start();
-    }
+    }*/
 }
 
