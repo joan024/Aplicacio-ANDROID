@@ -23,6 +23,21 @@
             android:textStyle="bold" />
 
         <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/txt_correo"
+                android:textColor="@color/mandarina"
+                android:text="Enviar A : "
+                android:textSize="20dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                />
+
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
@@ -32,7 +47,22 @@
                 android:layout_width="match_parent"
                 android:layout_marginStart="10dp"
                 android:layout_height="wrap_content"
-                android:hint="Correo" />
+                android:hint="correu@correu.com" />
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/txt_assumpte"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Assumpte : "
+                android:textColor="@color/mandarina"
+                android:textSize="20dp" />
 
         </LinearLayout>
 
@@ -50,13 +80,27 @@
 
         </LinearLayout>
 
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/txt_mensaje"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Minsatge : "
+                android:textColor="@color/mandarina"
+                android:textSize="20dp" />
+
+        </LinearLayout>
+
         <EditText
             android:id="@+id/contacta_correu"
             android:layout_width="390dp"
             android:layout_marginStart="10dp"
             android:layout_height="wrap_content"
             android:hint="Comentari"
-            android:inputType="textEmailAddress"
+            android:inputType="textMultiLine"
             android:layout_marginTop="20dp"/>
 
 

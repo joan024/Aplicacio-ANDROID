@@ -35,6 +35,7 @@
                 android:layout_width="213dp"
                 android:layout_height="match_parent"
                 android:gravity="center"
+                android:textColor="@color/black"
                 android:text=" tappinges@gmail.com" />
         </LinearLayout>
 
@@ -56,6 +57,7 @@
                 android:layout_width="213dp"
                 android:layout_height="match_parent"
                 android:gravity="center"
+                android:textColor="@color/black"
                 android:text="913765432" />
         </LinearLayout>
 
@@ -77,9 +79,8 @@
                 android:layout_width="213dp"
                 android:layout_height="match_parent"
                 android:gravity="center"
-                android:autoLink="web"
                 android:textColorLink="@color/black"
-                android:text=" @tapping_es " />
+                android:text="@string/instagram" />
         </LinearLayout>
 
 
@@ -100,8 +101,7 @@
                 android:layout_width="213dp"
                 android:layout_height="match_parent"
                 android:gravity="center"
-                android:autoLink="web"
-                android:text=" @tappines" />
+                android:text="@string/tiktok" />
         </LinearLayout>
 
 
