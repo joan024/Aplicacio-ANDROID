@@ -98,7 +98,7 @@ public class Registre extends AppCompatActivity {
             DateFormat dfNou = new SimpleDateFormat("yyyy-MM-dd");
             cn = ConexioBD.CONN();
             // Insertamos un nuevo registro en la tabla "usuari"
-            String sql = "INSERT INTO tapping.usuari (nom, correu, contrasenya, data_registre) " +
+            String sql = "INSERT INTO usuari (nom, correu, contrasenya, data_registre) " +
                     "VALUES (?, ?, ?, ?)";
 
             // Obtener la fecha actual del sistema
@@ -112,7 +112,7 @@ public class Registre extends AppCompatActivity {
             pstmt.executeUpdate();
 
             // Insertamos un nuevo registro en la tabla "consumidor"
-            sql = "INSERT INTO tapping.consumidor (id_usuari, cognom, telefon, data_naixament) " +
+            sql = "INSERT INTO consumidor (id_usuari, cognom, telefon, data_naixament) " +
                     "VALUES (LAST_INSERT_ID(), ?, ?, ?)";
             PreparedStatement pstmt2 = cn.prepareStatement(sql);
             pstmt2.setString(1, cognom);

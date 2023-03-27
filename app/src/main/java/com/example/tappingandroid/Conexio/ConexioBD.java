@@ -8,9 +8,9 @@ import java.sql.SQLException;
 
 public class ConexioBD {
 
-    static String url = "jdbc:mysql://192.168.56.1:3307/tapping";
-    static String user = "'root'";
-    static String password = "";
+    static String url = "jdbc:mysql://192.168.1.150:25230/tappingDB";
+    static String user = "'tapping'";
+    static String password = "JuMaJoJo!!25231";
     static Connection conn = null;
     public static Connection CONN() {
         Log.d("marc4","marc4");
@@ -19,7 +19,7 @@ public class ConexioBD {
         Log.d("marc5","marc5");
         StrictMode.setThreadPolicy(policy);
         Connection conn = null;
-        //String ConnURL = null;
+
         try {
             Log.d("marc3","marc3");
             Class.forName("com.mysql.jdbc.Driver");
