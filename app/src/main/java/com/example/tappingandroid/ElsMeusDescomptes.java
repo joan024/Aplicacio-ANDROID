@@ -1,8 +1,15 @@
 package com.example.tappingandroid;
 
+import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -10,41 +17,97 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.tappingandroid.Adapter.DescomptesAdapter;
+import com.example.tappingandroid.Conexio.ConexioBD;
 import com.example.tappingandroid.Dades.Descompte;
 
 import com.example.tappingandroid.R;
 
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Date;
 
+import butterknife.BindView;
+@SuppressLint("NonConstantResourceId")
 public class ElsMeusDescomptes extends AppCompatActivity {
 
     private ArrayList<Descompte> descomptes;
     private RecyclerView recyclerView;
     private ImageView iv_tornar;
+    Statement stmt = null;
+    ResultSet rs = null, rs2 = null;
+    Connection conexio;
+    @BindView(R.id.tv_descripcio) TextView tvDescripcio;
+    @BindView(R.id.tv_codi) TextView tvCodi;
+    @BindView(R.id.tv_data_inici) TextView tvDataInici;
+    @BindView(R.id.tv_data_caducitat) TextView tvDataCaducitat;
+    @BindView(R.id.tv_local_nom) TextView tvNomLocal;
+
+    String codi,text, nom_local;
+    Date data_inici, data_final;
+    int id, id_local;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_els_meus_descomptes);
+        SharedPreferences sharedPref = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+        id = sharedPref.getInt("id", 0);
+        Log.d("juliaaaa", "Afegint id: " + id);
 
         iv_tornar = findViewById(R.id.iv_tornar);
         iv_tornar.setOnClickListener(v -> onBackPressed());
+        Intent intentUsuari = getIntent();
 
+        // Obtiene el valor del String con la clave "usuari"
+        String correu = intentUsuari.getStringExtra("usuari");
         // Inicializar la lista de descomptes
         descomptes = new ArrayList<>();
-        try {
-            //Agregar nuevos descomptes a la lista
-            descomptes.add(new Descompte("FG4221FF", "10% en totes les tapes i begudes alcoholiques amb gel i llimona", "10/10/2023", "10/03/2023", 1));
-            descomptes.add(new Descompte("FG4211SR", "20% en totes les begudes sense alcohol", "15/06/2023", "31/03/2023", 2));
-            descomptes.add(new Descompte("FE8271GH", "2x1 en plats principals", "14/05/2023", "30/04/2023", 3));
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+        AgafarDescomptes();
+        Log.d("juliaaaa", "Añadiendo descuento: " + descomptes);
 
         // Configurar el RecyclerView i l'adaptador
         recyclerView = findViewById(R.id.recycler_descuentos);
         configurarRecyclerView();
+
+    }
+
+
+    private void AgafarDescomptes() {
+        String sql = "SELECT * FROM descompte INNER JOIN consumidor_descompte ON descompte.id=id_descompte WHERE id_usuari="+ id;
+        conexio = ConexioBD.CONN();
+        try {
+            stmt = conexio.createStatement();
+            rs = stmt.executeQuery(sql);
+            Statement stmt2 = conexio.createStatement();
+
+            while (rs.next()) {
+                id_local = rs.getInt("id_local");
+                codi = rs.getString("codi");
+                text = rs.getString("text");
+                data_inici = rs.getDate("inici");
+                data_final = rs.getDate("final");
+                String sql2 = "SELECT * FROM local WHERE id=" + id_local;
+                rs2 = stmt2.executeQuery(sql2);
+                if (rs2.next()) {
+                    nom_local = rs2.getString("nom");
+                }
+                rs2.close();
+
+                descomptes.add(new Descompte(codi,text, data_final,data_inici,nom_local));
+                Log.d("juliaaaa", "Añadiendo descuento: " + codi);
+            }
+
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+
+
     }
 
     private void configurarRecyclerView() {

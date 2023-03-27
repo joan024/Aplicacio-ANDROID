@@ -1,7 +1,10 @@
 package com.example.tappingandroid.GestioDeRegistres;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -43,7 +46,6 @@ public class IniciSessio extends AppCompatActivity {
     int id;
     String nom;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,9 +53,14 @@ public class IniciSessio extends AppCompatActivity {
 
         // Bind views de ButterKnife per enllaçar les variables declarades anteriorment amb els elements del layout
         ButterKnife.bind(this);
+        SharedPreferences sharedPref = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+
 
         login.setOnClickListener(v -> {
             if (validarFormulari()) {
+                editor.putInt("id", id);
+                editor.commit();
                 startIniciActivity();
             }else{
                 Toast.makeText(getApplicationContext(), "Hi ha hagut un error al intentar iniciar sessió, torna a intentar-ho.", Toast.LENGTH_SHORT).show();
