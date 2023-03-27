@@ -87,7 +87,7 @@ public class LesMevesDades extends AppCompatActivity {
             } else {
                 Toast.makeText(this, "No s'han actualitzat les dades", Toast.LENGTH_SHORT).show();
             }
-            } catch (SQLException ex) {
+        } catch (SQLException ex) {
             ex.printStackTrace();
         }
     }

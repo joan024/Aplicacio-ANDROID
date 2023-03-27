@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ImageView;
 
@@ -11,10 +12,13 @@ import com.example.tappingandroid.Adapter.OpinioAdapter;
 import com.example.tappingandroid.Dades.Local;
 import com.example.tappingandroid.Dades.Opinio;
 import com.example.tappingandroid.Dades.Tapa;
-import com.example.tappingandroid.R;
 
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import butterknife.BindView;
@@ -24,6 +28,7 @@ public class Comentaris extends AppCompatActivity {
 
     @BindView(R.id.iv_tornar) ImageView ivTornar;
     @BindView(R.id.rv_opinions) RecyclerView recyclerViewOpinions;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +49,8 @@ public class Comentaris extends AppCompatActivity {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-
+        Intent intentOpinion =getIntent();
+        String opinion = intentOpinion.getStringExtra("Local");
         local = new Local(R.drawable.logotiptapping, "Primer local", "C/pepito","12:00-15:00", 8.4, "616638823", "Local on oferim pastes i entrepans fets a casa.",tapes, opinions);
 
 
@@ -52,4 +58,9 @@ public class Comentaris extends AppCompatActivity {
         recyclerViewOpinions.setAdapter((new OpinioAdapter(local.getOpinions())));
 
     }
+
+    public void insertar(){
+
+    }
+
 }
