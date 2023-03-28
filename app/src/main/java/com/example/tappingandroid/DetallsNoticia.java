@@ -25,15 +25,23 @@ public class DetallsNoticia extends AppCompatActivity {
     @BindView(R.id.tv_titol_noticia) TextView tvTitol;
     @BindView(R.id.tv_descripcio_noticia) TextView tvDescripcio;
     @BindView(R.id.tv_data_publicacio) TextView tvDataPublicacio;
+    @BindView(R.id.iv_tornar) ImageView ivTornar;
 
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_noticia);
         ButterKnife.bind(this);
+        //Acció en fer clic al botó "tornar"
+        ivTornar.setOnClickListener(v -> onBackPressed());
 
         Intent intent = getIntent();
         Noticia noticia = (Noticia) intent.getSerializableExtra("noticia");
+
+        tvTitol.setText(noticia.getTitol());
+        tvDataPublicacio.setText(noticia.getData_publicacio());
+        tvDescripcio.setText(noticia.getDescripcio());
+        //ivImatge.setImageResource();
 
 
     }

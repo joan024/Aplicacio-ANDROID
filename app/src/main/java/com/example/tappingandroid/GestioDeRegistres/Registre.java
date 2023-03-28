@@ -1,5 +1,7 @@
 package com.example.tappingandroid.GestioDeRegistres;
 
+import static com.example.tappingandroid.Conexio.ConexioBD.closeConnection;
+
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
@@ -126,7 +128,8 @@ public class Registre extends AppCompatActivity {
             Log.e("SQL", "Error al insertar dades", e);
             insercioCorrecte = false;
         }
-        //ConexioBD.tencarConexio();
+
+        closeConnection(cn);
         return insercioCorrecte;
     }
 

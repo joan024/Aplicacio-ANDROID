@@ -1,5 +1,7 @@
 package com.example.tappingandroid;
 
+import static com.example.tappingandroid.Conexio.ConexioBD.closeConnection;
+
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
@@ -40,11 +42,6 @@ public class ElsMeusDescomptes extends AppCompatActivity {
     Statement stmt = null;
     ResultSet rs = null, rs2 = null;
     Connection conexio;
-    @BindView(R.id.tv_descripcio) TextView tvDescripcio;
-    @BindView(R.id.tv_codi) TextView tvCodi;
-    @BindView(R.id.tv_data_inici) TextView tvDataInici;
-    @BindView(R.id.tv_data_caducitat) TextView tvDataCaducitat;
-    @BindView(R.id.tv_local_nom) TextView tvNomLocal;
 
     String codi,text, nom_local;
     Date data_inici, data_final;
@@ -72,6 +69,7 @@ public class ElsMeusDescomptes extends AppCompatActivity {
         // Configurar el RecyclerView i l'adaptador
         recyclerView = findViewById(R.id.recycler_descuentos);
         configurarRecyclerView();
+
 
     }
 
@@ -106,7 +104,7 @@ public class ElsMeusDescomptes extends AppCompatActivity {
             e.printStackTrace();
         }
 
-
+        closeConnection(conexio);
 
     }
 

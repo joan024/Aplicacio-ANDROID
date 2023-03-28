@@ -2,33 +2,35 @@ package com.example.tappingandroid.Conexio;
 import android.os.StrictMode;
 import android.util.Log;
 
+import com.example.tappingandroid.Constants;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class ConexioBD {
 
-    static String url = "jdbc:mysql://192.168.1.150:25230/tappingDB";
+    //static String url = "jdbc:mysql://192.168.1.150:25230/tappingDB";
     static String user = "'tapping'";
     static String password = "JuMaJoJo!!25231";
     static Connection conn = null;
     public static Connection CONN() {
-        Log.d("marc4","marc4");
+
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder()
                 .permitAll().build();
-        Log.d("marc5","marc5");
+
         StrictMode.setThreadPolicy(policy);
         Connection conn = null;
 
         try {
-            Log.d("marc3","marc3");
-            Class.forName("com.mysql.jdbc.Driver");
-            Log.d("marc7","marc7");
-            conn = DriverManager.getConnection(url, user, password);
 
-            Log.d("marc8","marc3");
+            Class.forName("com.mysql.jdbc.Driver");
+
+            conn = DriverManager.getConnection(Constants.URL_DB_LOCAL, user, password);
+
+
            // conn = DriverManager.getConnection(ConnURL);
-            Log.d("marc6","marc3");
+
         } catch (SQLException se) {
             Log.d("marc9", se.getMessage());
         } catch (ClassNotFoundException e) {
@@ -36,18 +38,16 @@ public class ConexioBD {
         } catch (Exception e) {
             Log.d("marc9", e.getMessage());
         }
-        Log.d("marc00","marc3");
         return conn;
     }
 
-
-    public static void tencarConexio() {
+    public static void closeConnection(Connection conn) {
         try {
-            conn.close();
-            System.out.println("Conexió tencada");
-        } catch (SQLException ex) {
-            System.out.println("Error al tancar la conexió: " + ex.getMessage());
+            if (conn != null && !conn.isClosed()) {
+                conn.close();
+            }
+        } catch (SQLException e) {
+            // handle the exception
         }
-
     }
 }

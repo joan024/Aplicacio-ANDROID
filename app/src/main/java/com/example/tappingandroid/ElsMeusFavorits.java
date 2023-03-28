@@ -19,20 +19,22 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class ElsMeusFavorits extends AppCompatActivity {
     private RecyclerView recyclerView;
     private LocalAdapter adaptador;
     private List<Local> locals;
-    private ImageView iv_tornar;
+    @BindView(R.id.iv_tornar) ImageView ivTornar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_els_meus_favorits);
+        ButterKnife.bind(this);
 
-        iv_tornar = findViewById(R.id.iv_tornar);
-
-        iv_tornar.setOnClickListener(v -> onBackPressed());
+        ivTornar.setOnClickListener(v -> onBackPressed());
 
         recyclerView = findViewById(R.id.rv_locals);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));

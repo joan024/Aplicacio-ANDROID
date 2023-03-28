@@ -1,50 +1,33 @@
 package com.example.tappingandroid;
 
 import android.annotation.SuppressLint;
-import android.app.ProgressDialog;
-import android.content.ClipData;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
-import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.SearchView;
+import android.widget.TextView;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-import android.view.Menu;
-import android.widget.TextView;
 
-import com.example.tappingandroid.Conexio.ConexioBD;
 import com.example.tappingandroid.Dades.Local;
 import com.example.tappingandroid.Dades.Opinio;
 import com.example.tappingandroid.Dades.Tapa;
 import com.example.tappingandroid.GestioDeRegistres.IniciSessio;
 import com.google.android.material.navigation.NavigationView;
 
-import java.lang.reflect.Field;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-
-import com.example.tappingandroid.LesMevesDades;
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
 public class Inici extends AppCompatActivity implements View.OnClickListener, SearchView.OnQueryTextListener {
 
@@ -52,10 +35,12 @@ public class Inici extends AppCompatActivity implements View.OnClickListener, Se
     private DrawerLayout drawerLayout;
     private ImageView logoImatge;
     private SearchView searchView;
+    private TextView textHeader;
     private Toolbar toolbar;
-    private int usuari;
-    Button btnDades, btnPreferits, btnDescompte, btnNoticies, btnLocals, btnTapes, btnComentaris, btnXat, btnClose, btnInici;
-
+    private int usuari,id;
+    private String nom,correu;
+    private MenuItem menuItemXat, menuItemClose,menuItemLogin,menuItemComentaris, menuItemTapes, menuItemLocals;
+    private SharedPreferences sharedPreferences;
 
     @SuppressLint({"MissingInflatedId", "NonConstantResourceId", "SetTextI18n"})
     @Override
@@ -64,14 +49,12 @@ public class Inici extends AppCompatActivity implements View.OnClickListener, Se
         String a="";
         setContentView(R.layout.activity_inici);
 
-       // new LaMevaTascaAsincrona(this).execute();
-
         // Recibe el intent
         Intent intentUsuari = getIntent();
 
         // Obtiene el valor del String con la clave "usuari"
-        String correu = intentUsuari.getStringExtra("usuari");
-        String nom = intentUsuari.getStringExtra("nom");
+        correu = intentUsuari.getStringExtra("usuari");
+        nom = intentUsuari.getStringExtra("nom");
 
 
         // S'obtenen les referències als elements del layout
@@ -92,45 +75,28 @@ public class Inici extends AppCompatActivity implements View.OnClickListener, Se
         // S'obté la referència al NavigationView i es configura el Listener
         NavigationView navigationView = findViewById(R.id.navigation_view);
         View headerView = navigationView.getHeaderView(0);
+        Menu menu = navigationView.getMenu();
+        menuItemLogin = menu.findItem(R.id.btn_login);
+        menuItemClose = menu.findItem(R.id.btn_close);
+        menuItemLocals = menu.findItem(R.id.btn_locals);
+        menuItemTapes = menu.findItem(R.id.btn_tapes);
+        menuItemComentaris = menu.findItem(R.id.btn_comentaris);
+        menuItemXat = menu.findItem(R.id.btn_xat);
 
-        TextView textHeader = headerView.findViewById(R.id.header_title);
+        textHeader = headerView.findViewById(R.id.header_title);
         if(nom != null){
-            textHeader.setText("Hola, "+nom);
             SharedPreferences.Editor editor = getSharedPreferences("MyPrefs", MODE_PRIVATE).edit();
             editor.putBoolean("session_active", true);
             editor.apply();
-            //btnClose.setVisibility(View.VISIBLE);
-            //btnInici.setVisibility(View.GONE);
         }
+
+        sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
+        boolean sessionActive = sharedPreferences.getBoolean("session_active", false); // false es el valor predeterminado si la clave no existe
+        VisibilitatMenu(sessionActive);
+
+
         navigationView.setNavigationItemSelectedListener(item -> {
             Intent intent = null;
-
-            /*if (usuari==1){
-                btnDades.setVisibility(View.VISIBLE);
-                btnPreferits.setVisibility(View.VISIBLE);
-                btnDescompte.setVisibility(View.VISIBLE);
-                btnLocals.setVisibility(View.GONE);
-                btnTapes.setVisibility(View.GONE);
-                btnXat.setVisibility(View.GONE);
-                btnComentaris.setVisibility(View.GONE);
-            }else if(usuari == 2){
-                btnDades.setVisibility(View.GONE);
-                btnPreferits.setVisibility(View.GONE);
-                btnDescompte.setVisibility(View.GONE);
-                btnLocals.setVisibility(View.VISIBLE);
-                btnTapes.setVisibility(View.VISIBLE);
-                btnXat.setVisibility(View.VISIBLE);
-                btnComentaris.setVisibility(View.VISIBLE);
-            }*/
-
-            // S'obtenen les llistes de Tapa i Opinió
-            List<Tapa> tapes = obternirTapes();
-            List <Opinio> opinions = null;
-            try {
-                opinions = obternirOpinions();
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
 
             // S'executa una acció segons el botó premut del menú Drawer
             switch (item.getItemId()) {
@@ -171,7 +137,7 @@ public class Inici extends AppCompatActivity implements View.OnClickListener, Se
                 case R.id.btn_tapes:
                     // Es passa la informació del local a mostrar a l'activitat LesMevesTapes
                     intent = new Intent(getApplicationContext(), LesMevesTapes.class);
-                    intent.putExtra("local",new Local(R.drawable.logotiptapping, "Primer local", "C/pepito","12:00-15:00", 8.4, "616638823", "Local on oferim pastes i entrepans fets a casa.",tapes, opinions ));
+                    //intent.putExtra("local",new Local(R.drawable.logotiptapping, "Primer local", "C/pepito","12:00-15:00", 8.4, "616638823", "Local on oferim pastes i entrepans fets a casa.",tapes, opinions ));
                     break;
                 case R.id.btn_comentaris:
                     intent = new Intent(getApplicationContext(), Comentaris.class);
@@ -186,6 +152,7 @@ public class Inici extends AppCompatActivity implements View.OnClickListener, Se
                     SharedPreferences.Editor editor = getSharedPreferences("MyPrefs", MODE_PRIVATE).edit();
                     editor.putBoolean("session_active", false);
                     editor.remove("id");
+                    editor.remove("nom");
                     editor.apply();
                     intent = new Intent(getApplicationContext(), Inici.class);
                     break;
@@ -196,6 +163,33 @@ public class Inici extends AppCompatActivity implements View.OnClickListener, Se
 
         searchView = findViewById(R.id.sv_busqueda);
         searchView.setOnQueryTextListener(this);
+    }
+
+    // Mètode per canviar la visibilitat del menú segons si hi ha una sessió iniciada o no
+    private void VisibilitatMenu(boolean sessionActive) {
+        if(sessionActive){
+            // La sesión está iniciada, realiza alguna acción
+            id=sharedPreferences.getInt("id",0);
+
+            nom = sharedPreferences.getString("nom","");
+            correu = sharedPreferences.getString("correu","");
+
+            textHeader.setText("Hola, "+nom);
+            menuItemLogin.setVisible(false);
+            menuItemClose.setVisible(true);
+            //LOCALS
+            menuItemLocals.setVisible(true);
+            menuItemTapes.setVisible(true);
+            menuItemComentaris.setVisible(true);
+            menuItemXat.setVisible(true);
+        }else{
+            menuItemLogin.setVisible(true);
+            menuItemClose.setVisible(false);
+            menuItemLocals.setVisible(false);
+            menuItemTapes.setVisible(false);
+            menuItemComentaris.setVisible(false);
+            menuItemXat.setVisible(false);
+        }
     }
 
     @Override
@@ -227,8 +221,6 @@ public class Inici extends AppCompatActivity implements View.OnClickListener, Se
 
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_navigation, menu);
-        btnClose = (Button) menu.findItem(R.id.btn_close).getActionView();
-        btnInici = (Button) menu.findItem(R.id.btn_login).getActionView();
         return true;
     }
 
@@ -236,29 +228,11 @@ public class Inici extends AppCompatActivity implements View.OnClickListener, Se
     public void onClick(View v) {
 
     }
-
+    // Mètode per configurar el botó d'hamburguesa
     private void configurarDrawerToggle() {
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
     }
-    private List<Opinio> obternirOpinions() throws ParseException {
-        List <Opinio> opinions = new ArrayList<>();
-        opinions.add(new Opinio("Juan","12/02/2022","Aquest local es top.",7.8));
-        opinions.add(new Opinio("Maria","01/03/2022","Tornare a prendre unes braves segur.",9.2));
-        opinions.add(new Opinio("Lluc","03/02/2022","No crec que hi torni, personal desagradable.",4.5));
-        return opinions;
-    }
-
-    private List<Tapa> obternirTapes() {
-        List <Tapa> tapes = new ArrayList<>();
-        tapes.add(new Tapa("Braves",4.5));
-        tapes.add(new Tapa("Chipirons", 6.7));
-        tapes.add(new Tapa("Croquetes", 3));
-        tapes.add(new Tapa("Patates fregides", 2.4));
-        tapes.add(new Tapa("Truita de patates", 5.8));
-        return tapes;
-    }
-
 }

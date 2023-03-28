@@ -1,5 +1,7 @@
 package com.example.tappingandroid.GestioDeRegistres;
 
+import static com.example.tappingandroid.Conexio.ConexioBD.closeConnection;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
@@ -44,7 +46,7 @@ public class IniciSessio extends AppCompatActivity {
 
     Connection conexio;
     int id;
-    String nom;
+    String nom, email=null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +62,8 @@ public class IniciSessio extends AppCompatActivity {
         login.setOnClickListener(v -> {
             if (validarFormulari()) {
                 editor.putInt("id", id);
+                editor.putString("nom", nom);
+                editor.putString("correu", email);
                 editor.commit();
                 startIniciActivity();
             }else{
@@ -74,7 +78,7 @@ public class IniciSessio extends AppCompatActivity {
     private boolean validarFormulari() {
         String sUsuari = usuari.getText().toString();
         String sPassword = password.getText().toString();
-        String email = null, contrasenya = null;
+        String contrasenya = null;
 
         conexio = ConexioBD.CONN();
 
@@ -112,7 +116,7 @@ public class IniciSessio extends AppCompatActivity {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
+        closeConnection(conexio);
         return esValid;
     }
     private String passwordHash(String contrasenya) {
