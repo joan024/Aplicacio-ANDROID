@@ -60,12 +60,13 @@ public class ElsMeusLocals extends AppCompatActivity {
 
     private List<Local> getLocals() throws ParseException {
         locals = new ArrayList<>();
-        List <Tapa> tapes = obternirTapes();
-        List <Opinio> opinions = obternirOpinions();
-        locals.add(new Local(R.drawable.logotiptapping, "Primer local", "C/pepito","12:00-15:00", 8.4, "616638823", "Local on oferim pastes i entrepans fets a casa.",tapes, opinions));
+       // List <Tapa> tapes = obternirTapes();
+        //List <Opinio> opinions = obternirOpinions();
+       // locals.add(new Local(R.drawable.logotiptapping, "Primer local", "C/pepito","12:00-15:00", 8.4, "616638823", "Local on oferim pastes i entrepans fets a casa.",tapes, opinions));
 
         return locals;
     }
+    /*
     private List<Tapa> obternirTapes() {
         List <Tapa> tapes = new ArrayList<>();
         tapes.add(new Tapa("Braves",4.5));
@@ -81,5 +82,5 @@ public class ElsMeusLocals extends AppCompatActivity {
         opinions.add(new Opinio("Maria","01/03/2022","Tornare a prendre unes braves segur.",9.2));
         opinions.add(new Opinio("Lluc","03/02/2022","No crec que hi torni, personal desagradable.",4.5));
         return opinions;
-    }
+    }*/
 }

@@ -15,6 +15,7 @@ import com.example.tappingandroid.R;
 import java.util.ArrayList;
 
 import com.example.tappingandroid.Dades.Local;
+import com.squareup.picasso.Picasso;
 
 public class LocalAdapter extends RecyclerView.Adapter<LocalAdapter.ViewHolder> {
 
@@ -49,7 +50,8 @@ public class LocalAdapter extends RecyclerView.Adapter<LocalAdapter.ViewHolder> 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, @SuppressLint("RecyclerView") int position) {
         Local local = locales.get(position);
-        holder.ivFoto.setImageResource(local.getFoto());
+        Picasso.get().load(local.getFoto()).into(holder.ivFoto);
+
         holder.tvNom.setText(local.getNom());
         holder.tvUbicacio.setText(local.getUbicacio());
         holder.tvHorari.setText(local.getHorari());

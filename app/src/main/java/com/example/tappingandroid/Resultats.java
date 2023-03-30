@@ -63,13 +63,14 @@ public class Resultats extends AppCompatActivity {
             Intent intent = null;
 
             // S'obtenen les llistes de Tapa i Opinió
-            List<Tapa> tapes = obternirTapes();
+            List<Tapa> tapes = null;
+            //obternirTapes();
             List <Opinio> opinions = null;
-            try {
+           /* try {
                 opinions = obternirOpinions();
             } catch (ParseException e) {
                 e.printStackTrace();
-            }
+            }*/
 
             // S'executa una acció segons el botó premut del menú Drawer
             switch (item.getItemId()) {
@@ -97,7 +98,7 @@ public class Resultats extends AppCompatActivity {
                 case R.id.btn_tapes:
                     // Es passa la informació del local a mostrar a l'activitat LesMevesTapes
                     intent = new Intent(getApplicationContext(), LesMevesTapes.class);
-                    intent.putExtra("local",new Local(R.drawable.logotiptapping, "Primer local", "C/pepito","12:00-15:00", 8.4, "616638823", "Local on oferim pastes i entrepans fets a casa.",tapes, opinions ));
+                    //intent.putExtra("local",new Local(R.drawable.logotiptapping, "Primer local", "C/pepito","12:00-15:00", 8.4, "616638823", "Local on oferim pastes i entrepans fets a casa.",tapes, opinions ));
                     break;
                 case R.id.btn_comentaris:
                     intent = new Intent(getApplicationContext(), Comentaris.class);
@@ -151,11 +152,11 @@ public class Resultats extends AppCompatActivity {
 
         // Crear una llista d'objectes local
         List<Local> llistaLocals = null;
-        try {
+        /*try {
             llistaLocals = obtenirLlistaLocals();
         } catch (ParseException e) {
             e.printStackTrace();
-        }
+        }*/
 
         // Crear una instància de l'adaptador i assignar-lo a la RecyclerView
         LocalAdapter adaptador = new LocalAdapter((ArrayList<Local>) llistaLocals);
@@ -194,6 +195,7 @@ public class Resultats extends AppCompatActivity {
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
     }
+    /*
     public List<Local> obtenirLlistaLocals() throws ParseException {
         List<Local> locals = new ArrayList<>();
         List <Tapa> tapes = obternirTapes();
@@ -221,5 +223,7 @@ public class Resultats extends AppCompatActivity {
         tapes.add(new Tapa("Truita de patates", 5.8));
         return tapes;
     }
+
+     */
 
 }

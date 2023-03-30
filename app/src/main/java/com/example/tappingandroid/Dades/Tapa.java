@@ -3,10 +3,10 @@ package com.example.tappingandroid.Dades;
 import java.io.Serializable;
 
 public class Tapa implements Serializable {
-    private String nom;
+    private String nom,personalitzacio;
     private double preu;
 
-    public Tapa(String nom, double preu) {
+    public Tapa(String nom, double preu, String personalitzacio) {
         this.nom = nom;
         this.preu = preu;
     }
@@ -19,5 +19,7 @@ public class Tapa implements Serializable {
 
     public void setPreu(double preu) {this.preu = preu;}
 
+    public String getPersonalitzacio() { return personalitzacio; }
 
+    public void setPersonalitzacio(String personalitzacio) { this.personalitzacio = personalitzacio; }
 }
