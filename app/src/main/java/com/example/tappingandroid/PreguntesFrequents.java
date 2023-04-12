@@ -36,12 +36,11 @@ import butterknife.ButterKnife;
 
 public class PreguntesFrequents extends AppCompatActivity {
 
-    @BindView(R.id.tv_pregunta) TextView tv_pregunta;
-    @BindView(R.id.tv_resposta) TextView tv_resposta;
     @BindView(R.id.iv_tornar) ImageView ivTornar;
     RecyclerView recyclerView;
     private PreguntaAdapter adaptador;
     private ArrayList<Pregunta> preguntas;
+
 
      Connection conexio;
      Statement stmt = null;
@@ -52,8 +51,9 @@ public class PreguntesFrequents extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.faq_item);
-        //ButterKnife.bind(this);
-        //ivTornar.setOnClickListener(v -> onBackPressed());
+        ButterKnife.bind(this);
+
+        ivTornar.setOnClickListener(v -> onBackPressed());
         recyclerView = findViewById(R.id.rv_pregunta);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         preguntas = new ArrayList<>();
@@ -100,5 +100,11 @@ public class PreguntesFrequents extends AppCompatActivity {
             e.printStackTrace();
         }
         closeConnection(conexio);
+    }
+    // Configurar el botó d'entrada a la barra d'acció
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
 }
