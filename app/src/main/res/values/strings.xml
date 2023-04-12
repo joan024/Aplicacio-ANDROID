@@ -36,4 +36,5 @@
     <string name="tapping">TAPPING</string>
     <string name="escriu_el_teu_misatge_aqui">Escriu el teu misatge aqui</string>
     <string name="tencar_sesio">Tencar sessió</string>
+    <string name="modificar_contrasenya">Modificar contrasenya</string>
 </resources>

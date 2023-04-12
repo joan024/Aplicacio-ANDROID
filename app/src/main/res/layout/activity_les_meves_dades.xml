@@ -157,13 +157,14 @@
             android:layout_marginStart="10dp"
             android:textSize="20sp" />
 
-        <EditText
-            android:id="@+id/et_password"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/tv_password_label"
-            android:text="oooooooooo"
-            android:layout_marginStart="10dp"
-            android:textSize="18sp" />
+            <Button
+                android:id="@+id/btn_modificar_contrasenya"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_password_label"
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="10dp"
+                android:text="@string/modificar_contrasenya"
+                android:background="@drawable/esquines_rodones_orange"/>
     </RelativeLayout>
 </ScrollView>

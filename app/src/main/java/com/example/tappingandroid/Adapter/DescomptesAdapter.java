@@ -11,12 +11,17 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.tappingandroid.Dades.Descompte;
 
 import com.example.tappingandroid.R;
+import com.google.zxing.WriterException;
 
 import java.text.SimpleDateFormat;
 import java.util.List;
 
-public abstract class DescomptesAdapter extends RecyclerView.Adapter<DescomptesAdapter.ViewHolder> {
+public class DescomptesAdapter extends RecyclerView.Adapter<DescomptesAdapter.ViewHolder> {
 
+    public interface OnItemClickListener {
+        void onItemClick(int position);
+    }
+    private LocalAdapter.OnItemClickListener onItemClickListener;
     private List<Descompte> descomptes;
 
     public DescomptesAdapter(List<Descompte> descomptes) {
@@ -30,9 +35,17 @@ public abstract class DescomptesAdapter extends RecyclerView.Adapter<DescomptesA
         return new ViewHolder(view);
     }
 
+    public void setOnItemClickListener(LocalAdapter.OnItemClickListener listener) {
+        this.onItemClickListener = listener;
+    }
+
+    public OnItemClickListener getOnItemClickListener() {
+        return (OnItemClickListener) onItemClickListener;
+    }
+
     @SuppressLint("SetTextI18n")
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(ViewHolder holder, @SuppressLint("RecyclerView") int position) {
         // Obtenir l'objecte descompte de la llista segons la posició
         Descompte descompte = descomptes.get(position);
 
@@ -50,6 +63,19 @@ public abstract class DescomptesAdapter extends RecyclerView.Adapter<DescomptesA
         holder.tvDataCaducitat.setText(dataCaducitat);
 
         holder.tvLocal.setText(descompte.getLocal());
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (onItemClickListener != null) {
+                    try {
+                        onItemClickListener.onItemClick(position);
+                    } catch (WriterException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
     }
 
     // Tornar la quantitat d'ítems a la llista
@@ -57,9 +83,6 @@ public abstract class DescomptesAdapter extends RecyclerView.Adapter<DescomptesA
     public int getItemCount() {
         return descomptes.size();
     }
-
-    // Definir un método abstracto para manejar el clic en un objeto descompte
-    public abstract void onDescompteClick(Descompte descompte);
 
     // Definir una classe ViewHolder per al RecyclerView
     public static class ViewHolder extends RecyclerView.ViewHolder {
