@@ -61,7 +61,7 @@ public class Comentaris extends AppCompatActivity {
 
         Intent intentOpinion =getIntent();
         String opinion = intentOpinion.getStringExtra("Opinion");
-        local = new Local(R.drawable.logotiptapping, "Primer local", "C/pepito","12:00-15:00", 8.4, "616638823", "Local on oferim pastes i entrepans fets a casa.",tapes, opinions);
+        //local = new Local(R.drawable.logotiptapping, "Primer local", "C/pepito","12:00-15:00", 8.4, "616638823", "Local on oferim pastes i entrepans fets a casa.",tapes, opinions);
 
 
         recyclerViewOpinions.setLayoutManager(new LinearLayoutManager(this));

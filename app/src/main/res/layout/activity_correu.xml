@@ -29,7 +29,7 @@
             <TextView
                 android:id="@+id/txt_correo"
                 android:textColor="@color/mandarina"
-                android:text="Enviar A : "
+                android:text="@string/enviar_a"
                 android:textSize="20dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -43,11 +43,11 @@
             android:orientation="horizontal">
 
             <EditText
-                android:id="@+id/contacte_correo"
+                android:id="@+id/correu"
                 android:layout_width="match_parent"
                 android:layout_marginStart="10dp"
                 android:layout_height="wrap_content"
-                android:hint="correu@correu.com" />
+                android:text="@string/tappinges_gmail_com" />
 
         </LinearLayout>
 
@@ -60,7 +60,7 @@
                 android:id="@+id/txt_assumpte"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Assumpte : "
+                android:text="@string/assumpte"
                 android:textColor="@color/mandarina"
                 android:textSize="20dp" />
 
@@ -72,11 +72,11 @@
             android:orientation="horizontal"
             android:layout_marginTop="20dp">
             <EditText
-                android:id="@+id/contacta_assumpte"
+                android:id="@+id/titol"
                 android:layout_width="match_parent"
                 android:layout_marginStart="10dp"
                 android:layout_height="wrap_content"
-                android:hint="Assumpte"/>
+                android:hint="@string/assumpte_"/>
 
         </LinearLayout>
 
@@ -88,18 +88,18 @@
                 android:id="@+id/txt_mensaje"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Minsatge : "
+                android:text="@string/misatge"
                 android:textColor="@color/mandarina"
                 android:textSize="20dp" />
 
         </LinearLayout>
 
         <EditText
-            android:id="@+id/contacta_correu"
+            android:id="@+id/missatge"
             android:layout_width="390dp"
             android:layout_marginStart="10dp"
             android:layout_height="wrap_content"
-            android:hint="Comentari"
+            android:hint="@string/contingut"
             android:inputType="textMultiLine"
             android:layout_marginTop="20dp"/>
 
@@ -109,7 +109,7 @@
             android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:background="@drawable/esquines_rodones_orange"
-            android:text="ENVIAR"
+            android:text="@string/enviar"
             android:textSize="20dp"
             android:layout_marginTop="20dp"
             android:layout_gravity="center_horizontal" />

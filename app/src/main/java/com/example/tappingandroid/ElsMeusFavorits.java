@@ -108,7 +108,7 @@ public class ElsMeusFavorits extends AppCompatActivity {
 
                 Double mitjana= calcularMitjanaPuntuacio();
 
-                locals.add(new Local(link_foto,nom_local,direccio_local,horari,mitjana,telefon_local,descripcio,tapes,opinions));
+                locals.add(new Local(id_local,link_foto,nom_local,direccio_local,horari,mitjana,telefon_local,descripcio,tapes,opinions));
 
             }
         }catch (SQLException e) {
