@@ -12,10 +12,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.tappingandroid.R;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.example.tappingandroid.Dades.Noticia;
+import com.squareup.picasso.Picasso;
 
 public class NoticiaAdapter extends RecyclerView.Adapter<NoticiaAdapter.ViewHolder> {
 
@@ -42,7 +42,7 @@ public class NoticiaAdapter extends RecyclerView.Adapter<NoticiaAdapter.ViewHold
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.item_noticia, parent, false);
+                .inflate(R.layout.noticia_item, parent, false);
 
         return new ViewHolder(itemView);
     }
@@ -51,7 +51,8 @@ public class NoticiaAdapter extends RecyclerView.Adapter<NoticiaAdapter.ViewHold
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, @SuppressLint("RecyclerView") int position) {
         Noticia noticia = noticias.get(position);
-        holder.imagenImageView.setImageResource(noticia.getImagen());
+        //holder.imagenImageView.setImageResource(noticia.getImagen());
+        Picasso.get().load(noticia.getImagen()).into(holder.imagenImageView);
         holder.tituloTextView.setText(noticia.getTitol());
         holder.descripcionTextView.setText(noticia.getDescripcio());
         holder.data_publicacio.setText(noticia.getData_publicacio());
@@ -64,7 +65,6 @@ public class NoticiaAdapter extends RecyclerView.Adapter<NoticiaAdapter.ViewHold
                 }
             }
         });
-
     }
 
     @Override

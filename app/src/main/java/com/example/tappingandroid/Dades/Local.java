@@ -4,13 +4,12 @@ import java.io.Serializable;
 import java.util.List;
 
 public class Local implements Serializable {
-    private int foto;
-    private String ubicacio, horari, nom, telefon, descripcio;
+    private String ubicacio, horari, nom, telefon, descripcio, foto;
     private double puntuacio;
     private List<Tapa> tapes;
     private List<Opinio> opinions;
 
-    public Local(int foto, String nom, String ubicacio, String horari , double puntuacio, String telefon, String descripcio, List <Tapa> tapes, List <Opinio> opinions) {
+    public Local(String foto, String nom, String ubicacio, String horari , double puntuacio, String telefon, String descripcio, List <Tapa> tapes, List <Opinio> opinions) {
         this.foto = foto;
         this.ubicacio = ubicacio;
         this.horari = horari;
@@ -22,11 +21,11 @@ public class Local implements Serializable {
         this.opinions=opinions;
     }
 
-    public int getFoto() {
+    public String getFoto() {
         return foto;
     }
 
-    public void setFoto(int foto) {
+    public void setFoto(String foto) {
         this.foto = foto;
     }
 

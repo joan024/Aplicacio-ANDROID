@@ -37,7 +37,7 @@ public class Comentaris extends AppCompatActivity {
         // Crear objectes de dades per al local i les seves opinions
         Local local = null;
         List<Tapa> tapes = new ArrayList<Tapa>();
-        tapes.add(new Tapa("Braves",6.4));
+        //tapes.add(new Tapa("Braves",6.4));
         List <Opinio> opinions =  new ArrayList<Opinio>();
         try {
             opinions.add(new Opinio("Juan","12/02/2022","Aquest local es top.",7.8));
@@ -45,7 +45,7 @@ public class Comentaris extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        local = new Local(R.drawable.logotiptapping, "Primer local", "C/pepito","12:00-15:00", 8.4, "616638823", "Local on oferim pastes i entrepans fets a casa.",tapes, opinions);
+        //local = new Local(R.drawable.logotiptapping, "Primer local", "C/pepito","12:00-15:00", 8.4, "616638823", "Local on oferim pastes i entrepans fets a casa.",tapes, opinions);
 
 
         recyclerViewOpinions.setLayoutManager(new LinearLayoutManager(this));

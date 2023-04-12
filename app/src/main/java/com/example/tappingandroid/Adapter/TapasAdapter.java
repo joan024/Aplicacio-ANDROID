@@ -56,6 +56,10 @@ public class TapasAdapter extends RecyclerView.Adapter<TapasAdapter.ViewHolder> 
         public void bind(Tapa tapa) {
             nomView.setText(tapa.getNom());
             preuView.setText(tapa.getPreu()+"€");
+            if(tapa.getPersonalitzacio()!=null){
+                nomView.setText(tapa.getNom()+" "+tapa.getPersonalitzacio());
+            }
+
         }
     }
 }

@@ -16,10 +16,13 @@ import com.example.tappingandroid.Adapter.OpinioAdapter;
 import com.example.tappingandroid.Adapter.TapasAdapter;
 import com.example.tappingandroid.Dades.Local;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
 import com.example.tappingandroid.Dades.Tapa;
+import com.squareup.picasso.Picasso;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -55,11 +58,12 @@ public class DetallsLocal extends AppCompatActivity {
 
         //Assignem les dades del local a les vistes corresponents
         tvNomLocal.setText(local.getNom());
-        ivImatge.setImageResource(local.getFoto());
+        Picasso.get().load(local.getFoto()).into(ivImatge);
         tvUbicacio.setText(local.getUbicacio());
         tvTelefon.setText(local.getTelefon());
         tvHorari.setText(local.getHorari());
-        tvPuntuacio.setText(local.getPuntuacio() + "");
+        DecimalFormat df = new DecimalFormat("#.#");
+        tvPuntuacio.setText(df.format(local.getPuntuacio()));
         tvDescripcio.setText(local.getDescripcio());
 
         //Establim el disseny del RecyclerView per a les tapes i les opinions
