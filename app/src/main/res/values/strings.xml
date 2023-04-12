@@ -37,4 +37,13 @@
     <string name="escriu_el_teu_misatge_aqui">Escriu el teu misatge aqui</string>
     <string name="tencar_sesio">Tencar sessió</string>
     <string name="modificar_contrasenya">Modificar contrasenya</string>
+    <string name="puntuacio">Puntuacio</string>
+    <string name="escriu_el_teu_comentari_aqu">Escriu el teu comentari aquí</string>
+    <string name="enviar_opini">Enviar opinió</string>
+    <string name="tappinges_gmail_com">tappinges@gmail.com</string>
+    <string name="enviar_a">Enviar a:</string>
+    <string name="assumpte">Assumpte:</string>
+    <string name="assumpte_">Assumpte</string>
+    <string name="misatge">Misatge:</string>
+    <string name="contingut">Contingut</string>
 </resources>

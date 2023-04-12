@@ -18,16 +18,23 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import com.example.tappingandroid.Conexio.ConexioBD;
 import com.example.tappingandroid.Dades.Local;
 import com.example.tappingandroid.Dades.Opinio;
 import com.example.tappingandroid.Dades.Tapa;
 import com.example.tappingandroid.GestioDeRegistres.IniciSessio;
 import com.google.android.material.navigation.NavigationView;
 
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+
+import javax.xml.transform.Result;
 
 public class Inici extends AppCompatActivity implements View.OnClickListener, SearchView.OnQueryTextListener {
 
@@ -41,12 +48,14 @@ public class Inici extends AppCompatActivity implements View.OnClickListener, Se
     private String nom,correu;
     private MenuItem menuItemXat, menuItemClose,menuItemLogin,menuItemComentaris, menuItemTapes, menuItemLocals;
     private SharedPreferences sharedPreferences;
+    String[] opcionesBusqueda;
 
     @SuppressLint({"MissingInflatedId", "NonConstantResourceId", "SetTextI18n"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         String a="";
+        opcionesBusqueda = new String[]{"Restaurant", "Ubicació", "Tapa", "Categoria"};
         setContentView(R.layout.activity_inici);
 
         // Recibe el intent
@@ -137,7 +146,7 @@ public class Inici extends AppCompatActivity implements View.OnClickListener, Se
                 case R.id.btn_tapes:
                     // Es passa la informació del local a mostrar a l'activitat LesMevesTapes
                     intent = new Intent(getApplicationContext(), LesMevesTapes.class);
-                    //intent.putExtra("local",new Local(R.drawable.logotiptapping, "Primer local", "C/pepito","12:00-15:00", 8.4, "616638823", "Local on oferim pastes i entrepans fets a casa.",tapes, opinions ));
+
                     break;
                 case R.id.btn_comentaris:
                     intent = new Intent(getApplicationContext(), Comentaris.class);
@@ -166,6 +175,7 @@ public class Inici extends AppCompatActivity implements View.OnClickListener, Se
     }
 
     // Mètode per canviar la visibilitat del menú segons si hi ha una sessió iniciada o no
+    @SuppressLint("SetTextI18n")
     private void VisibilitatMenu(boolean sessionActive) {
         if(sessionActive){
             // La sesión está iniciada, realiza alguna acción
@@ -205,8 +215,38 @@ public class Inici extends AppCompatActivity implements View.OnClickListener, Se
 
     @Override
     public boolean onQueryTextChange(String newText) {
-        // Aquí s'executa la cerca en temps real mentre es va escrivint
+
+        // Hacer una consulta en la base de datos o en algún otro origen de datos para obtener los resultados relevantes
+        List<String> results = null;
+        try {
+            results = queryResultsFromDatabase(newText);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        // Mostrar los resultados en una vista, como una lista o un recyclerview
+
         return false;
+    }
+
+
+
+    private List<String> queryResultsFromDatabase(String newText) throws SQLException {
+        List<String> results = new ArrayList<>();
+        Connection conexio = ConexioBD.CONN();
+        String query = "SELECT * FROM local WHERE nom LIKE '%"+newText+"%'";
+        Statement statement = conexio.createStatement();
+        ResultSet resultSet = statement.executeQuery(query);
+
+        while (resultSet.next()) {
+            String result = resultSet.getString("nom");
+            results.add(result);
+        }
+
+        resultSet.close();
+        statement.close();
+        conexio.close();
+        return results;
     }
 
     @Override

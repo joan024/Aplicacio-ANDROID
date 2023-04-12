@@ -5,27 +5,21 @@
     android:padding="16dp">
 
     <EditText
-        android:id="@+id/et_nom_usuari"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/usuari"/>
-
-    <EditText
         android:id="@+id/et_puntuacio"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:hint="puntuacio"/>
+        android:hint="@string/puntuacio"/>
     <EditText
         android:id="@+id/et_comentari"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Escriu el teu comentari aquí"/>
+        android:hint="@string/escriu_el_teu_comentari_aqu"/>
 
     <Button
         android:id="@+id/btn_enviar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Enviar opinió"
+        android:text="@string/enviar_opini"
         android:background="@drawable/esquines_rodones_orange"/>
 
 </LinearLayout>
