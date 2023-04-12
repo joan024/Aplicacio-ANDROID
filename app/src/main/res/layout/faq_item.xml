@@ -1,62 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:padding="14dp"
-    android:background="@drawable/esquines_rodones"
-    android:elevation="2dp"
-    android:layout_marginVertical="5dp"
-    android:layout_marginHorizontal="10dp">
+    android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/pregunta"
+    <LinearLayout
+        android:id="@+id/home_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/esquines_redones_gris"
-        android:text="Vamos de tapas?"
-        android:textColor="@color/black"
-        />
-    <TextView
-        android:id="@+id/resposta"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/esquines_rodones_orange"
-        android:text="Vamos mañana "
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="50dp"
-        android:textColor="@color/black"
-        />
-    <TextView
-        android:id="@+id/pregunta2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/esquines_redones_gris"
-        android:layout_below="@+id/resposta"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="15dp"
-        android:text="Para que sirve la App?"
-        android:textColor="@color/black"/>
-    <TextView
-        android:id="@+id/resposta2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/esquines_rodones_orange"
-        android:text="Puedes Buscar diferentes bar de tapas"
-        android:layout_below="@+id/pregunta2"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="15dp"
-        android:textColor="@color/black"
-        />
+        android:orientation="vertical">
 
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/preguntes_frequents"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:padding="16dp" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:id="@+id/ll_top">
+            <!-- Aquí se define la sección del título -->
+
+            <ImageView
+                android:id="@+id/iv_tornar"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:padding="8dp"
+                android:src="@drawable/tornar"
+                app:tint="@color/mandarina" />
+
+            <TextView
+                android:id="@+id/tv_titol"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:text="Preguntes Freqüents"
+                android:textSize="30sp" />
+        </LinearLayout>
 
 
-</RelativeLayout>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_pregunta"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:listitem="@layout/pregunta_item" />
+
+    </LinearLayout>
+
+</ScrollView>

@@ -85,6 +85,6 @@ public class DetallsLocal extends AppCompatActivity {
     //Mètode per tornar enrere
     public void onBackPressed() {
         super.onBackPressed();
-
+    }
 
 }
