@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
-import android.view.View;
 import android.widget.ImageView;
 
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -17,28 +16,31 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.appcompat.widget.SearchView;
 
-import java.text.ParseException;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 import com.example.tappingandroid.Adapter.LocalAdapter;
+import com.example.tappingandroid.Conexio.ConexioBD;
 import com.example.tappingandroid.Dades.Local;
-import com.example.tappingandroid.Dades.Opinio;
-import com.example.tappingandroid.Dades.Tapa;
 import com.example.tappingandroid.GestioDeRegistres.IniciSessio;
 import com.google.android.material.navigation.NavigationView;
-import com.example.tappingandroid.Adapter.LocalAdapter;
-import com.example.tappingandroid.Dades.Local;
-import com.example.tappingandroid.Dades.Tapa;
-
-import com.example.tappingandroid.R;
 
 public class Resultats extends AppCompatActivity {
 
     private DrawerLayout drawerLayout;
     private ImageView logoImatge;
     private Toolbar toolbar;
+    List<Local> llistaLocals = null;
+    Connection conexio;
+    Statement stmt = null;
+    ResultSet rs = null;
+    private String nom,correu;
+
     @SuppressLint({"MissingInflatedId", "NonConstantResourceId"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,35 +64,38 @@ public class Resultats extends AppCompatActivity {
         navigationView.setNavigationItemSelectedListener(item -> {
             Intent intent = null;
 
-            // S'obtenen les llistes de Tapa i Opinió
-            List<Tapa> tapes = null;
-            //obternirTapes();
-            List <Opinio> opinions = null;
-           /* try {
-                opinions = obternirOpinions();
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }*/
-
             // S'executa una acció segons el botó premut del menú Drawer
             switch (item.getItemId()) {
                 case R.id.btn_dades:
-                    intent = new Intent(getApplicationContext(), LesMevesDades.class);
+                    if(nom!=null){
+                        intent = new Intent(getApplicationContext(), LesMevesDades.class);
+                        intent.putExtra("usuari", correu);
+                    }else{
+                        intent = new Intent(getApplicationContext(), IniciSessio.class);
+                    }
                     break;
                 case R.id.btn_preferits:
-                    intent = new Intent(getApplicationContext(), ElsMeusFavorits.class);
-                    break;
+                    if(nom!=null){
+                        intent = new Intent(getApplicationContext(), ElsMeusFavorits.class);
+                        intent.putExtra("usuari", correu);
+                    }else{
+                        intent = new Intent(getApplicationContext(), IniciSessio.class);
+                    }                    break;
                 case R.id.btn_descompte:
-                    intent = new Intent(getApplicationContext(), ElsMeusDescomptes.class);
-                    break;
+                    if(nom!=null){
+                        intent = new Intent(getApplicationContext(), ElsMeusDescomptes.class);
+                        intent.putExtra("usuari", correu);
+                    }else{
+                        intent = new Intent(getApplicationContext(), IniciSessio.class);
+                    }   break;
                 case R.id.btn_noticies:
-                    intent = new Intent(getApplicationContext(), ElsMeusFavorits.class);
+                    intent = new Intent(getApplicationContext(), Noticies.class);
                     break;
                 case R.id.btn_preguntes:
-                    intent = new Intent(getApplicationContext(), ElsMeusFavorits.class);
+                    intent = new Intent(getApplicationContext(), PreguntesFrequents.class);
                     break;
                 case R.id.btn_contacte:
-                    intent = new Intent(getApplicationContext(), ElsMeusFavorits.class);
+                    intent = new Intent(getApplicationContext(), Contacta.class);
                     break;
                 case R.id.btn_locals:
                     intent = new Intent(getApplicationContext(), ElsMeusLocals.class);
@@ -98,7 +103,7 @@ public class Resultats extends AppCompatActivity {
                 case R.id.btn_tapes:
                     // Es passa la informació del local a mostrar a l'activitat LesMevesTapes
                     intent = new Intent(getApplicationContext(), LesMevesTapes.class);
-                    //intent.putExtra("local",new Local(R.drawable.logotiptapping, "Primer local", "C/pepito","12:00-15:00", 8.4, "616638823", "Local on oferim pastes i entrepans fets a casa.",tapes, opinions ));
+
                     break;
                 case R.id.btn_comentaris:
                     intent = new Intent(getApplicationContext(), Comentaris.class);
@@ -112,6 +117,8 @@ public class Resultats extends AppCompatActivity {
                 case R.id.btn_close:
                     SharedPreferences.Editor editor = getSharedPreferences("MyPrefs", MODE_PRIVATE).edit();
                     editor.putBoolean("session_active", false);
+                    editor.remove("id");
+                    editor.remove("nom");
                     editor.apply();
                     intent = new Intent(getApplicationContext(), Inici.class);
                     break;
@@ -150,8 +157,13 @@ public class Resultats extends AppCompatActivity {
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
 
-        // Crear una llista d'objectes local
-        List<Local> llistaLocals = null;
+        try {
+            obtenirLlistaLocals(query);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+
         /*try {
             llistaLocals = obtenirLlistaLocals();
         } catch (ParseException e) {
@@ -175,6 +187,15 @@ public class Resultats extends AppCompatActivity {
 
 
     }
+
+    private void obtenirLlistaLocals(String query) throws SQLException {
+        conexio = ConexioBD.CONN();
+
+        String sql = "SELECT * FROM Locales WHERE nom LIKE '%" + query + "%' OR direccio LIKE '%\" + query + \"%' OR descripcio LIKE '%\" + query + \"%'";
+
+        conexio.close();
+    }
+
     @Override
     public void onBackPressed() {
         if (drawerLayout.isDrawerOpen(GravityCompat.START)) {

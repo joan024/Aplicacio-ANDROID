@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -18,6 +19,7 @@ import com.example.tappingandroid.Dades.Opinio;
 
 import java.io.Serializable;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -43,60 +45,63 @@ public class AfegirOpinio extends AppCompatActivity implements Serializable {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_afegir_opinio);
-        SharedPreferences sharedPreferences = getSharedPreferences("myPrefs", Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
         id = sharedPreferences.getInt("id",0);
         // Assignem els elements de la vista a les variables corresponents
-        etNomUsuari = findViewById(R.id.et_nom_usuari);
         etPuntuacio = findViewById(R.id.et_puntuacio);
         etComentari = findViewById(R.id.et_comentari);
         btnEnviar = findViewById(R.id.btn_enviar);
 
         //Rebem les dades del local
         Intent intent = getIntent();
-       // local = (Local) intent.getSerializableExtra("local");
+        id2 = intent.getIntExtra("local",0);
 
         btnEnviar.setOnClickListener(v -> {
             // Obtenir les dades introduïdes per l'usuari
              nomUsuari = etNomUsuari.getText().toString();
-             puntuacio = Double.valueOf(etPuntuacio.getText().toString());
+             puntuacio = Double.parseDouble(etPuntuacio.getText().toString());
              comentari = etComentari.getText().toString();
 
             // Crear un objecte d'opinió amb les dades introduïdes per l'usuari
             Opinio opinion = new Opinio(nomUsuari, new Date(), comentari, puntuacio);
             insertar(id,id2,puntuacio,comentari,calendari);
 
-            // Afegir l'opinió al local corresponent
-            local.afegirOpinio(opinion);
             // Tornar el local modificat a l'activitat anterior
             Intent intent1 = new Intent();
-            intent.putExtra("local", local);
-            intent1.putExtra("opinion",opinion);
             setResult(RESULT_OK, intent);
-
-
-
-
             // Finalitzar l'activitat actual
             finish();
         });
     }
-    public void insertar (int id,int idLocal,Double puntuacio,String comentari, Calendar calendari){
-        conexio2 = ConexioBD.CONN();
-        calendari = Calendar.getInstance();
-        String sql = "INSERT INTO VALORACIO (id_usuario, id_local, puntuacio, comentari, date) VALUES (" + id + ", " +idLocal + ", " + puntuacio + ", '" + comentari + "', '" + new java.sql.Date(calendari.getTimeInMillis()) + "')";        int rowsAffected=0;
+    public void insertar(int id, int idLocal, Double puntuacio, String comentari, Calendar calendari) {
+        Connection conn = ConexioBD.CONN();
+        PreparedStatement stmt = null;
+        String sql = "INSERT INTO valoracio (id_usuari, id_local, puntuacio, comentari, data) VALUES (?, ?, ?, ?, ?)";
+        int rowsAffected = 0;
+        Log.d("JULIAAAA", String.valueOf(id));
         try {
-            stmt = conexio2.createStatement();
-            Statement stmt = conexio2.createStatement();
-            rowsAffected = stmt.executeUpdate(sql)+rowsAffected;
+            stmt = conn.prepareStatement(sql);
+            stmt.setInt(1, id);
+            stmt.setInt(2, idLocal);
+            stmt.setDouble(3, puntuacio);
+            stmt.setString(4, comentari);
+            stmt.setDate(5, new java.sql.Date(calendari.getTimeInMillis()));
+            rowsAffected = stmt.executeUpdate();
             if (rowsAffected > 0) {
-                Toast.makeText(this, "S'ha insertado les dades", Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(this, "No s'ha insertado les dades", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this,"La valoració s'ha inserit correctament.",Toast.LENGTH_SHORT).show();
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
+            Toast.makeText(this,"Hi ha hagut un error al intentar publicar la valoració.",Toast.LENGTH_SHORT).show();
+        } finally {
+            try {
+                if (stmt != null) {
+                    stmt.close();
+                }
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
         }
-
-
     }
+
 }
