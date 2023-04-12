@@ -35,7 +35,7 @@ import java.util.Locale;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-
+@SuppressLint("NonConstantResourceId")
 public class LesMevesDades extends AppCompatActivity {
     @BindView(R.id.et_nom) EditText etNom;
     @BindView(R.id.et_cognom) EditText etCognom;
@@ -74,6 +74,7 @@ public class LesMevesDades extends AppCompatActivity {
                 actualitzarDades(1);
             } catch (ParseException e) {
                 e.printStackTrace();
+                Toast.makeText(getApplicationContext(),"No s'han pogut actualitzar les dades.",Toast.LENGTH_SHORT).show();
             }
         });
         btnModificarContrasenya.setOnClickListener(v -> {
@@ -101,9 +102,11 @@ public class LesMevesDades extends AppCompatActivity {
                     actualitzarDades(2);
                 } catch (ParseException e) {
                     e.printStackTrace();
+                    Toast.makeText(getApplicationContext(),"No s'ha pogut actualitzar la contrassenya.",Toast.LENGTH_SHORT).show();
                 }
             }
         });
+
         // Se añade un botón para cancelar la operación
         builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
             @Override
@@ -139,7 +142,7 @@ public class LesMevesDades extends AppCompatActivity {
             //S'HA DE CANVIAR LA DATA NAIX, ARA GUARDA L'ACTUAL
             calendari = Calendar.getInstance();
             String sql = "UPDATE usuari SET nom=\"" + etNom.getText() + "\", correu = \"" + etEmail.getText() + "\" WHERE id=" + id;
-            SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
             Date date = dateFormat.parse(etNaix.getText().toString());
             calendari.setTime(date);
             // Formateamos la fecha en el formato deseado

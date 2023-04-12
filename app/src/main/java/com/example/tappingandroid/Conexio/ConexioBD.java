@@ -31,10 +31,6 @@ public class ConexioBD {
 
            // conn = DriverManager.getConnection(ConnURL);
 
-        } catch (SQLException se) {
-            Log.d("marc9", se.getMessage());
-        } catch (ClassNotFoundException e) {
-            Log.d("marc9", e.getMessage());
         } catch (Exception e) {
             Log.d("marc9", e.getMessage());
         }

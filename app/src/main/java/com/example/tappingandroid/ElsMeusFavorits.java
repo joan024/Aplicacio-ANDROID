@@ -10,6 +10,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.example.tappingandroid.Adapter.LocalAdapter;
 import com.example.tappingandroid.Conexio.ConexioBD;
@@ -60,6 +61,7 @@ public class ElsMeusFavorits extends AppCompatActivity {
             getLocalsFavorits(); // funció que obté els locals favorits de la persona
         } catch (SQLException e) {
             e.printStackTrace();
+            Toast.makeText(this, "No h'han pogut carregar els locals afegits a favorits.", Toast.LENGTH_SHORT).show();
         }
 
         adaptador = new LocalAdapter((ArrayList<Local>) locals); // adaptador per mostrar els locals favorits
@@ -193,32 +195,4 @@ public class ElsMeusFavorits extends AppCompatActivity {
 
         return dayNames[diaSetmana - 1];
     }
-/*
-    private List<Local> getLocalsFavorits() throws ParseException {
-        locals = new ArrayList<>();
-        List <Tapa> tapes = obternirTapes();
-        List <Opinio> opinions = obternirOpinions();
-        locals.add(new Local(R.drawable.logotiptapping, "Primer local", "C/pepito","12:00-15:00", 8.4, "616638823", "Local on oferim pastes i entrepans fets a casa.",tapes, opinions));
-        locals.add(new Local(R.drawable.logotiptapping, "Tercer local", "C/Un altre carrer", "18:00-22:00", 7.8, "659673959","El restaurant \"La Cuina del Mar\" és un lloc acollidor i elegant ubicat al centre de la ciutat. La decoració és d'estil marí, amb parets de rajoles blaves i blanques que recorden l'oceà i els detalls de fusta que evoquen l'ambient d'un vaixell.", tapes, opinions));
-
-        return locals;
-    }
-    private List<Tapa> obternirTapes() {
-        List <Tapa> tapes = new ArrayList<>();
-        tapes.add(new Tapa("Braves",4.5));
-        tapes.add(new Tapa("Chipirons", 6.7));
-        tapes.add(new Tapa("Croquetes", 3));
-        tapes.add(new Tapa("Patates fregides", 2.4));
-        tapes.add(new Tapa("Truita de patates", 5.8));
-        return tapes;
-    }
-    private List<Opinio> obternirOpinions() throws ParseException {
-        List <Opinio> opinions = new ArrayList<>();
-        opinions.add(new Opinio("Juan","12/02/2022","Aquest local es top.",7.8));
-        opinions.add(new Opinio("Maria","01/03/2022","Tornare a prendre unes braves segur.",9.2));
-        opinions.add(new Opinio("Lluc","03/02/2022","No crec que hi torni, personal desagradable.",4.5));
-        return opinions;
-    }
-    */
-
 }

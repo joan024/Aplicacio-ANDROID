@@ -16,6 +16,8 @@ import java.util.ArrayList;
 
 import com.example.tappingandroid.Adapter.NoticiaAdapter;
 import com.example.tappingandroid.Dades.Noticia;
+import com.squareup.picasso.Picasso;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -27,7 +29,6 @@ public class DetallsNoticia extends AppCompatActivity {
     @BindView(R.id.tv_data_publicacio) TextView tvDataPublicacio;
     @BindView(R.id.iv_tornar) ImageView ivTornar;
 
-
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_noticia);
@@ -38,13 +39,10 @@ public class DetallsNoticia extends AppCompatActivity {
         Intent intent = getIntent();
         Noticia noticia = (Noticia) intent.getSerializableExtra("noticia");
 
+        Picasso.get().load(noticia.getImagen()).into(ivImatge);
         tvTitol.setText(noticia.getTitol());
         tvDataPublicacio.setText(noticia.getData_publicacio());
         tvDescripcio.setText(noticia.getDescripcio());
         //ivImatge.setImageResource();
-
-
     }
 }
-
-

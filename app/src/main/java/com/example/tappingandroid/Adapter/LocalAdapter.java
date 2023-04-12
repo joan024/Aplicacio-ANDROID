@@ -15,13 +15,14 @@ import com.example.tappingandroid.R;
 import java.util.ArrayList;
 
 import com.example.tappingandroid.Dades.Local;
+import com.google.zxing.WriterException;
 import com.squareup.picasso.Picasso;
 
 public class LocalAdapter extends RecyclerView.Adapter<LocalAdapter.ViewHolder> {
 
     // Definició de la interfície OnItemClickListener
     public interface OnItemClickListener {
-        void onItemClick(int position);
+        void onItemClick(int position) throws WriterException;
     }
     private ArrayList<Local> locales;
     private OnItemClickListener onItemClickListener;
@@ -61,7 +62,11 @@ public class LocalAdapter extends RecyclerView.Adapter<LocalAdapter.ViewHolder> 
             @Override
             public void onClick(View view) {
                 if (onItemClickListener != null) {
-                    onItemClickListener.onItemClick(position);
+                    try {
+                        onItemClickListener.onItemClick(position);
+                    } catch (WriterException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         });
@@ -81,7 +86,6 @@ public class LocalAdapter extends RecyclerView.Adapter<LocalAdapter.ViewHolder> 
         TextView tvHorari;
         TextView tvPuntuacio;
 
-
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             ivFoto = itemView.findViewById(R.id.iv_local_foto);
@@ -92,4 +96,3 @@ public class LocalAdapter extends RecyclerView.Adapter<LocalAdapter.ViewHolder> 
         }
     }
 }
-

@@ -3,15 +3,17 @@ package com.example.tappingandroid;
 import static com.example.tappingandroid.Conexio.ConexioBD.closeConnection;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
-import android.widget.EditText;
+import android.widget.Adapter;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,25 +21,30 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.tappingandroid.Adapter.DescomptesAdapter;
+import com.example.tappingandroid.Adapter.LocalAdapter;
 import com.example.tappingandroid.Conexio.ConexioBD;
 import com.example.tappingandroid.Dades.Descompte;
-
-import com.example.tappingandroid.R;
+import com.example.tappingandroid.Dades.Local;
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.WriterException;
+import com.google.zxing.common.BitMatrix;
+import com.google.zxing.qrcode.QRCodeWriter;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 
-import butterknife.BindView;
+
+
 @SuppressLint("NonConstantResourceId")
 public class ElsMeusDescomptes extends AppCompatActivity {
 
     private ArrayList<Descompte> descomptes;
     private RecyclerView recyclerView;
+    DescomptesAdapter adaptador;
     private ImageView iv_tornar;
     Statement stmt = null;
     ResultSet rs = null, rs2 = null;
@@ -68,8 +75,40 @@ public class ElsMeusDescomptes extends AppCompatActivity {
 
         // Configurar el RecyclerView i l'adaptador
         recyclerView = findViewById(R.id.recycler_descuentos);
-        configurarRecyclerView();
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
+        adaptador = new DescomptesAdapter(descomptes);
+
+        adaptador.setOnItemClickListener(position -> {
+                    // Obtenir l'objecte  a la posició seleccionada
+                    Descompte descompteSeleccionat = descomptes.get(position);
+
+                    // Obtener el valor que deseas codificar
+                    String codi = descompteSeleccionat.getCodi();
+
+                    // Generar el código QR a partir del valor
+                    BitMatrix bitMatrix = generarQRCode(codi);
+
+                    // Convertir el código QR en una imagen Bitmap
+                    int width = bitMatrix.getWidth();
+                    int height = bitMatrix.getHeight();
+                    Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565);
+                    for (int x = 0; x < width; x++) {
+                        for (int y = 0; y < height; y++) {
+                            bitmap.setPixel(x, y, bitMatrix.get(x, y) ? Color.BLACK : Color.WHITE);
+                        }
+                    }
+
+                    // Mostrar el código QR en una ImageView
+                    ImageView imageView = new ImageView(ElsMeusDescomptes.this);
+                    imageView.setImageBitmap(bitmap);
+                    AlertDialog.Builder builder = new AlertDialog.Builder(ElsMeusDescomptes.this);
+                    builder.setView(imageView);
+                    builder.show();
+                });
+
+
+        recyclerView.setAdapter(adaptador);
 
     }
 
@@ -108,16 +147,13 @@ public class ElsMeusDescomptes extends AppCompatActivity {
 
     }
 
-    private void configurarRecyclerView() {
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(new DescomptesAdapter(descomptes) {
-            @Override
-            public void onDescompteClick(Descompte descompte) {
-                // Acció a realitzar en fer clic en un descompte
-                Toast.makeText(ElsMeusDescomptes.this, descompte.getCodi(), Toast.LENGTH_SHORT).show();
-            }
-        });
+
+    private BitMatrix generarQRCode(String codi) throws WriterException {
+        QRCodeWriter writer = new QRCodeWriter();
+        BitMatrix bitMatrix = writer.encode(codi, BarcodeFormat.QR_CODE, 512, 512);
+        return bitMatrix;
     }
+
 
     // Configurar el botó d'entrada a la barra d'acció
     @Override

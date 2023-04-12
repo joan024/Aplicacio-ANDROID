@@ -4,15 +4,22 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.ImageView;
 
 import com.example.tappingandroid.Adapter.LocalAdapter;
+import com.example.tappingandroid.Conexio.ConexioBD;
 import com.example.tappingandroid.Dades.Local;
 import com.example.tappingandroid.Dades.Opinio;
 import com.example.tappingandroid.Dades.Tapa;
 
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +30,10 @@ public class ElsMeusLocals extends AppCompatActivity {
     private LocalAdapter adaptador;
     private List<Local> locals;
     private ImageView iv_tornar;
+    private Statement stmt = null;
+    private ResultSet rs = null;
+    private Connection conexio;
+    private int id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,15 +41,17 @@ public class ElsMeusLocals extends AppCompatActivity {
         setContentView(R.layout.activity_els_meus_locals);
 
         iv_tornar = findViewById(R.id.iv_tornar);
-
         iv_tornar.setOnClickListener(v -> onBackPressed());
+
+        SharedPreferences sharedPref = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+        id = sharedPref.getInt("id", 0);
 
         recyclerView = findViewById(R.id.rv_locals);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         try {
             locals = getLocals(); // funció que obte els locals d'un restaurant
-        } catch (ParseException e) {
+        } catch (ParseException | SQLException e) {
             e.printStackTrace();
         }
 
@@ -55,15 +68,16 @@ public class ElsMeusLocals extends AppCompatActivity {
         });
 
         recyclerView.setAdapter(adaptador);
-
     }
 
-    private List<Local> getLocals() throws ParseException {
+    private List<Local> getLocals() throws ParseException, SQLException {
+        conexio = ConexioBD.CONN();
+        String sql = "SELECT * FROM local WHERE id_usuari="+ id;
+
         locals = new ArrayList<>();
        // List <Tapa> tapes = obternirTapes();
-        //List <Opinio> opinions = obternirOpinions();
-       // locals.add(new Local(R.drawable.logotiptapping, "Primer local", "C/pepito","12:00-15:00", 8.4, "616638823", "Local on oferim pastes i entrepans fets a casa.",tapes, opinions));
 
+        conexio.close();
         return locals;
     }
     /*

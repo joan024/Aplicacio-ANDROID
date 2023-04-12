@@ -15,6 +15,7 @@ import com.example.tappingandroid.R;
 import java.util.List;
 
 import com.example.tappingandroid.Dades.Noticia;
+import com.squareup.picasso.Picasso;
 
 public class NoticiaAdapter extends RecyclerView.Adapter<NoticiaAdapter.ViewHolder> {
 
@@ -51,6 +52,7 @@ public class NoticiaAdapter extends RecyclerView.Adapter<NoticiaAdapter.ViewHold
     public void onBindViewHolder(@NonNull ViewHolder holder, @SuppressLint("RecyclerView") int position) {
         Noticia noticia = noticias.get(position);
         //holder.imagenImageView.setImageResource(noticia.getImagen());
+        Picasso.get().load(noticia.getImagen()).into(holder.imagenImageView);
         holder.tituloTextView.setText(noticia.getTitol());
         holder.descripcionTextView.setText(noticia.getDescripcio());
         holder.data_publicacio.setText(noticia.getData_publicacio());
@@ -63,7 +65,6 @@ public class NoticiaAdapter extends RecyclerView.Adapter<NoticiaAdapter.ViewHold
                 }
             }
         });
-
     }
 
     @Override
