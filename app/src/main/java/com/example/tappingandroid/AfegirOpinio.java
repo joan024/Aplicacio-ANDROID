@@ -16,6 +16,7 @@ import com.example.tappingandroid.Conexio.ConexioBD;
 import com.example.tappingandroid.Dades.Local;
 import com.example.tappingandroid.Dades.Opinio;
 
+import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -25,7 +26,7 @@ import java.util.Date;
 
 import butterknife.BindView;
 
-public class AfegirOpinio extends AppCompatActivity {
+public class AfegirOpinio extends AppCompatActivity implements Serializable {
 
     // Declarem els elements de la vista
     private EditText etNomUsuari, etPuntuacio, etComentari;
@@ -60,17 +61,16 @@ public class AfegirOpinio extends AppCompatActivity {
              puntuacio = Double.valueOf(etPuntuacio.getText().toString());
              comentari = etComentari.getText().toString();
 
-             //webapps.insjoanbrudieu.cat
-
             // Crear un objecte d'opinió amb les dades introduïdes per l'usuari
             Opinio opinion = new Opinio(nomUsuari, new Date(), comentari, puntuacio);
-
             insertar(id,id2,puntuacio,comentari,calendari);
+
             // Afegir l'opinió al local corresponent
             local.afegirOpinio(opinion);
             // Tornar el local modificat a l'activitat anterior
             Intent intent1 = new Intent();
             intent.putExtra("local", local);
+            intent1.putExtra("opinion",opinion);
             setResult(RESULT_OK, intent);
 
 
