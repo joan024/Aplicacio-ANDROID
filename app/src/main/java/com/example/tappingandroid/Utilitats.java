@@ -1,13 +1,19 @@
 package com.example.tappingandroid;
 
+import static android.content.Context.MODE_PRIVATE;
+
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.util.Log;
+import android.view.MenuItem;
 
 import com.example.tappingandroid.Conexio.ConexioBD;
 import com.example.tappingandroid.Dades.Local;
 import com.example.tappingandroid.Dades.Opinio;
 import com.example.tappingandroid.Dades.Tapa;
+import com.example.tappingandroid.GestioDeRegistres.IniciSessio;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -149,9 +155,121 @@ public class Utilitats {
     }
 
     public static int agafarIdShared(Context context){
-        SharedPreferences sharedPref = context.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+        SharedPreferences sharedPref = context.getSharedPreferences("MyPrefs", MODE_PRIVATE);
         return sharedPref.getInt("id", 0);
     }
 
+    public static void visibilitatConsumidors(MenuItem menuItemFavorits, MenuItem menuItemDescomptes, MenuItem menuItemLesMevesDades, MenuItem menuItemXat, MenuItem menuItemLocals, MenuItem menuItemTapes, MenuItem menuItemComentaris) {
+        menuItemLocals.setVisible(false);
+        menuItemTapes.setVisible(false);
+        menuItemComentaris.setVisible(false);
+        menuItemXat.setVisible(false);
+        menuItemLesMevesDades.setVisible(true);
+        menuItemDescomptes.setVisible(true);
+        menuItemFavorits.setVisible(true);
+    }
+
+    public static void visibilitatLocals(MenuItem menuItemFavorits, MenuItem menuItemDescomptes, MenuItem menuItemLesMevesDades, MenuItem menuItemXat, MenuItem menuItemLocals, MenuItem menuItemTapes, MenuItem menuItemComentaris) {
+        menuItemLocals.setVisible(true);
+        menuItemTapes.setVisible(true);
+        menuItemComentaris.setVisible(true);
+        menuItemXat.setVisible(true);
+        menuItemLesMevesDades.setVisible(false);
+        menuItemDescomptes.setVisible(false);
+        menuItemFavorits.setVisible(false);
+    }
+
+    public static int getTipusUsuari(int id) throws SQLException {
+        Connection conexio = ConexioBD.CONN();
+        String sql = "SELECT * FROM local WHERE id_usuari=" + id;
+        Statement stmt = null;
+        ResultSet rs = null;
+        boolean esLocal = false;
+
+        try {
+            stmt = conexio.createStatement();
+            rs = stmt.executeQuery(sql);
+
+            if (rs.next()) {
+                esLocal = true;
+
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        conexio.close();
+        if (esLocal) {
+            return 2;
+        } else {
+            return 1;
+        }
+    }
+
+
+    @SuppressLint("NonConstantResourceId")
+    public static Intent gestioDeMenu(MenuItem item, Intent intent, String nom, Context context, String correu) {
+        // S'executa una acció segons el botó premut del menú Drawer
+        switch (item.getItemId()) {
+            case R.id.btn_dades:
+                if (nom != null) {
+                    intent = new Intent(context, LesMevesDades.class);
+                    intent.putExtra("usuari", correu);
+                } else {
+                    intent = new Intent(context, IniciSessio.class);
+                }
+                break;
+            case R.id.btn_preferits:
+                if (nom != null) {
+                    intent = new Intent(context, ElsMeusFavorits.class);
+                    intent.putExtra("usuari", correu);
+                } else {
+                    intent = new Intent(context, IniciSessio.class);
+                }
+                break;
+            case R.id.btn_descompte:
+                if (nom != null) {
+                    intent = new Intent(context, ElsMeusDescomptes.class);
+                    intent.putExtra("usuari", correu);
+                } else {
+                    intent = new Intent(context, IniciSessio.class);
+                }
+                break;
+            case R.id.btn_noticies:
+                intent = new Intent(context, Noticies.class);
+                break;
+            case R.id.btn_preguntes:
+                intent = new Intent(context, PreguntesFrequents.class);
+                break;
+            case R.id.btn_contacte:
+                intent = new Intent(context, Contacta.class);
+                break;
+            case R.id.btn_locals:
+                intent = new Intent(context, ElsMeusLocals.class);
+                break;
+            case R.id.btn_tapes:
+                // Es passa la informació del local a mostrar a l'activitat LesMevesTapes
+                intent = new Intent(context, LesMevesTapes.class);
+                break;
+            case R.id.btn_comentaris:
+                intent = new Intent(context, Comentaris.class);
+                break;
+            case R.id.btn_xat:
+                intent = new Intent(context, Chat.class);
+                break;
+            case R.id.btn_login:
+                intent = new Intent(context, IniciSessio.class);
+                break;
+            case R.id.btn_close:
+
+                SharedPreferences.Editor editor = context.getSharedPreferences("MyPrefs", MODE_PRIVATE).edit();
+                editor.putBoolean("session_active", false);
+                editor.remove("id");
+                editor.remove("nom");
+                editor.apply();
+                intent = new Intent(context, Inici.class);
+                break;
+        }
+        return intent;
+    }
 
 }

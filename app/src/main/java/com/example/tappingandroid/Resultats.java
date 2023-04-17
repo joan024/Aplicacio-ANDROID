@@ -1,11 +1,14 @@
 package com.example.tappingandroid;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
-import android.widget.ImageView;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
@@ -27,19 +30,23 @@ import java.util.Objects;
 import com.example.tappingandroid.Adapter.LocalAdapter;
 import com.example.tappingandroid.Conexio.ConexioBD;
 import com.example.tappingandroid.Dades.Local;
-import com.example.tappingandroid.GestioDeRegistres.IniciSessio;
+import com.example.tappingandroid.Dades.Opinio;
+import com.example.tappingandroid.Dades.Tapa;
 import com.google.android.material.navigation.NavigationView;
 
 public class Resultats extends AppCompatActivity {
 
     private DrawerLayout drawerLayout;
-    private ImageView logoImatge;
     private Toolbar toolbar;
-    List<Local> llistaLocals = null;
+    List<Local> locals = null;
+    List<Tapa> tapes = null;
+    List<Opinio> opinions = null;
     Connection conexio;
-    Statement stmt = null;
-    ResultSet rs = null;
+    private TextView textHeader;
     private String nom,correu;
+    private int id,usuari;
+    private MenuItem menuItemFavorits, menuItemLesMevesDades,menuItemDescomptes,menuItemXat, menuItemClose, menuItemLogin, menuItemComentaris, menuItemTapes, menuItemLocals;
+    private SharedPreferences sharedPreferences;
 
     @SuppressLint({"MissingInflatedId", "NonConstantResourceId"})
     @Override
@@ -47,6 +54,7 @@ public class Resultats extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_resultats);
 
+        // S'obtenen les referències als elements del layout
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
@@ -54,85 +62,47 @@ public class Resultats extends AppCompatActivity {
 
         // S'estableix la icona d'hamburguesa
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_menu);
-        // S'obté el DrawerLayout
         drawerLayout = findViewById(R.id.drawer_layout);
-        // Es configura el botó d'hamburguesa de la Toolbar
         configurarDrawerToggle();
 
-        // S'obté la referència al NavigationView i es configura el Listener
+        // S'obté la referència al NavigationView i del ViewHeader
         NavigationView navigationView = findViewById(R.id.navigation_view);
+        View headerView = navigationView.getHeaderView(0);
+        textHeader = headerView.findViewById(R.id.header_title);
+
+        //S'obté la referencia del menu
+        Menu menu = navigationView.getMenu();
+        findItemsMenu(menu);
+
+        //Mirem si hi ha una sessió activa
+        sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
+        boolean sessionActive = sharedPreferences.getBoolean("session_active", false); // false es el valor predeterminat si la clau no existeix
+
+        //Gestionem la visibilitat del menu
+        try {
+            VisibilitatMenu(sessionActive);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        //Gestionem el menu
         navigationView.setNavigationItemSelectedListener(item -> {
             Intent intent = null;
+            Context context = getApplicationContext();
+            intent= Utilitats.gestioDeMenu(item,intent, nom, context, correu);
 
-            // S'executa una acció segons el botó premut del menú Drawer
-            switch (item.getItemId()) {
-                case R.id.btn_dades:
-                    if(nom!=null){
-                        intent = new Intent(getApplicationContext(), LesMevesDades.class);
-                        intent.putExtra("usuari", correu);
-                    }else{
-                        intent = new Intent(getApplicationContext(), IniciSessio.class);
-                    }
-                    break;
-                case R.id.btn_preferits:
-                    if(nom!=null){
-                        intent = new Intent(getApplicationContext(), ElsMeusFavorits.class);
-                        intent.putExtra("usuari", correu);
-                    }else{
-                        intent = new Intent(getApplicationContext(), IniciSessio.class);
-                    }                    break;
-                case R.id.btn_descompte:
-                    if(nom!=null){
-                        intent = new Intent(getApplicationContext(), ElsMeusDescomptes.class);
-                        intent.putExtra("usuari", correu);
-                    }else{
-                        intent = new Intent(getApplicationContext(), IniciSessio.class);
-                    }   break;
-                case R.id.btn_noticies:
-                    intent = new Intent(getApplicationContext(), Noticies.class);
-                    break;
-                case R.id.btn_preguntes:
-                    intent = new Intent(getApplicationContext(), PreguntesFrequents.class);
-                    break;
-                case R.id.btn_contacte:
-                    intent = new Intent(getApplicationContext(), Contacta.class);
-                    break;
-                case R.id.btn_locals:
-                    intent = new Intent(getApplicationContext(), ElsMeusLocals.class);
-                    break;
-                case R.id.btn_tapes:
-                    // Es passa la informació del local a mostrar a l'activitat LesMevesTapes
-                    intent = new Intent(getApplicationContext(), LesMevesTapes.class);
-
-                    break;
-                case R.id.btn_comentaris:
-                    intent = new Intent(getApplicationContext(), Comentaris.class);
-                    break;
-                case R.id.btn_xat:
-                    intent = new Intent(getApplicationContext(), Chat.class);
-                    break;
-                case R.id.btn_login:
-                    intent = new Intent(getApplicationContext(), IniciSessio.class);
-                    break;
-                case R.id.btn_close:
-                    SharedPreferences.Editor editor = getSharedPreferences("MyPrefs", MODE_PRIVATE).edit();
-                    editor.putBoolean("session_active", false);
-                    editor.remove("id");
-                    editor.remove("nom");
-                    editor.apply();
-                    intent = new Intent(getApplicationContext(), Inici.class);
-                    break;
-            }
             startActivity(intent);
             return true;
         });
 
         Intent intent = getIntent();
         String query = intent.getStringExtra("filtre");
+
         //SEARCH VIEW
         SearchView searchView = findViewById(R.id.sv_busqueda);
         // Establir el text de cerca desat a la variable searchText
         searchView.setQuery(query, false);
+        searchView.setQueryHint("Locals, ubicacions, tapes, categories");
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String filtre) {
@@ -151,6 +121,8 @@ public class Resultats extends AppCompatActivity {
             }
             });
 
+        locals = new ArrayList<>();
+
         // Obtenir referència a la RecyclerView
         RecyclerView recyclerView = findViewById(R.id.rv_locals);
 
@@ -163,18 +135,11 @@ public class Resultats extends AppCompatActivity {
             e.printStackTrace();
         }
 
-
-        /*try {
-            llistaLocals = obtenirLlistaLocals();
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }*/
-
         // Crear una instància de l'adaptador i assignar-lo a la RecyclerView
-        LocalAdapter adaptador = new LocalAdapter((ArrayList<Local>) llistaLocals);
+        LocalAdapter adaptador = new LocalAdapter((ArrayList<Local>) locals);
         recyclerView.setAdapter(adaptador);
 
-        List<Local> finalLlistaLocals = llistaLocals;
+        List<Local> finalLlistaLocals = locals;
         adaptador.setOnItemClickListener(position -> {
             // Obtenir l'objecte local a la posició seleccionada
             Local localSeleccionado = finalLlistaLocals.get(position);
@@ -184,16 +149,135 @@ public class Resultats extends AppCompatActivity {
             intent1.putExtra("local", localSeleccionado);
             startActivity(intent1);
         });
+    }
 
+    //Funcio per agafar els items del menu
+    private void findItemsMenu(Menu menu) {
+        menuItemLogin = menu.findItem(R.id.btn_login);
+        menuItemClose = menu.findItem(R.id.btn_close);
+        menuItemLocals = menu.findItem(R.id.btn_locals);
+        menuItemTapes = menu.findItem(R.id.btn_tapes);
+        menuItemComentaris = menu.findItem(R.id.btn_comentaris);
+        menuItemXat = menu.findItem(R.id.btn_xat);
+        menuItemLesMevesDades = menu.findItem(R.id.btn_dades);
+        menuItemDescomptes = menu.findItem(R.id.btn_descompte);
+        menuItemFavorits = menu.findItem(R.id.btn_preferits);
+    }
 
+    // Mètode per canviar la visibilitat del menú segons si hi ha una sessió iniciada o no
+    @SuppressLint("SetTextI18n")
+    private void VisibilitatMenu(boolean sessionActive) throws SQLException {
+        if (sessionActive) {
+            // La sesión está iniciada, realiza alguna acción
+            id = sharedPreferences.getInt("id", 0);
+
+            usuari = Utilitats.getTipusUsuari(id);
+
+            nom = sharedPreferences.getString("nom", "");
+            correu = sharedPreferences.getString("correu", "");
+
+            textHeader.setText("Hola, " + nom);
+
+            //GENERAL
+            menuItemLogin.setVisible(false);
+            menuItemClose.setVisible(true);
+            if(usuari == 2){
+                //LOCALS
+                Utilitats.visibilitatLocals(menuItemFavorits, menuItemDescomptes, menuItemLesMevesDades, menuItemXat, menuItemLocals, menuItemTapes, menuItemComentaris);
+            }else{
+                //CONSUMIDOR
+                Utilitats.visibilitatConsumidors(menuItemFavorits, menuItemDescomptes, menuItemLesMevesDades, menuItemXat, menuItemLocals, menuItemTapes, menuItemComentaris);
+            }
+        } else {
+            //Sense iniciar sessió per defecte veura la pantalla de consumidor
+            menuItemLogin.setVisible(true);
+            menuItemClose.setVisible(false);
+            Utilitats.visibilitatConsumidors(menuItemFavorits, menuItemDescomptes, menuItemLesMevesDades, menuItemXat, menuItemLocals, menuItemTapes, menuItemComentaris);
+        }
     }
 
     private void obtenirLlistaLocals(String query) throws SQLException {
         conexio = ConexioBD.CONN();
 
-        String sql = "SELECT * FROM Locales WHERE nom LIKE '%" + query + "%' OR direccio LIKE '%\" + query + \"%' OR descripcio LIKE '%\" + query + \"%'";
+        String sql = "SELECT * FROM local WHERE nom LIKE '%" + query + "%' OR direccio LIKE '%" + query + "%' OR descripcio LIKE '%" + query + "%'";
 
+        Statement stmt = null;
+        Statement stmt6 = null;
+        ResultSet rs = null;
+        try {
+            stmt = conexio.createStatement();
+            rs = stmt.executeQuery(sql);
+            Statement stmt2 = conexio.createStatement();
+            Statement stmt3 = conexio.createStatement();
+            Statement stmt4 = conexio.createStatement();
+            Statement stmt5 = conexio.createStatement();
+            stmt6 = conexio.createStatement();
+
+            while(rs.next()){
+                int id_local = rs.getInt("id");
+                int id_horari = rs.getInt("id_horari");
+
+                String horari = Utilitats.queryHorari(stmt2, id_horari);
+                tapes = Utilitats.queryTapes(stmt3, tapes, id_local);
+                opinions = Utilitats.queryOpinions(stmt4, opinions, id_local);
+                String link_foto = Utilitats.queryFotoPrincipal(stmt5, id_local);
+
+                Double mitjana= Utilitats.calcularMitjanaPuntuacio(opinions);
+
+                locals.add(new Local(id_local,link_foto,rs.getString("nom"),rs.getString("direccio"),horari,mitjana,rs.getString("telefon"),rs.getString("descripcio"),tapes,opinions));
+            }
+
+            buscarPerTapes(locals,stmt6,stmt3,stmt2, stmt4, stmt5, query);
+
+            buscarPerCategories(locals,stmt6,stmt3,stmt2, stmt4, stmt5, query);
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         conexio.close();
+    }
+
+    private void comprovarFiles(ResultSet rs, Statement stmt2, Statement stmt3,Statement stmt4, Statement stmt5) throws SQLException {
+        // Creem un objecte Local per cada fila del resultat i l'afegim a la llista locals si no hi és ja
+        while (rs.next()) {
+            int id = rs.getInt("id");
+            boolean localJaAfegit = false;
+            for (Local local : locals) {
+                if (local.getId() == id) {
+                    localJaAfegit = true;
+                    break;
+                }
+            }
+            if (!localJaAfegit) {
+                String link_foto = Utilitats.queryFotoPrincipal(stmt5, id);
+                tapes = Utilitats.queryTapes(stmt3, tapes, id);
+                opinions = Utilitats.queryOpinions(stmt4, opinions, id);
+                String horari = Utilitats.queryHorari(stmt2, id);
+
+                Double mitjana= Utilitats.calcularMitjanaPuntuacio(opinions);
+                Local local = new Local(id, link_foto,rs.getString("nom"), rs.getString("direccio"),horari, mitjana,rs.getString("telefon"),rs.getString("descripcio"), tapes, opinions);
+                locals.add(local);
+            }
+        }
+    }
+
+    private void buscarPerCategories(List<Local> locals, Statement stmt6, Statement stmt3, Statement stmt2, Statement stmt4, Statement stmt5, String query) throws SQLException {
+
+        // Consulta SQL per obtenir els locals que tenen tapes que pertanyen a categories que contenen la query
+        String consultaLocalsAmbTapes = "SELECT l.* FROM local l, tapa t, local_tapa tl, categoria c, categoria_tapa ct WHERE c.nom LIKE '%" + query + "%' AND t.id = tl.id_tapa AND l.id = tl.id_local AND c.id= ct.id_categoria AND t.id = ct.id_tapa";
+        ResultSet rs6 = stmt6.executeQuery(consultaLocalsAmbTapes);
+
+        comprovarFiles(rs6, stmt2, stmt3, stmt4, stmt5);
+    }
+
+
+        private void buscarPerTapes(List<Local> locals, Statement stmt6, Statement stmt3, Statement stmt2, Statement stmt4, Statement stmt5, String query) throws SQLException {
+
+        // Consulta SQL per obtenir els locals que tenen tapes que contenen la query
+        String consultaLocalsAmbTapes = "SELECT l.* FROM local l, tapa t, local_tapa tl WHERE t.nom LIKE '%" + query + "%' AND t.id = tl.id_tapa AND l.id = tl.id_local";
+        ResultSet rs6 = stmt6.executeQuery(consultaLocalsAmbTapes);
+
+        comprovarFiles(rs6, stmt2, stmt3, stmt4, stmt5);
     }
 
     @Override
@@ -216,35 +300,4 @@ public class Resultats extends AppCompatActivity {
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
     }
-    /*
-    public List<Local> obtenirLlistaLocals() throws ParseException {
-        List<Local> locals = new ArrayList<>();
-        List <Tapa> tapes = obternirTapes();
-        List <Opinio> opinions = obternirOpinions();
-        locals.add(new Local(R.drawable.logotiptapping, "Primer local", "C/pepito","12:00-15:00", 8.4, "616638823", "Local on oferim pastes i entrepans fets a casa.",tapes, opinions ));
-        locals.add(new Local(R.drawable.logotiptapping, "Segon local", "C/Un carrer", "14:00-20:00", 9.2,"696456789", "Local inovador.", tapes, opinions));
-        locals.add(new Local(R.drawable.logotiptapping, "Tercer local", "C/Un altre carrer", "18:00-22:00", 7.8, "659673959","El restaurant \"La Cuina del Mar\" és un lloc acollidor i elegant ubicat al centre de la ciutat. La decoració és d'estil marí, amb parets de rajoles blaves i blanques que recorden l'oceà i els detalls de fusta que evoquen l'ambient d'un vaixell.", tapes, opinions));
-        return locals;
-    }
-
-    private List<Opinio> obternirOpinions() throws ParseException {
-        List <Opinio> opinions = new ArrayList<>();
-        opinions.add(new Opinio("Juan","12/02/2022","Aquest local es top.",7.8));
-        opinions.add(new Opinio("Maria","01/03/2022","Tornare a prendre unes braves segur.",9.2));
-        opinions.add(new Opinio("Lluc","03/02/2022","No crec que hi torni, personal desagradable.",4.5));
-        return opinions;
-    }
-
-    private List<Tapa> obternirTapes() {
-        List <Tapa> tapes = new ArrayList<>();
-        tapes.add(new Tapa("Braves",4.5));
-        tapes.add(new Tapa("Chipirons", 6.7));
-        tapes.add(new Tapa("Croquetes", 3));
-        tapes.add(new Tapa("Patates fregides", 2.4));
-        tapes.add(new Tapa("Truita de patates", 5.8));
-        return tapes;
-    }
-
-     */
-
 }
