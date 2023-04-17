@@ -10,7 +10,6 @@ import java.sql.SQLException;
 
 public class ConexioBD {
 
-    //static String url = "jdbc:mysql://192.168.1.150:25230/tappingDB";
     static String user = "'tapping'";
     static String password = "JuMaJoJo!!25231";
     static Connection conn = null;

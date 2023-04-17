@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.widget.ImageView;
 
 import com.example.tappingandroid.Adapter.OpinioAdapter;
+import com.example.tappingandroid.Adapter.TapasAdapter;
 import com.example.tappingandroid.Conexio.ConexioBD;
 import com.example.tappingandroid.Dades.Local;
 import com.example.tappingandroid.Dades.Opinio;
@@ -37,6 +38,7 @@ public class Comentaris extends AppCompatActivity {
     ResultSet rs = null;
     int id=0;String comentari,data;
     double puntuacion;
+    List<Local> locals;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,57 +46,22 @@ public class Comentaris extends AppCompatActivity {
         setContentView(R.layout.activity_comentaris);
         ButterKnife.bind(this);
 
-        //List<Local> locals = new ArrayList<Local>();
+        id = Utilitats.agafarIdShared(this);
+
         ivTornar.setOnClickListener(v -> onBackPressed());
 
-        // Crear objectes de dades per al local i les seves opinions
-        Local local = null;
-        List<Tapa> tapes = new ArrayList<Tapa>();
-        //tapes.add(new Tapa("Braves",6.4));
-        List <Opinio> opinions =  new ArrayList<Opinio>();
         try {
-            opinions.add(new Opinio("Juan","12/02/2022","Aquest local es top.",7.8));
-            select(opinions);
-        } catch (ParseException e) {
+            locals = Utilitats.getLocals(locals, id); // funció que obte els locals d'un restaurant
+        } catch (ParseException | SQLException e) {
             e.printStackTrace();
         }
 
-        Intent intentOpinion =getIntent();
-        String opinion = intentOpinion.getStringExtra("Opinion");
-        //local = new Local(R.drawable.logotiptapping, "Primer local", "C/pepito","12:00-15:00", 8.4, "616638823", "Local on oferim pastes i entrepans fets a casa.",tapes, opinions);
-
-
-        recyclerViewOpinions.setLayoutManager(new LinearLayoutManager(this));
-        recyclerViewOpinions.setAdapter((new OpinioAdapter(local.getOpinions())));
-
-    }
-
-    public void select(List <Opinio> opinions){
-
-        conexio = ConexioBD.CONN();
-        String sql = "SELECT * FROM valoracio";
-
-
-        boolean esValid = false;
-        try {
-            stmt = conexio.createStatement();
-            rs = stmt.executeQuery(sql);
-
-            while (rs.next()) {
-                id = rs.getInt("id");
-                puntuacion = rs.getDouble("puntuacio");
-                comentari = rs.getString("comentari");
-                data = rs.getString("data");
-
-                Opinio op = new Opinio(id+"",data,comentari,puntuacion);
-                opinions.add(op);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (ParseException e) {
-            e.printStackTrace();
+        for(int i=0; i<locals.size(); i++){
+            Local local = locals.get(i); // Aquí obtenemos la instancia de Local en la posición i
+            // Establir el disseny del RecyclerView
+            recyclerViewOpinions.setLayoutManager(new LinearLayoutManager(this));
+            // Establir l'adaptador del RecyclerView
+            recyclerViewOpinions.setAdapter((new OpinioAdapter(local.getOpinions())));
         }
-
     }
-
 }

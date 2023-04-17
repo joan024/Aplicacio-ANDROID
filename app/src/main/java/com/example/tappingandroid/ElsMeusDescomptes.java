@@ -58,8 +58,9 @@ public class ElsMeusDescomptes extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_els_meus_descomptes);
-        SharedPreferences sharedPref = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
-        id = sharedPref.getInt("id", 0);
+
+        id = Utilitats.agafarIdShared(this);
+
         Log.d("juliaaaa", "Afegint id: " + id);
 
         iv_tornar = findViewById(R.id.iv_tornar);
