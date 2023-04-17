@@ -200,5 +200,4 @@ public class DetallsLocal extends AppCompatActivity {
         super.onBackPressed();
     }
 
-    }
 }
