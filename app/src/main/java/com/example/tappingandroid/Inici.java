@@ -13,6 +13,7 @@ import android.widget.SearchView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
@@ -44,17 +45,18 @@ public class Inici extends AppCompatActivity implements View.OnClickListener, Se
     private SearchView searchView;
     private TextView textHeader;
     private Toolbar toolbar;
-    private int usuari,id;
-    private String nom,correu;
-    private MenuItem menuItemXat, menuItemClose,menuItemLogin,menuItemComentaris, menuItemTapes, menuItemLocals;
+    private int usuari, id;
+    private String nom, correu;
+    private MenuItem menuItemFavorits, menuItemLesMevesDades,menuItemDescomptes,menuItemXat, menuItemClose, menuItemLogin, menuItemComentaris, menuItemTapes, menuItemLocals;
     private SharedPreferences sharedPreferences;
     String[] opcionesBusqueda;
+    Connection conexio;
 
     @SuppressLint({"MissingInflatedId", "NonConstantResourceId", "SetTextI18n"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        String a="";
+        String a = "";
         opcionesBusqueda = new String[]{"Restaurant", "Ubicació", "Tapa", "Categoria"};
         setContentView(R.layout.activity_inici);
 
@@ -79,7 +81,7 @@ public class Inici extends AppCompatActivity implements View.OnClickListener, Se
         // Es configura el botó d'hamburguesa de la Toolbar
         configurarDrawerToggle();
         // S'estableix l'identificador de l'usuari
-        usuari=2;
+        usuari = 2;
 
         // S'obté la referència al NavigationView i es configura el Listener
         NavigationView navigationView = findViewById(R.id.navigation_view);
@@ -91,9 +93,12 @@ public class Inici extends AppCompatActivity implements View.OnClickListener, Se
         menuItemTapes = menu.findItem(R.id.btn_tapes);
         menuItemComentaris = menu.findItem(R.id.btn_comentaris);
         menuItemXat = menu.findItem(R.id.btn_xat);
+        menuItemLesMevesDades = menu.findItem(R.id.btn_dades);
+        menuItemDescomptes = menu.findItem(R.id.btn_descompte);
+        menuItemFavorits = menu.findItem(R.id.btn_preferits);
 
         textHeader = headerView.findViewById(R.id.header_title);
-        if(nom != null){
+        if (nom != null) {
             SharedPreferences.Editor editor = getSharedPreferences("MyPrefs", MODE_PRIVATE).edit();
             editor.putBoolean("session_active", true);
             editor.apply();
@@ -101,8 +106,11 @@ public class Inici extends AppCompatActivity implements View.OnClickListener, Se
 
         sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
         boolean sessionActive = sharedPreferences.getBoolean("session_active", false); // false es el valor predeterminado si la clave no existe
-        VisibilitatMenu(sessionActive);
-
+        try {
+            VisibilitatMenu(sessionActive);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
         navigationView.setNavigationItemSelectedListener(item -> {
             Intent intent = null;
@@ -110,27 +118,29 @@ public class Inici extends AppCompatActivity implements View.OnClickListener, Se
             // S'executa una acció segons el botó premut del menú Drawer
             switch (item.getItemId()) {
                 case R.id.btn_dades:
-                    if(nom!=null){
+                    if (nom != null) {
                         intent = new Intent(getApplicationContext(), LesMevesDades.class);
                         intent.putExtra("usuari", correu);
-                    }else{
+                    } else {
                         intent = new Intent(getApplicationContext(), IniciSessio.class);
                     }
                     break;
                 case R.id.btn_preferits:
-                    if(nom!=null){
+                    if (nom != null) {
                         intent = new Intent(getApplicationContext(), ElsMeusFavorits.class);
                         intent.putExtra("usuari", correu);
-                    }else{
+                    } else {
                         intent = new Intent(getApplicationContext(), IniciSessio.class);
-                    }                    break;
+                    }
+                    break;
                 case R.id.btn_descompte:
-                    if(nom!=null){
+                    if (nom != null) {
                         intent = new Intent(getApplicationContext(), ElsMeusDescomptes.class);
                         intent.putExtra("usuari", correu);
-                    }else{
+                    } else {
                         intent = new Intent(getApplicationContext(), IniciSessio.class);
-                    }   break;
+                    }
+                    break;
                 case R.id.btn_noticies:
                     intent = new Intent(getApplicationContext(), Noticies.class);
                     break;
@@ -146,7 +156,6 @@ public class Inici extends AppCompatActivity implements View.OnClickListener, Se
                 case R.id.btn_tapes:
                     // Es passa la informació del local a mostrar a l'activitat LesMevesTapes
                     intent = new Intent(getApplicationContext(), LesMevesTapes.class);
-
                     break;
                 case R.id.btn_comentaris:
                     intent = new Intent(getApplicationContext(), Comentaris.class);
@@ -158,6 +167,7 @@ public class Inici extends AppCompatActivity implements View.OnClickListener, Se
                     intent = new Intent(getApplicationContext(), IniciSessio.class);
                     break;
                 case R.id.btn_close:
+
                     SharedPreferences.Editor editor = getSharedPreferences("MyPrefs", MODE_PRIVATE).edit();
                     editor.putBoolean("session_active", false);
                     editor.remove("id");
@@ -176,29 +186,79 @@ public class Inici extends AppCompatActivity implements View.OnClickListener, Se
 
     // Mètode per canviar la visibilitat del menú segons si hi ha una sessió iniciada o no
     @SuppressLint("SetTextI18n")
-    private void VisibilitatMenu(boolean sessionActive) {
-        if(sessionActive){
+    private void VisibilitatMenu(boolean sessionActive) throws SQLException {
+        if (sessionActive) {
             // La sesión está iniciada, realiza alguna acción
-            id=sharedPreferences.getInt("id",0);
+            id = sharedPreferences.getInt("id", 0);
 
-            nom = sharedPreferences.getString("nom","");
-            correu = sharedPreferences.getString("correu","");
+            usuari = getTipusUsuari(id);
 
-            textHeader.setText("Hola, "+nom);
+            nom = sharedPreferences.getString("nom", "");
+            correu = sharedPreferences.getString("correu", "");
+
+            textHeader.setText("Hola, " + nom);
+
+            //GENERAL
             menuItemLogin.setVisible(false);
             menuItemClose.setVisible(true);
-            //LOCALS
-            menuItemLocals.setVisible(true);
-            menuItemTapes.setVisible(true);
-            menuItemComentaris.setVisible(true);
-            menuItemXat.setVisible(true);
-        }else{
+            if(usuari == 2){
+                //LOCALS
+                visibilitatLocals();
+            }else{
+                //CONSUMIDOR
+                visibilitatConsumidors();
+            }
+        } else {
+            //Sense iniciar sessió per defecte veura la pantalla de consumidor
             menuItemLogin.setVisible(true);
             menuItemClose.setVisible(false);
-            menuItemLocals.setVisible(false);
-            menuItemTapes.setVisible(false);
-            menuItemComentaris.setVisible(false);
-            menuItemXat.setVisible(false);
+            visibilitatConsumidors();
+        }
+    }
+
+    private void visibilitatConsumidors() {
+        menuItemLocals.setVisible(false);
+        menuItemTapes.setVisible(false);
+        menuItemComentaris.setVisible(false);
+        menuItemXat.setVisible(false);
+        menuItemLesMevesDades.setVisible(true);
+        menuItemDescomptes.setVisible(true);
+        menuItemFavorits.setVisible(true);
+    }
+
+    private void visibilitatLocals() {
+        menuItemLocals.setVisible(true);
+        menuItemTapes.setVisible(true);
+        menuItemComentaris.setVisible(true);
+        menuItemXat.setVisible(true);
+        menuItemLesMevesDades.setVisible(false);
+        menuItemDescomptes.setVisible(false);
+        menuItemFavorits.setVisible(false);
+    }
+
+    private int getTipusUsuari(int id) throws SQLException {
+        conexio = ConexioBD.CONN();
+        String sql = "SELECT * FROM local WHERE id_usuari=" + id;
+        Statement stmt = null;
+        ResultSet rs = null;
+        boolean esLocal = false;
+
+        try {
+            stmt = conexio.createStatement();
+            rs = stmt.executeQuery(sql);
+
+            if (rs.next()) {
+                esLocal = true;
+
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        conexio.close();
+        if (esLocal) {
+            return 2;
+        } else {
+            return 1;
         }
     }
 

@@ -34,10 +34,8 @@ public class AfegirOpinio extends AppCompatActivity implements Serializable {
     private EditText etNomUsuari, etPuntuacio, etComentari;
     private Button btnEnviar;
     private Calendar calendari = Calendar.getInstance();
-    private Local local;
     private String nomUsuari,comentari;
     private double puntuacio;
-    private Connection conexio, conexio2;
     private Statement stmt = null;
     private int id,id2;
 
@@ -45,8 +43,9 @@ public class AfegirOpinio extends AppCompatActivity implements Serializable {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_afegir_opinio);
-        SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
-        id = sharedPreferences.getInt("id",0);
+
+        id = Utilitats.agafarIdShared(this);
+
         // Assignem els elements de la vista a les variables corresponents
         etPuntuacio = findViewById(R.id.et_puntuacio);
         etComentari = findViewById(R.id.et_comentari);
@@ -58,7 +57,6 @@ public class AfegirOpinio extends AppCompatActivity implements Serializable {
 
         btnEnviar.setOnClickListener(v -> {
             // Obtenir les dades introduïdes per l'usuari
-             nomUsuari = etNomUsuari.getText().toString();
              puntuacio = Double.parseDouble(etPuntuacio.getText().toString());
              comentari = etComentari.getText().toString();
 
@@ -88,11 +86,11 @@ public class AfegirOpinio extends AppCompatActivity implements Serializable {
             stmt.setDate(5, new java.sql.Date(calendari.getTimeInMillis()));
             rowsAffected = stmt.executeUpdate();
             if (rowsAffected > 0) {
-                Toast.makeText(this,"La valoració s'ha inserit correctament.",Toast.LENGTH_SHORT).show();
+                Toast.makeText(this,"La valoració s'ha publicat correctament.",Toast.LENGTH_SHORT).show();
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
-            Toast.makeText(this,"Hi ha hagut un error al intentar publicar la valoració.",Toast.LENGTH_SHORT).show();
+            Toast.makeText(this,"Hi ha hagut un error al publicar la valoració.",Toast.LENGTH_SHORT).show();
         } finally {
             try {
                 if (stmt != null) {
@@ -103,5 +101,4 @@ public class AfegirOpinio extends AppCompatActivity implements Serializable {
             }
         }
     }
-
 }

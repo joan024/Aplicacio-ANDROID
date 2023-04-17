@@ -26,8 +26,5 @@ public class Contacta extends AppCompatActivity {
             intent.putExtra("usuari", mensaje.getText().toString());
             startActivity(intent);
         });
-
-
-
     }
 }

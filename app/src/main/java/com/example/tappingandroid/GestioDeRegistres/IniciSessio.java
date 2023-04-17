@@ -107,10 +107,16 @@ public class IniciSessio extends AppCompatActivity {
                 email = rs.getString("correu");
                 contrasenya = rs.getString("contrasenya");
                 nom = rs.getString("nom");
-                if(!(email.equals(sUsuari) && contrasenya.equals(sPassword))){
-                    esValid = false;
+                boolean actiu = rs.getBoolean("actiu");
+                if(actiu){
+                    if(!(email.equals(sUsuari) && contrasenya.equals(sPassword))){
+                        esValid = false;
+                    } else{
+                        esValid = true;
+                    }
                 } else{
-                    esValid = true;
+                    Toast.makeText(this,"Aquest usuari no esta actiu", Toast.LENGTH_SHORT).show();
+                    esValid = false;
                 }
             }
         } catch (SQLException e) {

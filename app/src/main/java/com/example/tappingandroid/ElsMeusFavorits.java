@@ -48,8 +48,8 @@ public class ElsMeusFavorits extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_els_meus_favorits);
         ButterKnife.bind(this);
-        SharedPreferences sharedPref = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
-        id = sharedPref.getInt("id", 0);
+
+        id = Utilitats.agafarIdShared(this);
 
         ivTornar.setOnClickListener(v -> onBackPressed());
 
@@ -100,99 +100,22 @@ public class ElsMeusFavorits extends AppCompatActivity {
                 direccio_local = rs.getString("direccio");
                 telefon_local = rs.getString("telefon");
                 id_horari = rs.getInt("id_horari");
+                descripcio = rs.getString("descripcio");
 
-                queryHorari(stmt2);
-                queryTapes(stmt3);
-                queryOpinions(stmt4);
-                queryFotoPrincipal(stmt5);
+                horari = Utilitats.queryHorari(stmt2,id_horari);
+                tapes = Utilitats.queryTapes(stmt3, tapes, id_local);
+                opinions = Utilitats.queryOpinions(stmt4, opinions, id_local);
+                link_foto = Utilitats.queryFotoPrincipal(stmt5,id_local);
 
-                Double mitjana= calcularMitjanaPuntuacio();
+                Double mitjana= Utilitats.calcularMitjanaPuntuacio(opinions);
 
                 locals.add(new Local(id_local,link_foto,nom_local,direccio_local,horari,mitjana,telefon_local,descripcio,tapes,opinions));
 
             }
-        }catch (SQLException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         conexio.close();
 
-    }
-
-    private void queryFotoPrincipal(Statement stmt5) throws SQLException {
-        String sql5 = "SELECT * FROM foto WHERE id_local=" + id_local;
-        ResultSet rsFoto = stmt5.executeQuery(sql5);
-        if (rsFoto.next()) {
-            link_foto = rsFoto.getString("link");
-        }
-        rsFoto.close();
-    }
-
-    private void queryHorari(Statement stmt2) throws SQLException {
-        String sql2 = "SELECT * FROM horari WHERE id=" + id_horari;
-        ResultSet rsHorari = stmt2.executeQuery(sql2);
-        while (rsHorari.next()) {
-            String dia= obtindreElDiaSetmanal();
-            horari = rsHorari.getString(dia);
-        }
-        rsHorari.close();
-    }
-
-    private void queryTapes(Statement stmt3) throws SQLException {
-        tapes = new ArrayList<>();
-        String sql3 = "SELECT tapa.nom, local_tapa.personalitzacio, local_tapa.preu FROM tapa INNER JOIN local_tapa ON local_tapa.id_tapa=tapa.id WHERE local_tapa.id_local=" + id_local;
-        ResultSet rsTapes = stmt3.executeQuery(sql3);
-        while (rsTapes.next()) {
-            String nom_tapa = rsTapes.getString("nom");
-            String personalitzacio_tapa = rsTapes.getString("personalitzacio");
-            double preu = rsTapes.getDouble("preu");
-
-            tapes.add(new Tapa(nom_tapa,preu,personalitzacio_tapa));
-        }
-        rsTapes.close();
-    }
-
-    private void queryOpinions(Statement stmt4) throws SQLException {
-        opinions = new ArrayList<>();
-        String sql4 = "SELECT * FROM valoracio INNER JOIN usuari ON usuari.id=valoracio.id_usuari WHERE valoracio.id_local=" + id_local;
-        ResultSet rsOpinions = stmt4.executeQuery(sql4);
-        while (rsOpinions.next()) {
-            String nom_valoracio = rsOpinions.getString("nom");
-            double puntuacio = rsOpinions.getDouble("puntuacio");
-            String comentari = rsOpinions.getString("comentari");
-            Date data = rsOpinions.getDate("data");
-
-            Log.d("juliaaa", String.valueOf(puntuacio));
-            opinions.add(new Opinio(nom_valoracio,data,comentari,puntuacio));
-        }
-        rsOpinions.close();
-    }
-
-    private Double calcularMitjanaPuntuacio() {
-        double sumaPuntuacions = 0;
-        int numOpinions = opinions.size();
-
-        for (Opinio opinio : opinions) {
-            sumaPuntuacions += opinio.getPuntuacio();
-        }
-        return sumaPuntuacions / numOpinions;
-    }
-
-    private String obtindreElDiaSetmanal() {
-        // Obtener el día de la semana actual
-        Calendar calendari = Calendar.getInstance();
-        int diaSetmana = calendari.get(Calendar.DAY_OF_WEEK);
-
-        // Obtener el nombre del día de la semana
-        String[] dayNames = new String[]{
-                "diumenge",
-                "dilluns",
-                "dimarts",
-                "dimecres",
-                "dijous",
-                "divendres",
-                "dissabte"
-        };
-
-        return dayNames[diaSetmana - 1];
     }
 }
