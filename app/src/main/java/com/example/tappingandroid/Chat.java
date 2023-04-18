@@ -4,8 +4,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -33,7 +31,7 @@ public class Chat extends AppCompatActivity {
     private EditText etMissatge;
     private Button btnEnviar;
     private ImageView iv_tornar;
-    private XatAdapter chatAdapter;
+    private XatAdapter xatAdapter;
     private int userId = 2,id;
 
     @SuppressLint("MissingInflatedId")
@@ -53,26 +51,26 @@ public class Chat extends AppCompatActivity {
         iv_tornar.setOnClickListener(v -> onBackPressed());
 
         // Es defineix un objecte de tipus XatAdapter per gestionar l'adaptador personalitzat
-        chatAdapter = new XatAdapter(this, R.layout.misatge_item, new ArrayList<>());
-        xatView.setAdapter(chatAdapter);
+        xatAdapter = new XatAdapter(this, R.layout.misatge_item, new ArrayList<>());
+        xatView.setAdapter(xatAdapter);
 
         // Obtener los mensajes de la base de datos
         List<Missatge> missatges = getMissatgesFromDatabase();
 
         // Mostrar los mensajes en el chat
-        chatAdapter.addAll(missatges);
+        xatAdapter.addAll(missatges);
 
         // Configurar el botó d'enviament de missatges per afegir missatges nous a l'adaptador
         btnEnviar.setOnClickListener(view -> {
-            String message = etMissatge.getText().toString();
-            String name = "Jo";
+            String missatge = etMissatge.getText().toString();
+            String nom = "Jo";
             String time = getCurrentTime();
-            Missatge newMessage = new Missatge(name, message, time);
+            Missatge newMessage = new Missatge(nom, missatge, time);
 
             // Insertar el nuevo mensaje en la base de datos
             insertMissatgeToDatabase(newMessage);
 
-            chatAdapter.add(newMessage);
+            xatAdapter.add(newMessage);
             etMissatge.setText("");
         });
     }
@@ -105,7 +103,7 @@ public class Chat extends AppCompatActivity {
             ResultSet rs = stmt.executeQuery("SELECT * FROM lineaxat WHERE id_xat = "+id_xat);
 
             while (rs.next()) {
-                String name= rs.getInt("usuari") == 1 ? "Administrador" : "Jo"; // Si el usuari de la BD es 1 se pone "Empresa" si no se pone "Jo"
+                String name= rs.getInt("usuari") == 1 ? "Tapping" : "Jo"; // Si el usuari de la BD es 1 se pone "Empresa" si no se pone "Jo"
                 String message = rs.getString("missatge");
                 String time = rs.getString("temps");
                 Missatge missatge = new Missatge(name, message, time);
@@ -146,9 +144,6 @@ public class Chat extends AppCompatActivity {
         }
     }
 
-
-
-    //torna l'hora actual en format "HH:mm".
     private String getCurrentTime() {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
         Date date = new Date();

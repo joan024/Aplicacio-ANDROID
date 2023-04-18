@@ -1,4 +1,7 @@
 package com.example.tappingandroid.Dades;
+
+import androidx.annotation.NonNull;
+
 public class Missatge {
 
     private String usuari;
@@ -9,6 +12,10 @@ public class Missatge {
         this.usuari = name;
         this.missatge = message;
         this.hora = time;
+    }
+
+    public Missatge() {
+
     }
 
     public String getUsuari() {
@@ -33,6 +40,12 @@ public class Missatge {
 
     public void setHora(String hora) {
         this.hora = hora;
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+        return "Nom: "+usuari+", Missatge: "+missatge+", Hora: "+hora;
     }
 }
 
