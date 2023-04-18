@@ -1,17 +1,20 @@
+
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center_vertical"
-        android:id="@+id/ll_top"
-        android:background="@color/mandarina_light">
-
+<!-- Barra superior -->
+<LinearLayout
+    android:id="@+id/ll_top"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:gravity="center_vertical"
+    android:padding="16dp"
+    android:background="@color/mandarina_light">
     <!-- Flecha per tornar -->
         <ImageView
             android:id="@+id/iv_tornar"
@@ -29,41 +32,46 @@
             android:background="@drawable/cercle"
             android:src="@drawable/fotoperfiltapping" />
 
-        <TextView
-            android:id="@+id/tv_nom_xat"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:text="@string/tapping"
-            android:fontFamily="sans-serif-smallcaps"
-            android:textColor="@color/black"
-            android:textSize="25sp" />
+    <!-- Nombre del chat -->
+    <TextView
+        android:id="@+id/tv_nom_xat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/tapping"
+        android:textColor="@color/black"
+        android:textSize="24sp"
+        android:paddingStart="16dp"
+        android:fontFamily="sans-serif-smallcaps"/>
 
     </LinearLayout>
 
-    <!-- Vista de lista para mostrar los mensajes de chat -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <!-- Vista de lista para mostrar los mensajes de chat -->
+        <!-- Lista de mensajes -->
         <ListView
             android:id="@+id/xatListView"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
             android:divider="@null"
-            android:dividerHeight="0dp" />
+            android:dividerHeight="0dp"
+            android:clipToPadding="false"
+            android:paddingBottom="16dp"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:overScrollMode="never" />
 
-        <!-- Diseño para ingresar mensajes y enviarlos -->
+        <!-- Cuadro de texto y botón para enviar mensajes -->
         <LinearLayout
             android:id="@+id/ll_missatge"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@android:color/white"
             android:orientation="horizontal"
-            android:padding="16dp">
+            android:padding="16dp"
+            android:background="@color/white">
 
             <!-- Cuadro de texto para ingresar mensajes -->
             <EditText

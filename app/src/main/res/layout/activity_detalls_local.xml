@@ -69,7 +69,8 @@
             android:layout_below="@id/tv_ubicacio"
             android:padding="8dp"
             android:textSize="20sp"
-            android:text="Telèfon" />
+            android:text="Telèfon"
+            android:autoLink="phone" />
 
         <!-- Horari -->
         <TextView

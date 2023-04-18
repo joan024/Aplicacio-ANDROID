@@ -3,8 +3,10 @@ package com.example.tappingandroid;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -113,6 +115,17 @@ public class DetallsLocal extends AppCompatActivity {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
+        //Quan fagi click al telefon, li donarà l'opció de trucar
+        tvTelefon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String phoneNumber = tvTelefon.getText().toString();
+                Intent intent = new Intent(Intent.ACTION_DIAL);
+                intent.setData(Uri.parse("tel:" + phoneNumber));
+                startActivity(intent);
+            }
+        });
     }
 
     private void comprovarFavorit() throws SQLException {
@@ -133,7 +146,7 @@ public class DetallsLocal extends AppCompatActivity {
                 stmt = conexio.createStatement();
                 rs = stmt.executeQuery(sql);
 
-                if(rs!=null){
+                if(rs.next()){
                     esFavorit = true;
                     ivFavorits.setImageResource(R.drawable.favoritomarcado);
                 }else{
@@ -176,17 +189,17 @@ public class DetallsLocal extends AppCompatActivity {
                 }
                 ps.close();
             } else if(accio == 2){
-                PreparedStatement ps = conexion.prepareStatement("INSERT INTO guarda (id_usuari, id_local, data_inici) VALUES (?, ?, ?)");
-                ps.setInt(1, id);
-                ps.setInt(2, idLocal);
-                ps.setDate(3, java.sql.Date.valueOf(String.valueOf(LocalDate.now())));
-                int filasActualitzadas = ps.executeUpdate();
+                PreparedStatement ps2 = conexion.prepareStatement("INSERT INTO guarda (id_usuari, id_local, data_inici) VALUES (?, ?, ?)");
+                ps2.setInt(1, id);
+                ps2.setInt(2, idLocal);
+                ps2.setDate(3, java.sql.Date.valueOf(String.valueOf(LocalDate.now())));
+                int filasActualitzadas = ps2.executeUpdate();
                 if (filasActualitzadas > 0) {
                     // Se ha inserit el registro correctamente
                     ivFavorits.setImageResource(R.drawable.favoritomarcado);
                     esFavorit = true;
                 }
-                ps.close();
+                ps2.close();
             }
 
             conexion.close();

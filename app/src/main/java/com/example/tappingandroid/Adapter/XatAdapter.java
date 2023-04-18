@@ -1,10 +1,13 @@
 package com.example.tappingandroid.Adapter;
 
 import android.content.Context;
+import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -33,16 +36,35 @@ public class XatAdapter extends ArrayAdapter<Missatge> {
             convertView = LayoutInflater.from(context).inflate(resource, parent, false);
         }
 
-        Missatge message = getItem(position);
+        Missatge missatge = getItem(position);
 
-        TextView tvSender = convertView.findViewById(R.id.textView_nom);
-        TextView tvTime = convertView.findViewById(R.id.textView_hora);
-        TextView tvMessage = convertView.findViewById(R.id.textView_missatge);
+        if (missatge != null) {
+            TextView tvNom = convertView.findViewById(R.id.textView_nom);
+            TextView tvMissatge = convertView.findViewById(R.id.textView_missatge);
+            TextView tvHora = convertView.findViewById(R.id.textView_hora);
 
-        tvSender.setText(message.getUsuari());
-        tvTime.setText(message.getHora());
-        tvMessage.setText(message.getMissatge());
+            tvNom.setText(missatge.getUsuari());
+            tvMissatge.setText(missatge.getMissatge());
+            tvHora.setText(missatge.getHora());
 
+            LinearLayout.LayoutParams params;
+            if (missatge.getUsuari().equals("Jo")) {
+                params = new LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.WRAP_CONTENT,
+                        LinearLayout.LayoutParams.WRAP_CONTENT
+                );
+                params.gravity = Gravity.END;
+            } else {
+                params = new LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.WRAP_CONTENT,
+                        LinearLayout.LayoutParams.WRAP_CONTENT
+                );
+                params.gravity = Gravity.START;
+            }
+            tvMissatge.setLayoutParams(params);
+            tvNom.setLayoutParams(params);
+            tvHora.setLayoutParams(params);
+        }
         return convertView;
     }
 }
