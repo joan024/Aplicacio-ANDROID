@@ -109,7 +109,7 @@ public class IniciSessio extends AppCompatActivity {
                 nom = rs.getString("nom");
                 boolean actiu = rs.getBoolean("actiu");
                 if(actiu){
-                    if(!(email.equals(sUsuari) && contrasenya.equals(sPassword))){
+                    if(!(email.equalsIgnoreCase(sUsuari) && contrasenya.equals(sPassword))){
                         esValid = false;
                     } else{
                         esValid = true;

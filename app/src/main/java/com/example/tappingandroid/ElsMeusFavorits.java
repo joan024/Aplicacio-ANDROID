@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -79,6 +80,24 @@ public class ElsMeusFavorits extends AppCompatActivity {
         recyclerView.setAdapter(adaptador);
 
     }
+
+    @SuppressLint("NotifyDataSetChanged")
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        locals.clear(); // limpia la lista actual de locales favoritos
+
+        try {
+            getLocalsFavorits(); // vuelve a obtener la lista de locales favoritos
+        } catch (SQLException e) {
+            e.printStackTrace();
+            Toast.makeText(this, "No s'han pogut actualitzar els locals favorits.", Toast.LENGTH_SHORT).show();
+        }
+
+        adaptador.notifyDataSetChanged(); // notifica al adaptador que los datos han cambiado
+    }
+
 
     private void getLocalsFavorits() throws SQLException {
         conexio = ConexioBD.CONN();
