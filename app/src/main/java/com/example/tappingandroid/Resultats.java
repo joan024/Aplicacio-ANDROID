@@ -196,14 +196,14 @@ public class Resultats extends AppCompatActivity {
         }
     }
 
-    private void obtenirLlistaLocals(String query) throws SQLException {
+    private void obtenirLlistaLocals(String filtreDeCerca) throws SQLException {
         conexio = ConexioBD.CONN();
 
-        String sql = "SELECT * FROM local WHERE nom LIKE '%" + query + "%' OR direccio LIKE '%" + query + "%' OR descripcio LIKE '%" + query + "%'";
+        String sql = "SELECT * FROM local as l INNER JOIN empresa as e ON l.id_usuari = e.id_usuari INNER JOIN usuari as u ON u.id=l.id_usuari WHERE u.actiu IS TRUE AND (l.nom LIKE '%" + filtreDeCerca + "%' OR l.direccio LIKE '%" + filtreDeCerca + "%' OR l.descripcio LIKE '%" + filtreDeCerca + "%') ORDER BY e.pack";
 
-        Statement stmt = null;
-        Statement stmt6 = null;
-        ResultSet rs = null;
+        Statement stmt;
+        Statement stmt6;
+        ResultSet rs;
         try {
             stmt = conexio.createStatement();
             rs = stmt.executeQuery(sql);
@@ -227,9 +227,9 @@ public class Resultats extends AppCompatActivity {
                 locals.add(new Local(id_local,link_foto,rs.getString("nom"),rs.getString("direccio"),horari,mitjana,rs.getString("telefon"),rs.getString("descripcio"),tapes,opinions));
             }
 
-            buscarPerTapes(locals,stmt6,stmt3,stmt2, stmt4, stmt5, query);
+            buscarPerTapes(locals,stmt6,stmt3,stmt2, stmt4, stmt5, filtreDeCerca);
 
-            buscarPerCategories(locals,stmt6,stmt3,stmt2, stmt4, stmt5, query);
+            buscarPerCategories(locals,stmt6,stmt3,stmt2, stmt4, stmt5, filtreDeCerca);
 
         } catch (SQLException e) {
             e.printStackTrace();

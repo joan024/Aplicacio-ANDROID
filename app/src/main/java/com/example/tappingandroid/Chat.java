@@ -73,6 +73,12 @@ public class Chat extends AppCompatActivity {
             xatAdapter.add(newMessage);
             etMissatge.setText("");
         });
+
+        xatView.post(() -> {
+            // desplazar el ListView hasta el final de la lista
+            xatView.smoothScrollToPosition(xatAdapter.getCount() - 1);
+        });
+
     }
 
     private int getIdXat() throws SQLException {
