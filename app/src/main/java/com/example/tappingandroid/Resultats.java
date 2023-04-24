@@ -199,11 +199,11 @@ public class Resultats extends AppCompatActivity {
     private void obtenirLlistaLocals(String filtreDeCerca) throws SQLException {
         conexio = ConexioBD.CONN();
 
-        String sql = "SELECT * FROM local WHERE nom LIKE '%" + filtreDeCerca + "%' OR direccio LIKE '%" + filtreDeCerca + "%' OR descripcio LIKE '%" + filtreDeCerca + "%'";
+        String sql = "SELECT * FROM local as l INNER JOIN empresa as e ON l.id_usuari = e.id_usuari INNER JOIN usuari as u ON u.id=l.id_usuari WHERE u.actiu IS TRUE AND (l.nom LIKE '%" + filtreDeCerca + "%' OR l.direccio LIKE '%" + filtreDeCerca + "%' OR l.descripcio LIKE '%" + filtreDeCerca + "%') ORDER BY e.pack";
 
-        Statement stmt = null;
-        Statement stmt6 = null;
-        ResultSet rs = null;
+        Statement stmt;
+        Statement stmt6;
+        ResultSet rs;
         try {
             stmt = conexio.createStatement();
             rs = stmt.executeQuery(sql);

@@ -79,8 +79,10 @@ public class Noticies extends AppCompatActivity {
 
         // Construir la consulta SQL
         String sql = "SELECT * FROM noticia " +
+                "WHERE data_inici <= "+dataActual+" AND (data_fi >= "+dataActual+" OR data_fi = '0000-00-00');";
+        /*String sql = "SELECT * FROM noticia " +
                 "WHERE data_inici BETWEEN '" + dataActualString + "' " +
-                "AND IFNULL(data_fi, '" + dataActualString + "') OR data_fi IS NULL";
+                "AND IFNULL(data_fi, '" + dataActualString + "') OR data_fi IS NULL";*/
 
         conexio = ConexioBD.CONN();
         try {
