@@ -34,6 +34,8 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -115,7 +117,12 @@ public class ElsMeusDescomptes extends AppCompatActivity {
 
 
     private void AgafarDescomptes() {
-        String sql = "SELECT * FROM descompte INNER JOIN consumidor_descompte ON descompte.id=id_descompte WHERE id_usuari="+ id;
+        // Obtener la fecha actual en formato ISO
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Date dataActual = new Date();
+        String dataActualString = dateFormat.format(dataActual);
+
+        String sql = "SELECT * FROM descompte INNER JOIN consumidor_descompte ON descompte.id=id_descompte WHERE id_usuari="+ id +" AND descompte.inici <='"+dataActualString+"' AND descompte.final >= '"+dataActualString+"'";
         conexio = ConexioBD.CONN();
         try {
             stmt = conexio.createStatement();
@@ -128,14 +135,15 @@ public class ElsMeusDescomptes extends AppCompatActivity {
                 text = rs.getString("text");
                 data_inici = rs.getDate("inici");
                 data_final = rs.getDate("final");
-                String sql2 = "SELECT * FROM local WHERE id=" + id_local;
+                Log.d("juliaaaa", String.valueOf(id_local));
+                String sql2 = "SELECT l.nom FROM local as l INNER JOIN usuari as u ON u.id=l.id_usuari WHERE l.id=" + id_local+" AND u.actiu IS TRUE";
                 rs2 = stmt2.executeQuery(sql2);
                 if (rs2.next()) {
                     nom_local = rs2.getString("nom");
+                    descomptes.add(new Descompte(codi,text, data_final,data_inici,nom_local));
                 }
                 rs2.close();
 
-                descomptes.add(new Descompte(codi,text, data_final,data_inici,nom_local));
                 Log.d("juliaaaa", "Añadiendo descuento: " + codi);
             }
 
