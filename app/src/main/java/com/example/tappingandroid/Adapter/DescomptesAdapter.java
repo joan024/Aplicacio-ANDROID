@@ -18,16 +18,20 @@ import java.util.List;
 
 public class DescomptesAdapter extends RecyclerView.Adapter<DescomptesAdapter.ViewHolder> {
 
+    // Definim la interfície per al listener que es cridarà quan es faci clic en un ítem
     public interface OnItemClickListener {
         void onItemClick(int position);
     }
+    // Declarem les variables que utilitzarem
     private LocalAdapter.OnItemClickListener onItemClickListener;
     private List<Descompte> descomptes;
 
+    // Constructor que rep una llista d'objectes Descompte
     public DescomptesAdapter(List<Descompte> descomptes) {
         this.descomptes = descomptes;
     }
 
+    // Mètode que crea un ViewHolder per a cada ítem de la llista
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         // Inflar la vista d'item
@@ -43,6 +47,7 @@ public class DescomptesAdapter extends RecyclerView.Adapter<DescomptesAdapter.Vi
         return (OnItemClickListener) onItemClickListener;
     }
 
+    // Mètode que defineix el contingut de cada ítem de la llista
     @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(ViewHolder holder, @SuppressLint("RecyclerView") int position) {
@@ -61,18 +66,15 @@ public class DescomptesAdapter extends RecyclerView.Adapter<DescomptesAdapter.Vi
         holder.tvDescripcio.setText(descompte.getDescripcio());
         holder.tvDataInici.setText(dataInici);
         holder.tvDataCaducitat.setText(dataCaducitat);
-
         holder.tvLocal.setText(descompte.getLocal());
 
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (onItemClickListener != null) {
-                    try {
-                        onItemClickListener.onItemClick(position);
-                    } catch (WriterException e) {
-                        e.printStackTrace();
-                    }
+        // Afegim un listener al clicar en l'ítem
+        holder.itemView.setOnClickListener(view -> {
+            if (onItemClickListener != null) {
+                try {
+                    onItemClickListener.onItemClick(position);
+                } catch (WriterException e) {
+                    e.printStackTrace();
                 }
             }
         });

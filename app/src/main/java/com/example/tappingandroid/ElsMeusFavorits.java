@@ -5,9 +5,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ImageView;
@@ -19,14 +17,17 @@ import com.example.tappingandroid.Dades.Local;
 import com.example.tappingandroid.Dades.Opinio;
 import com.example.tappingandroid.Dades.Tapa;
 
+import org.xml.sax.SAXException;
+
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
+
+import javax.xml.parsers.ParserConfigurationException;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -42,7 +43,8 @@ public class ElsMeusFavorits extends AppCompatActivity {
     private ResultSet rs = null;
     private Connection conexio;
     private int id, id_local,id_horari;
-    private String nom_local,direccio_local,telefon_local,descripcio, horari, link_foto;
+    private String nom_local,direccio_local,telefon_local,descripcio, horari;
+    List <String> nomFoto;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,13 +61,15 @@ public class ElsMeusFavorits extends AppCompatActivity {
 
         locals = new ArrayList<>();
         try {
-            getLocalsFavorits(); // funció que obté els locals favorits de la persona
+            // funció que obté els locals favorits de la persona
+            getLocalsFavorits();
         } catch (SQLException e) {
             e.printStackTrace();
             Toast.makeText(this, "No h'han pogut carregar els locals afegits a favorits.", Toast.LENGTH_SHORT).show();
         }
 
-        adaptador = new LocalAdapter((ArrayList<Local>) locals); // adaptador per mostrar els locals favorits
+        // adaptador per mostrar els locals favorits
+        adaptador = new LocalAdapter((ArrayList<Local>) locals);
 
         adaptador.setOnItemClickListener(position -> {
             // Obtenir l'objecte local a la posició seleccionada
@@ -78,7 +82,6 @@ public class ElsMeusFavorits extends AppCompatActivity {
         });
 
         recyclerView.setAdapter(adaptador);
-
     }
 
     @SuppressLint("NotifyDataSetChanged")
@@ -98,7 +101,6 @@ public class ElsMeusFavorits extends AppCompatActivity {
         adaptador.notifyDataSetChanged(); // notifica al adaptador que los datos han cambiado
     }
 
-
     private void getLocalsFavorits() throws SQLException {
         conexio = ConexioBD.CONN();
         String sql = "SELECT * FROM local " +
@@ -111,7 +113,6 @@ public class ElsMeusFavorits extends AppCompatActivity {
             Statement stmt2 = conexio.createStatement();
             Statement stmt3 = conexio.createStatement();
             Statement stmt4 = conexio.createStatement();
-            Statement stmt5 = conexio.createStatement();
 
             while (rs.next()) {
                 id_local = rs.getInt("id");
@@ -124,14 +125,15 @@ public class ElsMeusFavorits extends AppCompatActivity {
                 horari = Utilitats.queryHorari(stmt2,id_horari);
                 tapes = Utilitats.queryTapes(stmt3, tapes, id_local);
                 opinions = Utilitats.queryOpinions(stmt4, opinions, id_local);
-                link_foto = Utilitats.queryFotoPrincipal(stmt5,id_local);
+                nomFoto = Utilitats.queryFotoPrincipal(id_local, this);
 
                 Double mitjana= Utilitats.calcularMitjanaPuntuacio(opinions);
+                Log.d("juliaaaaaaaa","Nom foto abans d'inserir: "+nomFoto);
 
-                locals.add(new Local(id_local,link_foto,nom_local,direccio_local,horari,mitjana,telefon_local,descripcio,tapes,opinions));
-
+                locals.add(new Local(id_local, nomFoto,nom_local,direccio_local,horari,mitjana,telefon_local,descripcio,tapes,opinions));
+                //Log.d("juliaaaaaaaa","  locals: "+ locals.get(0).getFoto());
             }
-        } catch (SQLException e) {
+        } catch (SQLException | IOException | SAXException | ParserConfigurationException e) {
             e.printStackTrace();
         }
         conexio.close();

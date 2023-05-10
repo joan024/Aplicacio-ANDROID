@@ -71,6 +71,7 @@ public class AfegirOpinio extends AppCompatActivity implements Serializable {
             finish();
         });
     }
+    //Funció que insereix les dades a la base de dades
     public void insertar(int id, int idLocal, Double puntuacio, String comentari, Calendar calendari) {
         Connection conn = ConexioBD.CONN();
         PreparedStatement stmt = null;

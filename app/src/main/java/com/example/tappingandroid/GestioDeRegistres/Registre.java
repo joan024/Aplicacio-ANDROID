@@ -75,12 +75,11 @@ public class Registre extends AppCompatActivity {
         // Obtenim una instància del calendari
         calendari = Calendar.getInstance();
 
-        // Configurem el botó de registre
+        // Configurem el botó de registre per a comprovar si s'ha registrat l'usuari o no
         btnRegistre.setOnClickListener(v -> {
             boolean correcte = validarDades();
             if (correcte) {
                 contrasenya= passwordHash(contrasenya);
-                //Toast.makeText(Registre.this, String.valueOf(contrasenya), Toast.LENGTH_SHORT).show();
                 correcte= inserirDades();
                 if(correcte){
                     Toast.makeText(getApplicationContext(), "T'has registrat correctament.", Toast.LENGTH_SHORT).show();
@@ -97,13 +96,13 @@ public class Registre extends AppCompatActivity {
         Connection cn = null;
         boolean insercioCorrecte = false;
         try{
-            DateFormat dfNou = new SimpleDateFormat("yyyy-MM-dd");
+            //DateFormat dfNou = new SimpleDateFormat("yyyy-MM-dd");
             cn = ConexioBD.CONN();
-            // Insertamos un nuevo registro en la tabla "usuari"
+            // Insertem un nou registre a la taula "usuari"
             String sql = "INSERT INTO usuari (nom, correu, contrasenya, data_registre) " +
                     "VALUES (?, ?, ?, ?)";
 
-            // Obtener la fecha actual del sistema
+            // Obtenim la data actual del sistema
             java.util.Calendar calendari2 = java.util.Calendar.getInstance();
             java.sql.Date dataActual = new java.sql.Date(calendari2.getTimeInMillis());
             PreparedStatement pstmt = cn.prepareStatement(sql);
@@ -113,7 +112,7 @@ public class Registre extends AppCompatActivity {
             pstmt.setDate(4, dataActual);
             pstmt.executeUpdate();
 
-            // Insertamos un nuevo registro en la tabla "consumidor"
+            // Insertem un nou registre a la taula "consumidor"
             sql = "INSERT INTO consumidor (id_usuari, cognom, telefon, data_naixament) " +
                     "VALUES (LAST_INSERT_ID(), ?, ?, ?)";
             PreparedStatement pstmt2 = cn.prepareStatement(sql);
@@ -133,6 +132,7 @@ public class Registre extends AppCompatActivity {
         return insercioCorrecte;
     }
 
+    //Funcio que genera un hash de la contrasenya introduïda per l'usuari
     private String passwordHash(String contrasenya) {
         String hashedPassword = null;
         try {
@@ -149,7 +149,7 @@ public class Registre extends AppCompatActivity {
         return hashedPassword;
     }
 
-
+    //Funció que valida que el format de les dades sigui correcte, i que s'hagin introduit els camps necessaris
     private boolean validarDades() {
 
         nom = String.valueOf(etNom.getText());
@@ -164,11 +164,11 @@ public class Registre extends AppCompatActivity {
             return false;
         }
         if (!telefon.matches("^[0-9]{9}$")) {
-            Toast.makeText(this, "El format del telefon es incorrecte.", Toast.LENGTH_SHORT).show();
+            etTelefon.setError("El format del telefon es incorrecte.");
             return false;
         }
         if (!validarFormatCorreu(correu)) {
-            Toast.makeText(this, "El format del correu es incorrecte.", Toast.LENGTH_SHORT).show();
+            etCorreu.setError("El format del correu es incorrecte.");
             return false;
         }
         if (!validarContrasenya(contrasenya)) {

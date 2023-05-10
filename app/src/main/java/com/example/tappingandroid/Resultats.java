@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.appcompat.widget.SearchView;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -33,6 +34,10 @@ import com.example.tappingandroid.Dades.Local;
 import com.example.tappingandroid.Dades.Opinio;
 import com.example.tappingandroid.Dades.Tapa;
 import com.google.android.material.navigation.NavigationView;
+
+import org.xml.sax.SAXException;
+
+import javax.xml.parsers.ParserConfigurationException;
 
 public class Resultats extends AppCompatActivity {
 
@@ -220,7 +225,7 @@ public class Resultats extends AppCompatActivity {
                 String horari = Utilitats.queryHorari(stmt2, id_horari);
                 tapes = Utilitats.queryTapes(stmt3, tapes, id_local);
                 opinions = Utilitats.queryOpinions(stmt4, opinions, id_local);
-                String link_foto = Utilitats.queryFotoPrincipal(stmt5, id_local);
+                List <String> link_foto = Utilitats.queryFotoPrincipal(id_local, this);
 
                 Double mitjana= Utilitats.calcularMitjanaPuntuacio(opinions);
 
@@ -231,13 +236,13 @@ public class Resultats extends AppCompatActivity {
 
             buscarPerCategories(locals,stmt6,stmt3,stmt2, stmt4, stmt5, filtreDeCerca);
 
-        } catch (SQLException e) {
+        } catch (SQLException | ParserConfigurationException | SAXException | IOException e) {
             e.printStackTrace();
         }
         conexio.close();
     }
 
-    private void comprovarFiles(ResultSet rs, Statement stmt2, Statement stmt3,Statement stmt4, Statement stmt5) throws SQLException {
+    private void comprovarFiles(ResultSet rs, Statement stmt2, Statement stmt3,Statement stmt4, Statement stmt5) throws SQLException, IOException, ParserConfigurationException, SAXException {
         // Creem un objecte Local per cada fila del resultat i l'afegim a la llista locals si no hi és ja
         while (rs.next()) {
             int id = rs.getInt("id");
@@ -249,7 +254,7 @@ public class Resultats extends AppCompatActivity {
                 }
             }
             if (!localJaAfegit) {
-                String link_foto = Utilitats.queryFotoPrincipal(stmt5, id);
+                List<String> link_foto = Utilitats.queryFotoPrincipal(id, this);
                 tapes = Utilitats.queryTapes(stmt3, tapes, id);
                 opinions = Utilitats.queryOpinions(stmt4, opinions, id);
                 String horari = Utilitats.queryHorari(stmt2, id);
@@ -261,7 +266,7 @@ public class Resultats extends AppCompatActivity {
         }
     }
 
-    private void buscarPerCategories(List<Local> locals, Statement stmt6, Statement stmt3, Statement stmt2, Statement stmt4, Statement stmt5, String query) throws SQLException {
+    private void buscarPerCategories(List<Local> locals, Statement stmt6, Statement stmt3, Statement stmt2, Statement stmt4, Statement stmt5, String query) throws SQLException, IOException, ParserConfigurationException, SAXException {
 
         // Consulta SQL per obtenir els locals que tenen tapes que pertanyen a categories que contenen la query
         String consultaLocalsAmbTapes = "SELECT l.* FROM local l, tapa t, local_tapa tl, categoria c, categoria_tapa ct WHERE c.nom LIKE '%" + query + "%' AND t.id = tl.id_tapa AND l.id = tl.id_local AND c.id= ct.id_categoria AND t.id = ct.id_tapa";
@@ -271,7 +276,7 @@ public class Resultats extends AppCompatActivity {
     }
 
 
-        private void buscarPerTapes(List<Local> locals, Statement stmt6, Statement stmt3, Statement stmt2, Statement stmt4, Statement stmt5, String query) throws SQLException {
+        private void buscarPerTapes(List<Local> locals, Statement stmt6, Statement stmt3, Statement stmt2, Statement stmt4, Statement stmt5, String query) throws SQLException, IOException, ParserConfigurationException, SAXException {
 
         // Consulta SQL per obtenir els locals que tenen tapes que contenen la query
         String consultaLocalsAmbTapes = "SELECT l.* FROM local l, tapa t, local_tapa tl WHERE t.nom LIKE '%" + query + "%' AND t.id = tl.id_tapa AND l.id = tl.id_local";

@@ -10,6 +10,7 @@ import java.sql.SQLException;
 
 public class ConexioBD {
 
+    //Definim els parametres de connexio
     static String user = "'tapping'";
     static String password = "JuMaJoJo!!25231";
     static Connection conn = null;

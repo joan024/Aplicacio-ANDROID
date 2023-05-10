@@ -4,15 +4,16 @@ import java.io.Serializable;
 import java.util.List;
 
 public class Local implements Serializable {
+    private List<String> imatges;
     private String ubicacio, horari, nom, telefon, descripcio, foto;
     private double puntuacio;
     private int id;
     private List<Tapa> tapes;
     private List<Opinio> opinions;
 
-    public Local(int id, String foto, String nom, String ubicacio, String horari , double puntuacio, String telefon, String descripcio, List <Tapa> tapes, List <Opinio> opinions) {
+    public Local(int id, List<String> imatges, String nom, String ubicacio, String horari , double puntuacio, String telefon, String descripcio, List <Tapa> tapes, List <Opinio> opinions) {
         this.id = id;
-        this.foto = foto;
+        this.imatges = imatges;
         this.ubicacio = ubicacio;
         this.horari = horari;
         this.nom = nom;
@@ -29,12 +30,12 @@ public class Local implements Serializable {
 
     public void setId(int id) { this.id = id;}
 
-    public String getFoto() {
-        return foto;
+    public List<String> getFoto() {
+        return imatges;
     }
 
-    public void setFoto(String foto) {
-        this.foto = foto;
+    public void setFoto(List<String> imatges) {
+        this.imatges = imatges;
     }
 
     public String getNom() {
