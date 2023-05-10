@@ -10,12 +10,13 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager2.widget.ViewPager2;
 
+import com.example.tappingandroid.Adapter.ImatgesAdapter;
 import com.example.tappingandroid.Adapter.OpinioAdapter;
 import com.example.tappingandroid.Adapter.TapasAdapter;
 import com.example.tappingandroid.Conexio.ConexioBD;
@@ -28,6 +29,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.DecimalFormat;
 import java.time.LocalDate;
+import java.util.List;
 
 import com.squareup.picasso.Picasso;
 
@@ -42,8 +44,8 @@ public class DetallsLocal extends AppCompatActivity {
     ImageView ivTornar;
     @BindView(R.id.iv_favorits)
     ImageView ivFavorits;
-    @BindView(R.id.iv_imatge_local)
-    ImageView ivImatge;
+    @BindView(R.id.viewpager_imagenes)
+    ViewPager2 vpImatge;
     @BindView(R.id.tv_local_nom)
     TextView tvNomLocal;
     @BindView(R.id.tv_ubicacio)
@@ -87,7 +89,7 @@ public class DetallsLocal extends AppCompatActivity {
 
         //Assignem les dades del local a les vistes corresponents
         tvNomLocal.setText(local.getNom());
-        Picasso.get().load(local.getFoto()).into(ivImatge);
+        vpImatge.setAdapter(new ImatgesAdapter(local.getFoto(),local.getId()));
         tvUbicacio.setText(local.getUbicacio());
         tvTelefon.setText(local.getTelefon());
         tvHorari.setText(local.getHorari());

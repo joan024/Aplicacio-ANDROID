@@ -58,8 +58,9 @@ public class IniciSessio extends AppCompatActivity {
         SharedPreferences sharedPref = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
 
-
         login.setOnClickListener(v -> {
+            // Si els camps són vàlids, guardem la informació de l'usuari a SharedPreferences i iniciem l'activitat Inici
+            // Si els camps no són vàlids, mostrem un missatge d'error
             if (validarFormulari()) {
                 editor.putInt("id", id);
                 editor.putString("nom", nom);
@@ -82,17 +83,20 @@ public class IniciSessio extends AppCompatActivity {
 
         conexio = ConexioBD.CONN();
 
+        // Es comprova que l'usuari hagi introduït un nom d'usuari
         if (TextUtils.isEmpty(sUsuari)) {
             usuari.setError("Ha d'introduir un usuari");
             return false;
         }
-
+        // Es comprova que l'usuari hagi introduït una contrasenya
         if (TextUtils.isEmpty(sPassword)) {
             password.setError("Ha d'introduir una contrasenya");
             return false;
         }
 
+        // Es genera un hash de la contrasenya introduïda per l'usuari
         sPassword=passwordHash(sPassword);
+
         String sql = "SELECT * FROM usuari WHERE correu=\""+ sUsuari +"\" AND contrasenya=\""+sPassword+"\"";
 
         Statement stmt = null;
@@ -125,6 +129,7 @@ public class IniciSessio extends AppCompatActivity {
         closeConnection(conexio);
         return esValid;
     }
+    //Funcio que genera un hash de la contrasenya introduïda per l'usuari per a compararla amb la de la base de dades
     private String passwordHash(String contrasenya) {
         String hashedPassword = null;
         try {

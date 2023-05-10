@@ -36,7 +36,7 @@ public class LesMevesTapes extends AppCompatActivity {
         ivTornar.setOnClickListener(v -> onBackPressed());
 
         try {
-            locals = Utilitats.getLocals(locals, id); // funció que obte els locals d'un restaurant
+            locals = Utilitats.getLocals(locals, id, this); // funció que obte els locals d'un restaurant
         } catch (ParseException | SQLException e) {
             e.printStackTrace();
         }

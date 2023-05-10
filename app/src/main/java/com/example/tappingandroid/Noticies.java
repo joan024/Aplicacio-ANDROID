@@ -78,7 +78,7 @@ public class Noticies extends AppCompatActivity {
         String dataActualString = dateFormat.format(dataActual);
 
         // Construir la consulta SQL
-        String sql = "SELECT * FROM noticia WHERE data_inici <= '"+dataActualString+"' AND (data_fi >= '"+dataActualString+"' OR data_fi IS NULL)";
+        String sql = "SELECT * FROM noticia WHERE data_inici <= '"+dataActualString+"' AND (data_fi >= '"+dataActualString+"' OR data_fi IS NULL) ORDER BY data_inici DESC";
 
         conexio = ConexioBD.CONN();
         try {

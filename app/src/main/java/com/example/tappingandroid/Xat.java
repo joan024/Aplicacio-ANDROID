@@ -24,7 +24,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-public class Chat extends AppCompatActivity {
+public class Xat extends AppCompatActivity {
 
     //Es defineixen variables privades per a cadascun dels elements de la interfície d'usuari que s'utilitzaran a l'activitat
     private ListView xatView;
@@ -42,7 +42,7 @@ public class Chat extends AppCompatActivity {
 
         id = Utilitats.agafarIdShared(this);
 
-        // Obtener referencias a los elementos de la interfaz de usuario
+        // Obtenir referencies als elements de l'interfaç d'usuario
         xatView = findViewById(R.id.xatListView);
         etMissatge = findViewById(R.id.et_missatge);
         btnEnviar = findViewById(R.id.btn_enviar);
@@ -54,10 +54,10 @@ public class Chat extends AppCompatActivity {
         xatAdapter = new XatAdapter(this, R.layout.misatge_item, new ArrayList<>());
         xatView.setAdapter(xatAdapter);
 
-        // Obtener los mensajes de la base de datos
+        // Obtindre els misatges de la base de dades
         List<Missatge> missatges = getMissatgesFromDatabase();
 
-        // Mostrar los mensajes en el chat
+        // Mostrar els misatges en el xat
         xatAdapter.addAll(missatges);
 
         // Configurar el botó d'enviament de missatges per afegir missatges nous a l'adaptador

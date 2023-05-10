@@ -49,7 +49,7 @@ public class ElsMeusLocals extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         try {
-            locals = Utilitats.getLocals(locals, id); // funció que obte els locals d'un restaurant
+            locals = Utilitats.getLocals(locals, id, this); // funció que obte els locals d'un restaurant
         } catch (ParseException | SQLException e) {
             e.printStackTrace();
         }

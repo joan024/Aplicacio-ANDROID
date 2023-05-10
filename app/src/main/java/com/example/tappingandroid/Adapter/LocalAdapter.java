@@ -1,6 +1,10 @@
 package com.example.tappingandroid.Adapter;
 
 import android.annotation.SuppressLint;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.Environment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,8 +14,10 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.tappingandroid.Constants;
 import com.example.tappingandroid.R;
 
+import java.io.File;
 import java.util.ArrayList;
 
 import com.example.tappingandroid.Dades.Local;
@@ -24,20 +30,26 @@ public class LocalAdapter extends RecyclerView.Adapter<LocalAdapter.ViewHolder> 
     public interface OnItemClickListener {
         void onItemClick(int position) throws WriterException;
     }
+    // Llista de locals
     private ArrayList<Local> locales;
+    // Listener per a les interaccions de clics en els ítems de la llista
     private OnItemClickListener onItemClickListener;
     public LocalAdapter(ArrayList<Local> locales) {
         this.locales = locales;
     }
 
+    // Estableix el listener per a les interaccions de clics en els ítems de la llista
     public void setOnItemClickListener(OnItemClickListener listener) {
         this.onItemClickListener = listener;
     }
 
+    // Obté el listener per a les interaccions de clics en els ítems de la llista
     public OnItemClickListener getOnItemClickListener() {
         return onItemClickListener;
     }
 
+
+    // Crea una nova vista per a cada ítem de la llista
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -50,23 +62,29 @@ public class LocalAdapter extends RecyclerView.Adapter<LocalAdapter.ViewHolder> 
     @SuppressLint("DefaultLocale")
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, @SuppressLint("RecyclerView") int position) {
+        // Obtenir l'objecte local de la llista segons la posició
         Local local = locales.get(position);
-        Picasso.get().load(local.getFoto()).into(holder.ivFoto);
 
+        //Gestiones les imatges amb picasso
+        Log.d("juliaaaaaaa","FOTO LOCAL:"+local.getFoto().get(0));
+        String path = Environment.getExternalStorageDirectory().getAbsolutePath() + "/Download" +Constants.rutaArxiusLocal+ local.getId() +"/" + local.getFoto().get(0);
+
+        Picasso.get().load(new File(path)).into(holder.ivFoto);
+
+
+        // Establir els valors dels TextView de l'ítem segons els valors de l'objecte local
         holder.tvNom.setText(local.getNom());
         holder.tvUbicacio.setText(local.getUbicacio());
         holder.tvHorari.setText(local.getHorari());
         holder.tvPuntuacio.setText(String.format("%.1f", local.getPuntuacio()));
 
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (onItemClickListener != null) {
-                    try {
-                        onItemClickListener.onItemClick(position);
-                    } catch (WriterException e) {
-                        e.printStackTrace();
-                    }
+        // Afegim un listener al clicar en l'ítem
+        holder.itemView.setOnClickListener(view -> {
+            if (onItemClickListener != null) {
+                try {
+                    onItemClickListener.onItemClick(position);
+                } catch (WriterException e) {
+                    e.printStackTrace();
                 }
             }
         });
@@ -78,7 +96,7 @@ public class LocalAdapter extends RecyclerView.Adapter<LocalAdapter.ViewHolder> 
         return locales.size();
     }
 
-    // Classe estàtica ViewHolder que representa cada ítem a la llista de RecyclerView
+    // Classe estatica ViewHolder que representa cada ítem a la llista de RecyclerView
     public static class ViewHolder extends RecyclerView.ViewHolder {
         ImageView ivFoto;
         TextView tvNom;
