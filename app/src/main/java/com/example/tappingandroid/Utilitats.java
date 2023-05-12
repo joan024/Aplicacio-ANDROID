@@ -140,7 +140,7 @@ public class Utilitats {
     private static void esborrarImatges(int id_local) {
         //Agafarem només els arxius que siguin png o jpg
         File carpeta = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS+ Constants.rutaArxiusLocal +id_local+"/"), "");
-        File[] arxiusACarpeta = carpeta.listFiles((dir, name) -> name.endsWith(".jpg") || name.endsWith(".png"));
+        File[] arxiusACarpeta = carpeta.listFiles((dir, name) -> name.endsWith(".jpg") || name.endsWith(".png") || name.endsWith(".jpeg"));
 
         //Esborrem totes les imatges
         if (arxiusACarpeta != null) {

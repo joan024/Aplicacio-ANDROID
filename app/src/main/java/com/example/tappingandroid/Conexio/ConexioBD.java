@@ -26,7 +26,7 @@ public class ConexioBD {
 
             Class.forName("com.mysql.jdbc.Driver");
 
-            conn = DriverManager.getConnection(Constants.URL_DB_LOCAL, user, password);
+            conn = DriverManager.getConnection(Constants.URL_DB_REMOT, user, password);
 
 
            // conn = DriverManager.getConnection(ConnURL);

@@ -4,9 +4,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.example.tappingandroid.Adapter.OpinioAdapter;
 import com.example.tappingandroid.Adapter.TapasAdapter;
@@ -19,6 +21,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -26,18 +29,17 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-
+@SuppressLint("NonConstantResourceId")
 public class Comentaris extends AppCompatActivity {
 
     @BindView(R.id.iv_tornar) ImageView ivTornar;
     @BindView(R.id.rv_opinions) RecyclerView recyclerViewOpinions;
+    @BindView(R.id.tv_puntuacioTotal)
+    TextView puntucioTotal;
+    DecimalFormat df = new DecimalFormat("#.#");
 
-
-    Connection conexio, conexio2;
-    Statement stmt = null;
-    ResultSet rs = null;
-    int id=0;String comentari,data;
-    double puntuacion;
+    int id=0;
+    double mitjaFinal;
     List<Local> locals;
 
     @Override
@@ -62,6 +64,10 @@ public class Comentaris extends AppCompatActivity {
             recyclerViewOpinions.setLayoutManager(new LinearLayoutManager(this));
             // Establir l'adaptador del RecyclerView
             recyclerViewOpinions.setAdapter((new OpinioAdapter(local.getOpinions())));
+            mitjaFinal = local.getPuntuacio()+mitjaFinal;
         }
+        mitjaFinal = mitjaFinal / locals.size();
+
+        puntucioTotal.setText(df.format(mitjaFinal));
     }
 }

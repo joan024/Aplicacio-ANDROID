@@ -14,7 +14,6 @@
         <TextView
             android:layout_width="409dp"
             android:layout_height="50dp"
-            android:text="MENSAJE"
             android:background="#c3c3c3"
             android:textSize="25sp"
             android:textAlignment="center"
