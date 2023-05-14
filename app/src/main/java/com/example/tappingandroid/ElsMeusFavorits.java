@@ -67,6 +67,7 @@ public class ElsMeusFavorits extends AppCompatActivity {
             e.printStackTrace();
             Toast.makeText(this, "No h'han pogut carregar els locals afegits a favorits.", Toast.LENGTH_SHORT).show();
         }
+        //Log.d("juliaaaaa","Locals a fav: "+locals.size());
 
         // adaptador per mostrar els locals favorits
         adaptador = new LocalAdapter((ArrayList<Local>) locals);
@@ -82,6 +83,7 @@ public class ElsMeusFavorits extends AppCompatActivity {
         });
 
         recyclerView.setAdapter(adaptador);
+        Log.d("juliaaaaa","Locals a fav: "+locals.size());
     }
 
     @SuppressLint("NotifyDataSetChanged")
@@ -114,6 +116,8 @@ public class ElsMeusFavorits extends AppCompatActivity {
             Statement stmt3 = conexio.createStatement();
             Statement stmt4 = conexio.createStatement();
 
+            //Log.d("juliaaaaa","Locals trobats: ");
+
             while (rs.next()) {
                 id_local = rs.getInt("id");
                 nom_local = rs.getString("nom");
@@ -131,7 +135,7 @@ public class ElsMeusFavorits extends AppCompatActivity {
                 Log.d("juliaaaaaaaa","Nom foto abans d'inserir: "+nomFoto);
 
                 locals.add(new Local(id_local, nomFoto,nom_local,direccio_local,horari,mitjana,telefon_local,descripcio,tapes,opinions));
-                //Log.d("juliaaaaaaaa","  locals: "+ locals.get(0).getFoto());
+                Log.d("juliaaaaaaaa","  id usuari: "+ id);
             }
         } catch (SQLException | IOException | SAXException | ParserConfigurationException e) {
             e.printStackTrace();
