@@ -204,7 +204,7 @@ public class Resultats extends AppCompatActivity {
     private void obtenirLlistaLocals(String filtreDeCerca) throws SQLException {
         conexio = ConexioBD.CONN();
 
-        String sql = "SELECT * FROM local as l INNER JOIN empresa as e ON l.id_usuari = e.id_usuari INNER JOIN usuari as u ON u.id=l.id_usuari WHERE u.actiu IS TRUE AND (l.nom LIKE '%" + filtreDeCerca + "%' OR l.direccio LIKE '%" + filtreDeCerca + "%' OR l.descripcio LIKE '%" + filtreDeCerca + "%') ORDER BY e.pack";
+        String sql = "SELECT * FROM local as l INNER JOIN empresa as e ON l.id_usuari = e.id_usuari INNER JOIN usuari as u ON u.id=e.id_usuari WHERE (u.actiu IS TRUE AND (l.nom LIKE '%" + filtreDeCerca + "%' OR l.direccio LIKE '%" + filtreDeCerca + "%' OR l.descripcio LIKE '%" + filtreDeCerca + "%')) ORDER BY e.pack";
 
         Statement stmt;
         Statement stmt6;
@@ -269,7 +269,7 @@ public class Resultats extends AppCompatActivity {
     private void buscarPerCategories(List<Local> locals, Statement stmt6, Statement stmt3, Statement stmt2, Statement stmt4, Statement stmt5, String query) throws SQLException, IOException, ParserConfigurationException, SAXException {
 
         // Consulta SQL per obtenir els locals que tenen tapes que pertanyen a categories que contenen la query
-        String consultaLocalsAmbTapes = "SELECT l.* FROM local l, tapa t, local_tapa tl, categoria c, categoria_tapa ct WHERE c.nom LIKE '%" + query + "%' AND t.id = tl.id_tapa AND l.id = tl.id_local AND c.id= ct.id_categoria AND t.id = ct.id_tapa";
+        String consultaLocalsAmbTapes = "SELECT l.* FROM local l, tapa t, local_tapa tl, categoria c, categoria_tapa ct INNER JOIN usuari as u ON u.id=l.id_usuari WHERE u.actiu IS TRUE AND c.nom LIKE '%" + query + "%' AND t.id = tl.id_tapa AND l.id = tl.id_local AND c.id= ct.id_categoria AND t.id = ct.id_tapa";
         ResultSet rs6 = stmt6.executeQuery(consultaLocalsAmbTapes);
 
         comprovarFiles(rs6, stmt2, stmt3, stmt4, stmt5);
@@ -279,7 +279,7 @@ public class Resultats extends AppCompatActivity {
         private void buscarPerTapes(List<Local> locals, Statement stmt6, Statement stmt3, Statement stmt2, Statement stmt4, Statement stmt5, String query) throws SQLException, IOException, ParserConfigurationException, SAXException {
 
         // Consulta SQL per obtenir els locals que tenen tapes que contenen la query
-        String consultaLocalsAmbTapes = "SELECT l.* FROM local l, tapa t, local_tapa tl WHERE t.nom LIKE '%" + query + "%' AND t.id = tl.id_tapa AND l.id = tl.id_local";
+        String consultaLocalsAmbTapes = "SELECT l.* FROM local l, tapa t, local_tapa tl INNER JOIN usuari as u ON u.id=l.id_usuari WHERE u.actiu IS TRUE AND t.nom LIKE '%" + query + "%' AND t.id = tl.id_tapa AND l.id = tl.id_local";
         ResultSet rs6 = stmt6.executeQuery(consultaLocalsAmbTapes);
 
         comprovarFiles(rs6, stmt2, stmt3, stmt4, stmt5);
