@@ -16,13 +16,17 @@ public class DetallsPregunta extends AppCompatActivity {
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.faq_item);
-        ButterKnife.bind(this);
+        setContentView(R.layout.faq_item); // Carrega el layout de la pantalla
+        ButterKnife.bind(this);// Vincula els elements de la vista amb les variables de la classe
 
+        // Defineix l'acció a executar quan es prem el botó de tornar
         ivTornar.setOnClickListener(v -> onBackPressed());
+
+        // Obtenir la pregunta que s'ha de mostrar
         Intent intent = getIntent();
         Pregunta pregunta = (Pregunta) intent.getSerializableExtra("pregunta");
 
+        // Mostrar la pregunta i la resposta corresponent
         tv_pregunta.setText(pregunta.getPregunta());
         tv_resposta.setText(pregunta.getResposta());
     }

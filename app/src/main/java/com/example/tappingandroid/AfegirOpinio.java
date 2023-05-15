@@ -1,12 +1,7 @@
 package com.example.tappingandroid;
 
-import android.content.ContentValues;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -14,19 +9,15 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.tappingandroid.Conexio.ConexioBD;
-import com.example.tappingandroid.Dades.Local;
 import com.example.tappingandroid.Dades.Opinio;
 
 import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Calendar;
 import java.util.Date;
-
-import butterknife.BindView;
 
 public class AfegirOpinio extends AppCompatActivity implements Serializable {
 
@@ -73,11 +64,11 @@ public class AfegirOpinio extends AppCompatActivity implements Serializable {
     }
     //Funció que insereix les dades a la base de dades
     public void insertar(int id, int idLocal, Double puntuacio, String comentari, Calendar calendari) {
-        Connection conn = ConexioBD.CONN();
+        Connection conn = ConexioBD.connectar();
         PreparedStatement stmt = null;
         String sql = "INSERT INTO valoracio (id_usuari, id_local, puntuacio, comentari, data) VALUES (?, ?, ?, ?, ?)";
         int rowsAffected = 0;
-        Log.d("JULIAAAA", String.valueOf(id));
+
         try {
             stmt = conn.prepareStatement(sql);
             stmt.setInt(1, id);

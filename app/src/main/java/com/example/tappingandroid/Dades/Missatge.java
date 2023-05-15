@@ -2,6 +2,7 @@ package com.example.tappingandroid.Dades;
 
 import androidx.annotation.NonNull;
 
+//Classe que representa un missatge, amb l'usuari, el missatge i l'hora en què es va enviar.
 public class Missatge {
 
     private String usuari;

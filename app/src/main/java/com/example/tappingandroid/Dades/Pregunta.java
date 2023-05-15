@@ -1,5 +1,6 @@
 package com.example.tappingandroid.Dades;
 
+// Classe que representa una pregunta amb el seu identificador, enunciat i resposta
 public class Pregunta {
 
     private int id;

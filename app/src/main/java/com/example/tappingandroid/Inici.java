@@ -123,7 +123,7 @@ public class Inici extends AppCompatActivity implements View.OnClickListener, Se
     @SuppressLint("SetTextI18n")
     private void VisibilitatMenu(boolean sessionActive) throws SQLException {
         if (sessionActive) {
-            // La sesión está iniciada, realiza alguna acción
+            // La sesió está iniciada, realiTza alguna acció
             id = sharedPreferences.getInt("id", 0);
 
             usuari = Utilitats.getTipusUsuari(id);

@@ -3,9 +3,12 @@ package com.example.tappingandroid.Dades;
 import java.io.Serializable;
 import java.util.List;
 
+/** Classe que representa un local.
+ * Conté informació sobre el local com ara el seu nom, ubicació, horari, telèfon, descripció, imatges, puntuació, tapes i opinions.
+ */
 public class Local implements Serializable {
     private List<String> imatges;
-    private String ubicacio, horari, nom, telefon, descripcio, foto;
+    private String ubicacio, horari, nom, telefon, descripcio;
     private double puntuacio;
     private int id;
     private List<Tapa> tapes;
@@ -89,7 +92,6 @@ public class Local implements Serializable {
     @Override
     public String toString() {
         return "Local{" +
-                "foto=" + foto +
                 ", ubicacio='" + ubicacio + '\'' +
                 ", horari='" + horari + '\'' +
                 ", nom='" + nom + '\'' +

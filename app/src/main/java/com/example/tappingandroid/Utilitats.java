@@ -140,7 +140,7 @@ public class Utilitats {
     private static void esborrarImatges(int id_local) {
         //Agafarem només els arxius que siguin png o jpg
         File carpeta = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS+ Constants.rutaArxiusLocal +id_local+"/"), "");
-        File[] arxiusACarpeta = carpeta.listFiles((dir, name) -> name.endsWith(".jpg") || name.endsWith(".png"));
+        File[] arxiusACarpeta = carpeta.listFiles((dir, name) -> name.endsWith(".jpg") || name.endsWith(".png") || name.endsWith(".jpeg"));
 
         //Esborrem totes les imatges
         if (arxiusACarpeta != null) {
@@ -325,7 +325,7 @@ public class Utilitats {
     També executa altres consultes SQL per obtenir les opinions, tapes i foto principal
     de cada local, i calcula la puntuació mitjana de les opinions.*/
     public static List<Local> getLocals(List<Local> locals, int id, Context context) throws ParseException, SQLException {
-        Connection conexio = ConexioBD.CONN();
+        Connection conexio = ConexioBD.connectar();
         String sql = "SELECT * FROM local WHERE id_usuari="+ id;
         List<Opinio> opinions = null;
         List<Tapa> tapes = null;
@@ -398,7 +398,7 @@ public class Utilitats {
 
     // Aquesta funció retorna el tipus d'usuari a partir d'un id
     public static int getTipusUsuari(int id) throws SQLException {
-        Connection conexio = ConexioBD.CONN();
+        Connection conexio = ConexioBD.connectar();
         String sql = "SELECT * FROM local WHERE id_usuari=" + id;
         Statement stmt = null;
         ResultSet rs = null;

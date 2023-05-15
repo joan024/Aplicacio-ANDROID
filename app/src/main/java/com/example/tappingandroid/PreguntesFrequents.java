@@ -5,31 +5,21 @@ import static com.example.tappingandroid.Conexio.ConexioBD.closeConnection;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
-import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.tappingandroid.Adapter.NoticiaAdapter;
-import com.example.tappingandroid.Adapter.OpinioAdapter;
 import com.example.tappingandroid.Adapter.PreguntaAdapter;
 import com.example.tappingandroid.Conexio.ConexioBD;
-import com.example.tappingandroid.Dades.Noticia;
-import com.example.tappingandroid.Dades.Opinio;
 import com.example.tappingandroid.Dades.Pregunta;
-import com.example.tappingandroid.R;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -53,7 +43,10 @@ public class PreguntesFrequents extends AppCompatActivity {
         setContentView(R.layout.faq_item);
         ButterKnife.bind(this);
 
+        // Configurar el botó de tornada
         ivTornar.setOnClickListener(v -> onBackPressed());
+
+        // Configurar el RecyclerView i obtenir les dades de la base de dades
         recyclerView = findViewById(R.id.rv_pregunta);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         preguntas = new ArrayList<>();
@@ -63,6 +56,7 @@ public class PreguntesFrequents extends AppCompatActivity {
             e.printStackTrace();
         }
 
+        // Configurar l'adaptador i afegir el listener d'elements
         adaptador = new PreguntaAdapter((ArrayList<Pregunta>) preguntas);
         adaptador.setOnItemClickListener(position -> {
             Pregunta preguntaSelec = preguntas.get(position);
@@ -73,18 +67,21 @@ public class PreguntesFrequents extends AppCompatActivity {
 
         });
 
-
+        // Establir l'adaptador del RecyclerView
         recyclerView.setAdapter(adaptador);
 
     }
 
+    // Mètode per obtenir les dades de la base de dades
     private void agafarDades() throws SQLException {
 
-        conexio = ConexioBD.CONN();
+        // Establir la connexió a la base de dades i fer la consulta SQL
+        conexio = ConexioBD.connectar();
         String sql = "SELECT * FROM preguntafrequent";
 
         boolean esValid = false;
         try {
+            // Executar la consulta i afegir les dades a l'ArrayList de preguntes
             stmt = conexio.createStatement();
             rs = stmt.executeQuery(sql);
 
@@ -99,6 +96,7 @@ public class PreguntesFrequents extends AppCompatActivity {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        // Tancar la connexió a la base de dades
         closeConnection(conexio);
     }
     // Configurar el botó d'entrada a la barra d'acció

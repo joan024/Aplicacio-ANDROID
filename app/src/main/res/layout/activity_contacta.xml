@@ -104,10 +104,6 @@
                 android:text="@string/tiktok" />
         </LinearLayout>
 
-
-
-
-
     </LinearLayout>
 
     <Button
@@ -115,7 +111,7 @@
         android:layout_width="194dp"
         android:layout_height="47dp"
         android:layout_marginTop="104dp"
-        android:text="Enviar Missatge"
+        android:text="@string/enviar_misatge"
         android:background="@drawable/esquines_rodones_orange"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
@@ -134,5 +130,14 @@
         app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/iv_tornar"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:padding="8dp"
+        android:src="@drawable/tornar"
+        app:tint="@color/mandarina"
+        tools:ignore="MissingConstraints" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

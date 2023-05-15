@@ -6,6 +6,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
+//Classe Opinio que representa les opinions dels usuaris que han valorat un local
 public class Opinio implements Serializable {
     private String nomUsuari;
     private Date data;

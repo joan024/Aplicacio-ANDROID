@@ -2,6 +2,7 @@ package com.example.tappingandroid.Dades;
 
 import java.io.Serializable;
 
+//Classe que representa una tapa
 public class Tapa implements Serializable {
     private String nom,personalitzacio;
     private double preu;
@@ -9,6 +10,7 @@ public class Tapa implements Serializable {
     public Tapa(String nom, double preu, String personalitzacio) {
         this.nom = nom;
         this.preu = preu;
+        this.personalitzacio = personalitzacio;
     }
 
     public String getNom() {return nom;}
