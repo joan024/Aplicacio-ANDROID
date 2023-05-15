@@ -59,15 +59,16 @@ public class Comentaris extends AppCompatActivity {
         }
 
         for(int i=0; i<locals.size(); i++){
-            Local local = locals.get(i); // Aquí obtenemos la instancia de Local en la posición i
+            Local local = locals.get(i); // Aquí obtenim la instancia de Local a la posició i
             // Establir el disseny del RecyclerView
             recyclerViewOpinions.setLayoutManager(new LinearLayoutManager(this));
             // Establir l'adaptador del RecyclerView
             recyclerViewOpinions.setAdapter((new OpinioAdapter(local.getOpinions())));
             mitjaFinal = local.getPuntuacio()+mitjaFinal;
         }
-        mitjaFinal = mitjaFinal / locals.size();
 
+        //Calcular la mitja de totes les valoracions juntes i mostrar-la
+        mitjaFinal = mitjaFinal / locals.size();
         puntucioTotal.setText(df.format(mitjaFinal));
     }
 }

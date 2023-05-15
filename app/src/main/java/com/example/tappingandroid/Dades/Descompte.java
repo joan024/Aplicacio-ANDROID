@@ -5,6 +5,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
+//Classe que representa un descompte amb les següents propietats: codi, descripció, data d'inici,
+//data de caducitat i nom del local on es pot fer efectiu el descompte.
 public class Descompte {
 
     private String codi, descripcio, local;

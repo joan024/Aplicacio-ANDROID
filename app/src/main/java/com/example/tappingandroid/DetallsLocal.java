@@ -29,9 +29,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.DecimalFormat;
 import java.time.LocalDate;
-import java.util.List;
-
-import com.squareup.picasso.Picasso;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -131,14 +128,19 @@ public class DetallsLocal extends AppCompatActivity {
         });
     }
 
+    // Aquest mètode comprova si el local actual és un favorit de l'usuari que l'esta consultant
     private void comprovarFavorit() throws SQLException {
+        // Obtenim les dades d'inici de sessió de l'usuari
         sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
-        boolean sessionActive = sharedPreferences.getBoolean("session_active", false); // false es el valor predeterminado si la clave no existe
+        boolean sessionActive = sharedPreferences.getBoolean("session_active", false); // false es el valor predeterminado si la clau no existeix
         id = sharedPreferences.getInt("id", 0);
 
+        // Si l'usuari ha iniciat sessió i existeix un id vàlid, procedim a comprovar si el local actual és un favorit
         if(sessionActive && id != 0){
-            conexio = ConexioBD.CONN();
+            // Establim connexió amb la base de dades
+            conexio = ConexioBD.connectar();
 
+            // Construïm la consulta SQL per obtenir si l'usuari té el local actual com a favorit
             String sql = "SELECT * FROM local " +
                     "INNER JOIN guarda ON guarda.id_local=local.id "+
                     "WHERE guarda.id_usuari = "+ id +
@@ -146,13 +148,16 @@ public class DetallsLocal extends AppCompatActivity {
                     " AND guarda.id_local = "+idLocal;
 
             try {
+                // Executem la consulta SQL
                 stmt = conexio.createStatement();
                 rs = stmt.executeQuery(sql);
 
+                // Si la consulta retorna un registre, significa que l'usuari té el local actual com a favorit
                 if(rs.next()){
                     esFavorit = true;
                     ivFavorits.setImageResource(R.drawable.favoritomarcado);
                 }else{
+                    // Si la consulta no retorna cap registre, significa que l'usuari no té el local actual com a favorit
                     esFavorit = false;
                     ivFavorits.setImageResource(R.drawable.favorito);
                 }
@@ -163,6 +168,7 @@ public class DetallsLocal extends AppCompatActivity {
             }
             conexio.close();
 
+            // Afegim un listener per actualitzar l'estat de favorit del local quan l'usuari premi el botó de favorits
             ivFavorits.setOnClickListener(v -> {
                 if(esFavorit){
                     actualizarLocal(1);
@@ -174,9 +180,11 @@ public class DetallsLocal extends AppCompatActivity {
         }
     }
 
+    // Aquest mètode actualitza l'estat de favorit del local per l'usuari actual
     private void actualizarLocal(int accio) {
+        // En funció de l'acció, construïm la consulta SQL per actualitzar o inserir un registre a la taula guarda
         try {
-            Connection conexion = ConexioBD.CONN();
+            Connection conexion = ConexioBD.connectar();
             if(accio == 1){
                 String sql = "UPDATE guarda SET data_fi = ? WHERE id_usuari = ? AND id_local = ?";
                 PreparedStatement ps = conexion.prepareStatement(sql);
@@ -184,9 +192,9 @@ public class DetallsLocal extends AppCompatActivity {
                 ps.setInt(2, sharedPreferences.getInt("id", 0));
                 Log.d("JULIAAAA", String.valueOf(idLocal));
                 ps.setInt(3, idLocal);
-                int filasActualitzadas = ps.executeUpdate();
-                if (filasActualitzadas > 0) {
-                    // Se ha actualizado el registro correctamente
+                int filasActualitzades = ps.executeUpdate();
+                if (filasActualitzades > 0) {
+                    // Si s'ha actualitzat el registre correctament, actualitzem l'estat de favorit del local
                     esFavorit = false;
                     ivFavorits.setImageResource(R.drawable.favorito);
                 }
@@ -196,9 +204,9 @@ public class DetallsLocal extends AppCompatActivity {
                 ps2.setInt(1, id);
                 ps2.setInt(2, idLocal);
                 ps2.setDate(3, java.sql.Date.valueOf(String.valueOf(LocalDate.now())));
-                int filasActualitzadas = ps2.executeUpdate();
-                if (filasActualitzadas > 0) {
-                    // Se ha inserit el registro correctamente
+                int filasInserides = ps2.executeUpdate();
+                if (filasInserides > 0) {
+                    // Si s'ha inserit el registre correctament, actualitzem l'estat de favorit del local
                     ivFavorits.setImageResource(R.drawable.favoritomarcado);
                     esFavorit = true;
                 }

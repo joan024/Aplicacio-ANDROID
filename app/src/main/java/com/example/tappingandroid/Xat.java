@@ -67,7 +67,7 @@ public class Xat extends AppCompatActivity {
             String time = getCurrentTime();
             Missatge newMessage = new Missatge(nom, missatge, time);
 
-            // Insertar el nuevo mensaje en la base de datos
+            // Insertar el nou missatge a la base de dades
             insertMissatgeToDatabase(newMessage);
 
             xatAdapter.add(newMessage);
@@ -75,14 +75,15 @@ public class Xat extends AppCompatActivity {
         });
 
         xatView.post(() -> {
-            // desplazar el ListView hasta el final de la lista
+            //Mostrar els ultims misatges
             xatView.smoothScrollToPosition(xatAdapter.getCount() - 1);
         });
 
     }
 
+    // Funció que obté l'id del xat a partir de la id de l'empresa
     private int getIdXat() throws SQLException {
-        Connection conn = ConexioBD.CONN();
+        Connection conn = ConexioBD.connectar();
         int id_xat = 0;
         try {
             Statement stmt = conn.createStatement();
@@ -98,10 +99,10 @@ public class Xat extends AppCompatActivity {
         return id_xat;
     }
 
-        // Obtener los mensajes de la base de datos
+    // Funció que obté els missatges de la base de dades
     private List<Missatge> getMissatgesFromDatabase() {
         List<Missatge> missatges = new ArrayList<>();
-        Connection conn = ConexioBD.CONN();
+        Connection conn = ConexioBD.connectar();
 
         try {
             int id_xat = getIdXat();
@@ -109,7 +110,7 @@ public class Xat extends AppCompatActivity {
             ResultSet rs = stmt.executeQuery("SELECT * FROM lineaxat WHERE id_xat = "+id_xat);
 
             while (rs.next()) {
-                String name= rs.getInt("usuari") == 1 ? "Tapping" : "Jo"; // Si el usuari de la BD es 1 se pone "Empresa" si no se pone "Jo"
+                String name= rs.getInt("usuari") == 1 ? "Tapping" : "Jo"; // Si el usuari de la BD es 1 es fica "Tapping" si no es fica "Jo"
                 String message = rs.getString("missatge");
                 String time = rs.getString("temps");
                 Missatge missatge = new Missatge(name, message, time);
@@ -128,8 +129,9 @@ public class Xat extends AppCompatActivity {
         return missatges;
     }
 
+    // Funció que insereix un missatge a la base de dades
     private void insertMissatgeToDatabase(Missatge missatge) {
-        Connection conn = ConexioBD.CONN();
+        Connection conn = ConexioBD.connectar();
 
         try {
             int id_xat = getIdXat();
@@ -150,6 +152,7 @@ public class Xat extends AppCompatActivity {
         }
     }
 
+    // Funció que retorna l'hora actual en format de cadena de text
     private String getCurrentTime() {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
         Date date = new Date();

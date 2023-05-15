@@ -5,7 +5,9 @@ import static com.example.tappingandroid.Conexio.ConexioBD.closeConnection;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -24,9 +26,9 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
+import java.sql.Statement;
 import java.util.Calendar;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -75,6 +77,9 @@ public class Registre extends AppCompatActivity {
         // Obtenim una instància del calendari
         calendari = Calendar.getInstance();
 
+        SharedPreferences sharedPref = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+
         // Configurem el botó de registre per a comprovar si s'ha registrat l'usuari o no
         btnRegistre.setOnClickListener(v -> {
             boolean correcte = validarDades();
@@ -83,7 +88,12 @@ public class Registre extends AppCompatActivity {
                 correcte= inserirDades();
                 if(correcte){
                     Toast.makeText(getApplicationContext(), "T'has registrat correctament.", Toast.LENGTH_SHORT).show();
-                    startMainActivity(correu);
+                    int id = ultimId();
+                    editor.putInt("id", id);
+                    editor.putString("nom", nom);
+                    editor.putString("correu", correu);
+                    editor.commit();
+                    startMainActivity();
                 }else{
                     Toast.makeText(getApplicationContext(), "Hi ha hagut un error al registre, torna a intentar-ho.", Toast.LENGTH_SHORT).show();
                 }
@@ -92,12 +102,31 @@ public class Registre extends AppCompatActivity {
 
     }
 
+    private int ultimId() {
+        Connection cn = null;
+        int id = 0;
+        cn = ConexioBD.connectar();
+
+        String sql = "SELECT MAX(id_usuari) FROM consumidor";
+
+        try {
+            Statement stmt = cn.createStatement();
+            ResultSet rs = stmt.executeQuery(sql);
+            if (rs.next()) {
+                id = rs.getInt(1);
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return id;
+    }
+
     private boolean inserirDades() {
         Connection cn = null;
         boolean insercioCorrecte = false;
         try{
             //DateFormat dfNou = new SimpleDateFormat("yyyy-MM-dd");
-            cn = ConexioBD.CONN();
+            cn = ConexioBD.connectar();
             // Insertem un nou registre a la taula "usuari"
             String sql = "INSERT INTO usuari (nom, correu, contrasenya, data_registre) " +
                     "VALUES (?, ?, ?, ?)";
@@ -233,9 +262,9 @@ public class Registre extends AppCompatActivity {
     }
 
     // Iniciem l'activitat de registre
-    private void startMainActivity(String usuari) {
+    private void startMainActivity() {
         Intent intent = new Intent(Registre.this, Inici.class);
-        intent.putExtra("usuari", usuari);
+        intent.putExtra("usuari", correu);
         intent.putExtra("nom",nom);
         startActivity(intent);
     }

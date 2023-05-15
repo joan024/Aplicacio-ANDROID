@@ -14,8 +14,11 @@ public class ConexioBD {
     static String user = "'tapping'";
     static String password = "JuMaJoJo!!25231";
     static Connection conn = null;
-    public static Connection CONN() {
 
+    // Mètode per obtenir una connexió a la base de dades
+    public static Connection connectar() {
+
+        // Permetem la connexió en el thread principal
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder()
                 .permitAll().build();
 
@@ -23,13 +26,11 @@ public class ConexioBD {
         Connection conn = null;
 
         try {
-
+            // Carreguem el driver de la base de dades
             Class.forName("com.mysql.jdbc.Driver");
 
+            // Obtenim la connexió a la base de dades remota o local
             conn = DriverManager.getConnection(Constants.URL_DB_REMOT, user, password);
-
-
-           // conn = DriverManager.getConnection(ConnURL);
 
         } catch (Exception e) {
             Log.d("marc9", e.getMessage());
@@ -37,13 +38,13 @@ public class ConexioBD {
         return conn;
     }
 
+    // Mètode per tancar la connexió a la base de dades
     public static void closeConnection(Connection conn) {
         try {
             if (conn != null && !conn.isClosed()) {
                 conn.close();
             }
         } catch (SQLException e) {
-            // handle the exception
         }
     }
 }

@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+//Classe Noticia per representar una notícia amb les seves dades associades
 public class Noticia implements Serializable {
 
     private String imagen;

@@ -30,23 +30,22 @@ public class ElsMeusLocals extends AppCompatActivity {
     private List<Local> locals;
 
     private ImageView iv_tornar;
-    private Statement stmt = null;
-    private ResultSet rs = null;
-    private int id, id_local,id_horari;
-    private String nom_local,direccio_local,telefon_local, link_foto,horari,descripcio;
+    private int id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_els_meus_locals);
 
+        // Defineix una acció quan es clica sobre la imatge de tornaR
         iv_tornar = findViewById(R.id.iv_tornar);
         iv_tornar.setOnClickListener(v -> onBackPressed());
 
+        // Agafa l'identificador del local a través de les Shared Preferences de l'aplicació
         id = Utilitats.agafarIdShared(this);
 
-        RecyclerView recyclerView = findViewById(R.id.rv_locals);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        RecyclerView recyclerView = findViewById(R.id.rv_locals); // Busca la vista del RecyclerView on es mostraran els locals
+        recyclerView.setLayoutManager(new LinearLayoutManager(this)); // Defineix el LinearLayoutManager per al RecyclerView
 
         try {
             locals = Utilitats.getLocals(locals, id, this); // funció que obte els locals d'un restaurant
@@ -54,7 +53,8 @@ public class ElsMeusLocals extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        LocalAdapter adaptador = new LocalAdapter((ArrayList<Local>) locals); // adaptador para mostrar els locals d'un restaurant
+        // Crea un adaptador per a la llista de locals
+        LocalAdapter adaptador = new LocalAdapter((ArrayList<Local>) locals);
 
         adaptador.setOnItemClickListener(position -> {
             // Obtenir l'objecte local a la posició seleccionada
@@ -63,11 +63,10 @@ public class ElsMeusLocals extends AppCompatActivity {
             // Crear un Intent per obrir l'activitat LocalDetail i passar la informació del local seleccionat
             Intent intent = new Intent(ElsMeusLocals.this, DetallsLocal.class);
             intent.putExtra("local", localSeleccionado);
-            startActivity(intent);
+            startActivity(intent); // Inicia l'activitat LocalDetail amb l'objecte local seleccionat
         });
 
+        // Estableix l'adaptador per al RecyclerView
         recyclerView.setAdapter(adaptador);
     }
-
-
 }

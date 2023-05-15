@@ -5,7 +5,6 @@ import static com.example.tappingandroid.Conexio.ConexioBD.closeConnection;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,8 +12,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.tappingandroid.Conexio.ConexioBD;
-import com.example.tappingandroid.Dades.Descompte;
-import com.example.tappingandroid.R;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -24,11 +21,8 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
-import com.example.tappingandroid.Adapter.LocalAdapter;
 import com.example.tappingandroid.Adapter.NoticiaAdapter;
-import com.example.tappingandroid.Dades.Local;
 import com.example.tappingandroid.Dades.Noticia;
 
 import butterknife.BindView;
@@ -51,16 +45,18 @@ public class Noticies extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_noticies);
         ButterKnife.bind(this);
+
         //Acció en fer clic al botó "tornar"
         ivTornar.setOnClickListener(v -> onBackPressed());
 
+        // Configurar el RecyclerView i obtenir les dades de la base de dades
         recyclerView = findViewById(R.id.rv_noticia);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         noticies = new ArrayList<>();
         AgafarNoticies();
 
+        // Configurar l'adaptador i afegir el listener d'elements
         adaptador = new NoticiaAdapter((ArrayList<Noticia>) noticies);
-
         adaptador.setOnItemClickListener(position -> {
             Noticia noticiaSelecionada = noticies.get(position);
 
@@ -69,10 +65,15 @@ public class Noticies extends AppCompatActivity {
             startActivity(intent);
 
         });
+
+        // Establir l'adaptador del RecyclerView
         recyclerView.setAdapter(adaptador);
     }
+
+    /* Mètode per obtenir les notícies de la base de dades i mostrar-les en la llista.
+     * La consulta SQL selecciona les notícies que són vàlides en la data actual i les ordena per data d'inici descendint.
+     */
     private void AgafarNoticies() {
-        // Obtener la fecha actual en formato ISO
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         Date dataActual = new Date();
         String dataActualString = dateFormat.format(dataActual);
@@ -80,7 +81,7 @@ public class Noticies extends AppCompatActivity {
         // Construir la consulta SQL
         String sql = "SELECT * FROM noticia WHERE data_inici <= '"+dataActualString+"' AND (data_fi >= '"+dataActualString+"' OR data_fi IS NULL) ORDER BY data_inici DESC";
 
-        conexio = ConexioBD.CONN();
+        conexio = ConexioBD.connectar();
         try {
             stmt = conexio.createStatement();
             rs = stmt.executeQuery(sql);

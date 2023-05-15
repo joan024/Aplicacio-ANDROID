@@ -26,18 +26,22 @@ public class NoticiaAdapter extends RecyclerView.Adapter<NoticiaAdapter.ViewHold
     private List<Noticia> noticias;
     private NoticiaAdapter.OnItemClickListener onItemClickListener;
 
+    // Constructor de la classe, rep una llista de notícies
     public NoticiaAdapter(List<Noticia> noticias) {
         this.noticias = noticias;
     }
 
+    // Mètode per a definir el listener d'events de clic
     public void setOnItemClickListener(OnItemClickListener listener) {
         this.onItemClickListener = listener;
     }
 
+    // Mètode per obtenir el listener d'events de clic
     public OnItemClickListener getOnItemClickListener() {
         return onItemClickListener;
     }
 
+    // Sobrescriu el mètode onCreateViewHolder per a inflar la vista de cada notícia a partir del seu disseny (R.layout.noticia_item)
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -47,37 +51,39 @@ public class NoticiaAdapter extends RecyclerView.Adapter<NoticiaAdapter.ViewHold
         return new ViewHolder(itemView);
     }
 
-
+    // Sobrescriu el mètode onBindViewHolder per a vincular les dades de les notícies a la vista corresponent
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, @SuppressLint("RecyclerView") int position) {
         Noticia noticia = noticias.get(position);
-        //holder.imagenImageView.setImageResource(noticia.getImagen());
+
         Picasso.get().load(noticia.getImagen()).into(holder.imagenImageView);
         holder.tituloTextView.setText(noticia.getTitol());
         holder.descripcionTextView.setText(noticia.getDescripcio());
         holder.data_publicacio.setText(noticia.getData_publicacio());
 
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (onItemClickListener != null) {
-                    onItemClickListener.onItemClick(position);
-                }
+        // Defineix un listener de clic per a la vista de cada notícia
+        holder.itemView.setOnClickListener(view -> {
+            if (onItemClickListener != null) {
+                // Si el listener no és nul, executa el mètode onItemClick i li passa la posició de la notícia que ha estat clicada
+                onItemClickListener.onItemClick(position);
             }
         });
     }
 
+    // Sobrescriu el mètode getItemCount per a retornar el número total de notícies
     @Override
     public int getItemCount() {
         return noticias.size();
     }
 
+    // Classe ViewHolder que conté la vista de cada notícia
     public static class ViewHolder extends RecyclerView.ViewHolder {
         private TextView tituloTextView;
         private TextView descripcionTextView;
         private TextView data_publicacio;
         private ImageView imagenImageView;
 
+        // Constructor de la classe ViewHolder, rep la vista de cada notícia
         public ViewHolder(View itemView) {
             super(itemView);
 

@@ -325,7 +325,7 @@ public class Utilitats {
     També executa altres consultes SQL per obtenir les opinions, tapes i foto principal
     de cada local, i calcula la puntuació mitjana de les opinions.*/
     public static List<Local> getLocals(List<Local> locals, int id, Context context) throws ParseException, SQLException {
-        Connection conexio = ConexioBD.CONN();
+        Connection conexio = ConexioBD.connectar();
         String sql = "SELECT * FROM local WHERE id_usuari="+ id;
         List<Opinio> opinions = null;
         List<Tapa> tapes = null;
@@ -398,7 +398,7 @@ public class Utilitats {
 
     // Aquesta funció retorna el tipus d'usuari a partir d'un id
     public static int getTipusUsuari(int id) throws SQLException {
-        Connection conexio = ConexioBD.CONN();
+        Connection conexio = ConexioBD.connectar();
         String sql = "SELECT * FROM local WHERE id_usuari=" + id;
         Statement stmt = null;
         ResultSet rs = null;

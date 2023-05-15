@@ -33,16 +33,18 @@ public class DetallsNoticia extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_noticia);
         ButterKnife.bind(this);
-        //Acció en fer clic al botó "tornar"
+
+        // Configuració de l'acció en fer clic al botó "tornar".
         ivTornar.setOnClickListener(v -> onBackPressed());
 
+        // S'obté la notícia que es vol mostrar.
         Intent intent = getIntent();
         Noticia noticia = (Noticia) intent.getSerializableExtra("noticia");
 
+        // S'obté la notícia que es vol mostrar.
         Picasso.get().load(noticia.getImagen()).into(ivImatge);
         tvTitol.setText(noticia.getTitol());
         tvDataPublicacio.setText(noticia.getData_publicacio());
         tvDescripcio.setText(noticia.getDescripcio());
-        //ivImatge.setImageResource();
     }
 }

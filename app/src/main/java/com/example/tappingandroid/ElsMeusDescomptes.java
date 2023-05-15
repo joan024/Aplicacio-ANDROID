@@ -4,27 +4,19 @@ import static com.example.tappingandroid.Conexio.ConexioBD.closeConnection;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
-import android.content.ActivityNotFoundException;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
-import android.widget.Adapter;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.tappingandroid.Adapter.DescomptesAdapter;
-import com.example.tappingandroid.Adapter.LocalAdapter;
 import com.example.tappingandroid.Conexio.ConexioBD;
 import com.example.tappingandroid.Dades.Descompte;
-import com.example.tappingandroid.Dades.Local;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
@@ -61,20 +53,22 @@ public class ElsMeusDescomptes extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_els_meus_descomptes);
 
+        // Obtenir l'ID de l'usuari des de SharedPreferences
         id = Utilitats.agafarIdShared(this);
 
-        Log.d("juliaaaa", "Afegint id: " + id);
-
+        // Configurar el botó de tornar
         iv_tornar = findViewById(R.id.iv_tornar);
         iv_tornar.setOnClickListener(v -> onBackPressed());
-        Intent intentUsuari = getIntent();
 
-        // Obtiene el valor del String con la clave "usuari"
+        // Obtenir l'intent que va cridar l'activitat
+        Intent intentUsuari = getIntent();
+        // Obtenir el valor del String amb la clau "usuari"
         String correu = intentUsuari.getStringExtra("usuari");
-        // Inicializar la lista de descomptes
+
+        // Inicialitzar la llista de descomptes
         descomptes = new ArrayList<>();
+        // Agafar els descomptes de la BD
         AgafarDescomptes();
-        Log.d("juliaaaa", "Añadiendo descuento: " + descomptes);
 
         // Configurar el RecyclerView i l'adaptador
         recyclerView = findViewById(R.id.recycler_descuentos);
@@ -82,17 +76,18 @@ public class ElsMeusDescomptes extends AppCompatActivity {
 
         adaptador = new DescomptesAdapter(descomptes);
 
+        // Configurar el clic en un element del RecyclerView
         adaptador.setOnItemClickListener(position -> {
                     // Obtenir l'objecte  a la posició seleccionada
                     Descompte descompteSeleccionat = descomptes.get(position);
 
-                    // Obtener el valor que deseas codificar
+                    // Obtenir el valor que volem codificar
                     String codi = descompteSeleccionat.getCodi();
 
-                    // Generar el código QR a partir del valor
+                    // Generar el codi QR a partir del valor
                     BitMatrix bitMatrix = generarQRCode(codi);
 
-                    // Convertir el código QR en una imagen Bitmap
+                    // Convertir el codi QR en una imatge Bitmap
                     int width = bitMatrix.getWidth();
                     int height = bitMatrix.getHeight();
                     Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565);
@@ -102,7 +97,7 @@ public class ElsMeusDescomptes extends AppCompatActivity {
                         }
                     }
 
-                    // Mostrar el código QR en una ImageView
+                    // Mostrar el codi QR en una ImageView
                     ImageView imageView = new ImageView(ElsMeusDescomptes.this);
                     imageView.setImageBitmap(bitmap);
                     AlertDialog.Builder builder = new AlertDialog.Builder(ElsMeusDescomptes.this);
@@ -115,27 +110,28 @@ public class ElsMeusDescomptes extends AppCompatActivity {
 
     }
 
-
+    // Mètode que agafa els descomptes del consumidor actual
     private void AgafarDescomptes() {
-        // Obtener la fecha actual en formato ISO
+        // Obtenir la data actual en format ISO
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         Date dataActual = new Date();
         String dataActualString = dateFormat.format(dataActual);
 
+        // Consulta SQL per obtenir els descomptes actius del consumidor actual
         String sql = "SELECT * FROM descompte INNER JOIN consumidor_descompte ON descompte.id=id_descompte WHERE id_usuari="+ id +" AND descompte.inici <='"+dataActualString+"' AND descompte.final >= '"+dataActualString+"'";
-        conexio = ConexioBD.CONN();
+        conexio = ConexioBD.connectar();
         try {
             stmt = conexio.createStatement();
             rs = stmt.executeQuery(sql);
             Statement stmt2 = conexio.createStatement();
 
+            // Recorrer els resultats de la consulta i afegir-los a la llista de descomptes
             while (rs.next()) {
                 id_local = rs.getInt("id_local");
                 codi = rs.getString("codi");
                 text = rs.getString("text");
                 data_inici = rs.getDate("inici");
                 data_final = rs.getDate("final");
-                Log.d("juliaaaa", String.valueOf(id_local));
                 String sql2 = "SELECT l.nom FROM local as l INNER JOIN usuari as u ON u.id=l.id_usuari WHERE l.id=" + id_local+" AND u.actiu IS TRUE";
                 rs2 = stmt2.executeQuery(sql2);
                 if (rs2.next()) {
@@ -143,8 +139,6 @@ public class ElsMeusDescomptes extends AppCompatActivity {
                     descomptes.add(new Descompte(codi,text, data_final,data_inici,nom_local));
                 }
                 rs2.close();
-
-                Log.d("juliaaaa", "Añadiendo descuento: " + codi);
             }
 
 
@@ -156,12 +150,13 @@ public class ElsMeusDescomptes extends AppCompatActivity {
 
     }
 
-
+    // Mètode que genera un codi QR a partir d'un codi
     private BitMatrix generarQRCode(String codi) throws WriterException {
         QRCodeWriter writer = new QRCodeWriter();
         BitMatrix bitMatrix = writer.encode(codi, BarcodeFormat.QR_CODE, 512, 512);
         return bitMatrix;
     }
+
 
 
     // Configurar el botó d'entrada a la barra d'acció

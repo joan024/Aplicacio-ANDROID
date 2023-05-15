@@ -7,7 +7,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -83,7 +82,6 @@ public class ElsMeusFavorits extends AppCompatActivity {
         });
 
         recyclerView.setAdapter(adaptador);
-        Log.d("juliaaaaa","Locals a fav: "+locals.size());
     }
 
     @SuppressLint("NotifyDataSetChanged")
@@ -91,20 +89,23 @@ public class ElsMeusFavorits extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
-        locals.clear(); // limpia la lista actual de locales favoritos
+        locals.clear(); // neteja la llista actual dels locals favorits, per si treu algun
 
         try {
-            getLocalsFavorits(); // vuelve a obtener la lista de locales favoritos
+            getLocalsFavorits(); // torna a obtindre els favorits
         } catch (SQLException e) {
             e.printStackTrace();
             Toast.makeText(this, "No s'han pogut actualitzar els locals favorits.", Toast.LENGTH_SHORT).show();
         }
 
-        adaptador.notifyDataSetChanged(); // notifica al adaptador que los datos han cambiado
+        adaptador.notifyDataSetChanged(); // notifica al adaptador que les dades han canviat
     }
 
+    // El mètode obté la llista de locals favorits d'un usuari de la base de dades.
     private void getLocalsFavorits() throws SQLException {
-        conexio = ConexioBD.CONN();
+        conexio = ConexioBD.connectar();
+
+        // Es crea una consulta SQL per obtenir les dades necessàries.
         String sql = "SELECT * FROM local " +
                 "INNER JOIN guarda ON guarda.id_local=local.id "+
                 "WHERE guarda.id_usuari="+ id +
@@ -116,9 +117,9 @@ public class ElsMeusFavorits extends AppCompatActivity {
             Statement stmt3 = conexio.createStatement();
             Statement stmt4 = conexio.createStatement();
 
-            //Log.d("juliaaaaa","Locals trobats: ");
-
+            // La informació obtinguda és processada en un bucle while.
             while (rs.next()) {
+                // S'obtenen les dades dels locals i es fan crides a altres mètodes per obtenir informació addicional.
                 id_local = rs.getInt("id");
                 nom_local = rs.getString("nom");
                 direccio_local = rs.getString("direccio");
@@ -132,10 +133,9 @@ public class ElsMeusFavorits extends AppCompatActivity {
                 nomFoto = Utilitats.queryFotoPrincipal(id_local, this);
 
                 Double mitjana= Utilitats.calcularMitjanaPuntuacio(opinions);
-                Log.d("juliaaaaaaaa","Nom foto abans d'inserir: "+nomFoto);
 
+                // La informació obtinguda es desa en un objecte Local i s'afegeix a una llista de locals.
                 locals.add(new Local(id_local, nomFoto,nom_local,direccio_local,horari,mitjana,telefon_local,descripcio,tapes,opinions));
-                Log.d("juliaaaaaaaa","  id usuari: "+ id);
             }
         } catch (SQLException | IOException | SAXException | ParserConfigurationException e) {
             e.printStackTrace();

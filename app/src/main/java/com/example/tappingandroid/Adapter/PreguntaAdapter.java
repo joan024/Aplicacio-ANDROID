@@ -19,6 +19,7 @@ import java.util.List;
 
 public class PreguntaAdapter extends RecyclerView.Adapter<PreguntaAdapter.ViewHolder> {
 
+    // Interfície per a gestionar els esdeveniments de clic en la llista de preguntes
     public interface OnItemClickListener {
         void onItemClick(int position);
     }
@@ -26,18 +27,22 @@ public class PreguntaAdapter extends RecyclerView.Adapter<PreguntaAdapter.ViewHo
     private List<Pregunta> preguntas;
     private PreguntaAdapter.OnItemClickListener onItemClickListener;
 
+    // Constructor de l'adaptador
     public PreguntaAdapter(List<Pregunta> preguntas) {
         this.preguntas = preguntas;
     }
 
+    //Defineix el listener per a esdeveniments de clic
     public void setOnItemClickListener(PreguntaAdapter.OnItemClickListener listener) {
         this.onItemClickListener = listener;
     }
 
+    //Retorna el listener per a esdeveniments de clic
     public PreguntaAdapter.OnItemClickListener getOnItemClickListener() {
         return onItemClickListener;
     }
 
+    //Crea una nova vista per a la llista de preguntes
     @NonNull
     @Override
     public PreguntaAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -47,6 +52,7 @@ public class PreguntaAdapter extends RecyclerView.Adapter<PreguntaAdapter.ViewHo
         return new ViewHolder(itemView);
     }
 
+    //Actualitza la vista amb les dades de la pregunta
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Pregunta pregunta = preguntas.get(position);
@@ -62,13 +68,16 @@ public class PreguntaAdapter extends RecyclerView.Adapter<PreguntaAdapter.ViewHo
         });
     }
 
+    //Retorna la quantitat d'elements a la llista
     @Override
     public int getItemCount() {return preguntas.size();}
 
+    //Classe que defineix la vista de cada element a la llista de preguntes
     public static class ViewHolder extends RecyclerView.ViewHolder {
         private TextView PreguntaTextView;
         private TextView RespostaTextView;
 
+        //Constructor que inicialitza les vistes
         public ViewHolder(View itemView) {
             super(itemView);
 

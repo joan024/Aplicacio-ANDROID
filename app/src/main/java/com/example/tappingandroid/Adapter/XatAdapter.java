@@ -23,12 +23,14 @@ public class XatAdapter extends ArrayAdapter<Missatge> {
     private Context context;
     private int resource;
 
+    //Constructor de la classe XatAdapter.
     public XatAdapter(Context context, int resource, List<Missatge> messages) {
         super(context, resource, messages);
         this.context = context;
         this.resource = resource;
     }
 
+    // Mètode que es crida per a obtenir la vista que representa un element de la llista de missatges.
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
@@ -36,17 +38,21 @@ public class XatAdapter extends ArrayAdapter<Missatge> {
             convertView = LayoutInflater.from(context).inflate(resource, parent, false);
         }
 
+        // Obtenim el missatge de la posició actual
         Missatge missatge = getItem(position);
 
         if (missatge != null) {
+            // Referències als elements del layout
             TextView tvNom = convertView.findViewById(R.id.textView_nom);
             TextView tvMissatge = convertView.findViewById(R.id.textView_missatge);
             TextView tvHora = convertView.findViewById(R.id.textView_hora);
 
+            // Mostrem les dades del missatge en els elements del layout
             tvNom.setText(missatge.getUsuari());
             tvMissatge.setText(missatge.getMissatge());
             tvHora.setText(missatge.getHora());
 
+            // Alineem els elements del layout a la dreta o l'esquerra depenent de qui ha enviat el missatge
             LinearLayout.LayoutParams params;
             if (missatge.getUsuari().equals("Jo")) {
                 params = new LinearLayout.LayoutParams(

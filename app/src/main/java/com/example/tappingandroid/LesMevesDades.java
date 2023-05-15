@@ -18,12 +18,12 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.tappingandroid.Conexio.ConexioBD;
-import com.example.tappingandroid.R;
 
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -61,10 +61,10 @@ public class LesMevesDades extends AppCompatActivity {
         setContentView(R.layout.activity_les_meves_dades);
         ButterKnife.bind(this);
 
-        // Recibe el intent
+        // Obtenim l'intent que ha llançat aquesta activitat
         Intent intentUsuari = getIntent();
 
-        // Obtiene el valor del String con la clave "usuari"
+        // Obtenim l'intent que ha llançat aquesta activitat
         String correu = intentUsuari.getStringExtra("usuari");
         agafarDades(correu);
         setegarDades();
@@ -82,21 +82,22 @@ public class LesMevesDades extends AppCompatActivity {
         });
     }
 
+    // Mètode que mostra un quadre de diàleg per a canviar la contrasenya
     private void modificarContrassenya(){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Nova Contrasenya");
 
-        // Se crea un EditText para que el usuario pueda introducir la nueva contraseña
+        // Creem un EditText perquè l'usuari pugui introduir la nova contrasenya
         final EditText input = new EditText(this);
         input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
         builder.setView(input);
 
-        // Se añade un botón para confirmar la nueva contraseña
+        // Afegim un botó per confirmar la nova contrasenya
         builder.setPositiveButton("Confirmar", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 String novaContrasenya = input.getText().toString();
-                // Aquí se puede hacer lo que sea con la nueva contraseña
+                // Aquí es pot fer el que sigui amb la nova contrasenya
                 contrasenya=passwordHash(novaContrasenya);
                 try {
                     actualitzarDades(2);
@@ -107,14 +108,9 @@ public class LesMevesDades extends AppCompatActivity {
             }
         });
 
-        // Se añade un botón para cancelar la operación
-        builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
-            }
-        });
-        // Se muestra el cuadro de diálogo
+        // Se'afegeix un boto per cancelar la operació
+        builder.setNegativeButton("Cancelar", (dialog, which) -> dialog.cancel());
+        // Es mostre el quadre
         builder.show();
     }
 
@@ -124,7 +120,7 @@ public class LesMevesDades extends AppCompatActivity {
             MessageDigest messageDigest = MessageDigest.getInstance("SHA-256");
             byte[] hash = messageDigest.digest(contrasenya.getBytes(StandardCharsets.UTF_8));
             StringBuilder stringBuilder = new StringBuilder();
-            for (byte b : hash) {
+            for (byte b : hash) { // Convertim el hash en una cadena hexadecimal
                 stringBuilder.append(String.format("%02x", b));
             }
             hashedPassword = stringBuilder.toString();
@@ -135,25 +131,34 @@ public class LesMevesDades extends AppCompatActivity {
     }
 
     private void actualitzarDades(int opcio) throws ParseException {
-        conexio2 = ConexioBD.CONN();
+        conexio2 = ConexioBD.connectar();
         int rowsAffected = 0;
-        if(opcio==1) {
-            // Obtenim una instància del calendari
-            //S'HA DE CANVIAR LA DATA NAIX, ARA GUARDA L'ACTUAL
+        if(opcio == 1) {
+            // Obtenemos una instancia del calendario
             calendari = Calendar.getInstance();
-            String sql = "UPDATE usuari SET nom=\"" + etNom.getText() + "\", correu = \"" + etEmail.getText() + "\" WHERE id=" + id;
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-            Date date = dateFormat.parse(etNaix.getText().toString());
-            calendari.setTime(date);
-            // Formateamos la fecha en el formato deseado
-            SimpleDateFormat dateFormat2 = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-            String formattedDate = dateFormat2.format(calendari.getTime());
-            String sql2 = "UPDATE consumidor SET cognom=\"" + etCognom.getText() + "\", telefon = \"" + etTelefon.getText() + "\", data_naixament=\"" + formattedDate + "\" WHERE id_usuari=" + id;
+
+            String dob = etNaix.getText().toString(); //obtindre la data de naix introduida en format cadena
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd"); //Establir el format de la data
+            java.util.Date parsedDate = dateFormat.parse(dob); //Convertir la data de cadena a un objecte Date
+
+            String sql = "UPDATE usuari SET nom = ?, correu = ? WHERE id = ?";
+            String sql2 = "UPDATE consumidor SET cognom = ?, telefon = ?, data_naixament = ? WHERE id_usuari = ?";
 
             try {
-                Statement stmt = conexio2.createStatement();
-                rowsAffected = stmt.executeUpdate(sql);
-                rowsAffected = stmt.executeUpdate(sql2) + rowsAffected;
+                PreparedStatement stmt1 = conexio2.prepareStatement(sql);
+                PreparedStatement stmt2 = conexio2.prepareStatement(sql2);
+
+                stmt1.setString(1, etNom.getText().toString());
+                stmt1.setString(2, etEmail.getText().toString());
+                stmt1.setInt(3, id);
+
+                stmt2.setString(1, etCognom.getText().toString());
+                stmt2.setString(2, etTelefon.getText().toString());
+                stmt2.setDate(3, new java.sql.Date(parsedDate.getTime()));
+                stmt2.setInt(4, id);
+
+                rowsAffected = stmt1.executeUpdate() + stmt2.executeUpdate();
+
                 if (rowsAffected > 0) {
                     Toast.makeText(this, "S'han actualitzat les dades", Toast.LENGTH_SHORT).show();
                 } else {
@@ -162,11 +167,14 @@ public class LesMevesDades extends AppCompatActivity {
             } catch (SQLException ex) {
                 ex.printStackTrace();
             }
-        }else if(opcio==2){
-            String sql = "UPDATE usuari SET contrasenya=\"" + contrasenya + "\" WHERE id=" + id;
+        }else if(opcio == 2) {
+            String sql = "UPDATE usuari SET contrasenya = ? WHERE id = ?";
             try {
-                Statement stmt = conexio2.createStatement();
-                rowsAffected = stmt.executeUpdate(sql);
+                PreparedStatement stmt = conexio2.prepareStatement(sql);
+                stmt.setString(1, contrasenya);
+                stmt.setInt(2, id);
+                rowsAffected = stmt.executeUpdate();
+
                 if (rowsAffected > 0) {
                     Toast.makeText(this, "S'han actualitzat les dades", Toast.LENGTH_SHORT).show();
                 } else {
@@ -176,9 +184,11 @@ public class LesMevesDades extends AppCompatActivity {
                 ex.printStackTrace();
             }
         }
+
         closeConnection(conexio2);
     }
 
+    //Aquest mètode estableix les dades del consumidor als EditTexts corresponents
     private void setegarDades() {
         etNom.setText(nom);
         etCognom.setText(cognom);
@@ -187,8 +197,9 @@ public class LesMevesDades extends AppCompatActivity {
         etTelefon.setText(telefon);
     }
 
+    //Aquest mètode obté les dades del consumidor a través del seu correu electrònic i les guarda en les variables corresponents
     private void agafarDades(String correu) {
-        conexio = ConexioBD.CONN();
+        conexio = ConexioBD.connectar();
         String sql = "SELECT * FROM usuari WHERE correu=\""+ correu +"\"";
 
 
@@ -226,10 +237,11 @@ public class LesMevesDades extends AppCompatActivity {
         closeConnection(conexio);
     }
 
+    //Aquest mètode s'executa quan l'usuari fa clic a l'EditText etNaix, mostra un diàleg DatePicker per seleccionar la data de naixement
     public void mostrarDatePicker(View view) {
         calendari = Calendar.getInstance();
         // Obtenir la data de l'EditText etNaix i establir-la a l'objecte Calendar
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
         try {
             Date data = dateFormat.parse(etNaix.getText().toString());
             calendari.setTime(data);
@@ -242,7 +254,7 @@ public class LesMevesDades extends AppCompatActivity {
 
         DatePickerDialog dialogo = new DatePickerDialog(LesMevesDades.this, (view1, any1, mes1, dia1) -> {
             //Aquest mètode executa l'acció quan l'usuari selecciona una data
-            String data = dia1 + "/" + (mes1 +1) + "/" + any1;
+            String data = any1 + "-" + (mes1 +1) + "-" + dia1;
             etNaix.setText(data);
         }, any, mes, dia);
         dialogo.show();
